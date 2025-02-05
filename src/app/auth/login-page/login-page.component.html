@@ -1,0 +1,45 @@
+<div class="container-fluid d-flex justify-content-center align-items-center text-center p-3">
+  <div class="row align-items-center">
+    <div class="col-5">
+      <div class="login">
+        <form [formGroup]="myForm" (ngSubmit)="login()">
+          <div class="container">
+            <div class="row pt-4">
+              <div class="col-12">
+                <img src="assets/logo-header.png" alt="Logo IECM">
+              </div>
+              <div class="col-12 pt-3">
+                <p style="font-size:30px;"><strong>SICODID</strong></p>
+                <p style="font-size:18px;">Sistema de Cómputos Distritales y Demarcación</p>
+              </div>
+              <div class="col-12 pt-3 mb-3">
+                <h6>Para ingresar al sistema proporcione sus credenciales de acceso</h6>
+                <div class="input-group px-3">
+                  <label for="user" class="input-group-text"><i class="bi bi-person-fill p-0 m-0"></i></label>
+                  <input type="text" id="user" class="form-control" placeholder="Usuario" formControlName="usuario" autocomplete="off">
+                </div>
+                @if(isValidField('usuario')) {
+                  <span class="text-danger">{{getFieldErrors('usuario')}}</span>
+                }
+              </div>
+              <div class="col-12 pt-3 mb-3">
+                <div class="input-group px-3">
+                  <label for="pass" class="input-group-text"><i class="bi bi-key-fill p-0 m-0"></i></label>
+                  <input type="password" id="pass" class="form-control" placeholder="Contraseña" formControlName="contrasena" autocomplete="off">
+                </div>
+                @if(isValidField('contrasena')) {
+                  <span class="text-danger">{{getFieldErrors('contrasena')}}</span>
+                }
+              </div>
+              <div class="col-12 pt-3 text-center">
+                <div class="mb-5 px-3">
+                  <button class="btn btn-primary" type="submit" ><i class="bi bi-box-arrow-in-right"></i> Iniciar sesión</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

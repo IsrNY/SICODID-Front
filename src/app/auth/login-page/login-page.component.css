@@ -1,0 +1,28 @@
+.container-fluid {
+  height: 100vh;
+  background-image: image-set('/assets/image.png');
+}
+
+
+.login {
+  background-color: rgb(238, 238, 238);
+  width: 430px;
+  /* height: 550px; */
+  border-radius: 10px;
+}
+
+.btn-primary {
+  width: 80% !important;
+}
+
+.btn-primary:hover {
+  font-weight: bold;
+}
+
+@media screen and (min-width:1366) {
+  .login {
+    width: 450;
+    height: 500;
+  }
+}
+
