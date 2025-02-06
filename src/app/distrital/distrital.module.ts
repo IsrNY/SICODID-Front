@@ -2,9 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DistritalRoutingModule } from './distrital-routing.module';
-import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
 import { SharedModule } from '../shared/shared.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DataTablesModule } from 'angular-datatables';
 
+import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
 
 @NgModule({
   declarations: [
@@ -13,7 +15,9 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     DistritalRoutingModule,
-    SharedModule
+    SharedModule,
+    DataTablesModule,
+    ReactiveFormsModule
   ]
 })
 export class DistritalModule { }

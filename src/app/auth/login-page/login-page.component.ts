@@ -31,8 +31,16 @@ export class LoginPageComponent {
       })
       return;
     }
+
     if(this.myForm.get('usuario')?.value == 'admin' && this.myForm.get('contrasena')?.value == '12345') {
       this.router.navigateByUrl('distrital');
+    } else {
+      Swal.fire({
+        icon:'warning',
+        title:'¡Atención!',
+        text:'Usuario y/o contraseña incorrectos',
+        confirmButtonText:'Entendido'
+      })
     }
   }
 
