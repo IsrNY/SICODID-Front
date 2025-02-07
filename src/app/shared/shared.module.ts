@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ScrollButtonComponent } from './components/scroll-button/scroll-button.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -15,7 +16,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     SidebarComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   exports:[
     ScrollButtonComponent,

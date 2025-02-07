@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
 
 @Component({
   selector: 'shared-header',
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
+export class HeaderComponent{
   public user = {
     name: 'TEST1A',
     tipo: 'Capturista'

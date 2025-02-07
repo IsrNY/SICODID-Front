@@ -7,10 +7,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
 
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
+import { DbStatusComponent } from './components/db-status/db-status.component';
 
 @NgModule({
   declarations: [
-    LayoutPageComponent
+    LayoutPageComponent,
+    DbStatusComponent
   ],
   imports: [
     CommonModule,
