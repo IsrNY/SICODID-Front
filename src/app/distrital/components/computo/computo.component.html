@@ -1,0 +1,98 @@
+<div class="container">
+  <h3>{{computo | titlecase}} del cómputo distrital</h3>
+  <div class="row p-0 m-0">
+    <form [formGroup]="myForm" (ngSubmit)="enviar()">
+      <div class="col-12">
+        <H4>Registro de asistencias</H4>
+      </div>
+      <div class="col-12">
+        <table class="table table-bordered row-border hover">
+          <thead>
+            <tr>
+              <th colspan="5">SPEN</th>
+              <th>Asistencia</th>
+              <th colspan="3">Medios de comunicación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="form-check form-check-inline py-2">
+                  <input type="checkbox" class="form-check-input" id="TOD" formControlName="spen_1">
+                  <label for="TOD" class="form-check-label">TOD</label>
+                </div>
+              </td>
+              <td>
+                <div class="form-check form-check-inline py-2">
+                  <input type="checkbox" class="form-check-input" id="SOD" formControlName="spen_2">
+                  <label for="SOD" class="form-check-label">SOD</label>
+                </div>
+              </td>
+              <td>
+                <div class="form-check form-check-inline py-2">
+                  <input type="checkbox" class="form-check-input" id="SECOEyPC" formControlName="spen_3">
+                  <label for="SECOEyPC" class="form-check-label">SECOEyPC</label>
+                </div>
+              </td>
+              <td>
+                <div class="form-check form-check-inline py-2">
+                  <input type="checkbox" class="form-check-input" id="AT" formControlName="spen_4">
+                  <label for="AT" class="form-check-label">AT</label>
+                </div>
+              </td>
+              <td>
+                <div class="form-check form-check-inline py-2">
+                  <input type="checkbox" class="form-check-input" id="AT2" formControlName="spen_5">
+                  <label for="AT2" class="form-check-label">AT</label>
+                </div>
+              </td>
+              <td>
+                <input type="number" class="form-control text-center" [value]="quorum_asistencia" readonly>
+              </td>
+              <td>
+                <div class="form-check form-check-inline py-2">
+                  <input type="checkbox" class="form-check-input" id="prensa" formControlName="mc_prensa">
+                  <label for="prensa" class="form-check-label">Prensa</label>
+                </div>
+              </td>
+              <td>
+                <div class="form-check form-check-inline py-2">
+                  <input type="checkbox" class="form-check-input" id="radio" formControlName="mc_radio">
+                  <label for="radio" class="form-check-label">Radio</label>
+                </div>
+              </td>
+              <td>
+                <div class="form-check form-check-inline py-2">
+                  <input type="checkbox" class="form-check-input" id="tv" formControlName="mc_tv">
+                  <label for="tv" class="form-check-label">T.V.</label>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-12">
+        <h5>Fecha y hora de {{computo}} del cómputo distrital</h5>
+      </div>
+      <div class="col-12">
+        <div class="row">
+          <div class="col-6">
+            <strong>Fecha de {{computo}}</strong>
+            <input type="date" class="form-control text-center" formControlName="fecha_sesion">
+          </div>
+          <div class="col-6">
+            <strong>Hora de {{computo}}</strong>
+            <input type="time" class="form-control text-center" formControlName="hora_sesion">
+          </div>
+        </div>
+      </div>
+      <div class="col-12 py-3">
+        <strong>Observaciones</strong>
+        <textarea class="form-control" cols="auto" rows="3" style="resize: none;" formControlName="observaciones"></textarea>
+      </div>
+      <div class="col-12 d-flex justify-content-end align-items-center py-1">
+        <button type="submit" class="btn btn-main"><i class="bi bi-floppy-fill"></i> Guardar {{computo}}</button>
+      </div>
+    </form>
+  </div>
+</div>

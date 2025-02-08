@@ -5,6 +5,7 @@ import { ScrollButtonComponent } from './components/scroll-button/scroll-button.
 import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
+import { LogoutButtonComponent } from './components/logout-button/logout-button.component';
 
 
 
@@ -13,7 +14,8 @@ import { RouterModule } from '@angular/router';
   declarations: [
     ScrollButtonComponent,
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
+    LogoutButtonComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +24,8 @@ import { RouterModule } from '@angular/router';
   exports:[
     ScrollButtonComponent,
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
+    LogoutButtonComponent
   ]
 })
 export class SharedModule { }

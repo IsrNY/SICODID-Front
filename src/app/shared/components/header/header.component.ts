@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'shared-header',
@@ -7,8 +8,10 @@ import { Component, inject, OnInit } from '@angular/core';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent{
-  public user = {
-    name: 'TEST1A',
-    tipo: 'Capturista'
+  private authService = inject(AuthService);
+
+  get usuario() {
+    return this.authService.usuario;
   }
+
 }

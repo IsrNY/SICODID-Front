@@ -6,6 +6,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+import { environments } from '../environments/environments';
+
+const config:SocketIoConfig = {url:environments.baseUrl.replace('/api',''), options:{}};
 
 @NgModule({
   declarations: [
@@ -15,7 +19,8 @@ import { AppComponent } from './app.component';
     BrowserModule,
     AppRoutingModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -12056,6 +12056,25 @@ textarea.form-control-lg {
 
 /* Clases personalizadas de CSS */
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=checkbox] {
+  border:solid 1px black !important;
+}
+
+.form-control:focus, .form-select:focus, .form-check-input:focus, .form-check-input:checked {
+  border-color: #3423a7;
+  box-shadow: 0 0 0 0.2rem rgba(52, 35, 167, .5);
+}
+
+.form-check-input:checked {
+  background-color: #3423a7;
+}
+
 body {
   height: 100vh;
 }
@@ -12064,4 +12083,14 @@ section {
   height: 100vh;
   padding-top: 85px;
   padding-left: 200px;
+}
+
+.btn-main {
+  background-color: rgba(68, 0, 255, 0.575);
+  color: white;
+
+}
+
+.btn-main:hover {
+  background-color:  rgba(27, 0, 102, 0.575);
 }

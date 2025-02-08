@@ -8,12 +8,24 @@ import { DataTablesModule } from 'angular-datatables';
 
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
 import { DbStatusComponent } from './components/db-status/db-status.component';
+import { ComputoComponent } from './components/computo/computo.component';
+import { RegistroIncidentesComponent } from './components/registro-incidentes/registro-incidentes.component';
+import { GruposTrabajoComponent } from './components/grupos-trabajo/grupos-trabajo.component';
+import { ActasComponent } from './components/actas/actas.component';
+import { ReportesComponent } from './components/reportes/reportes.component';
+
+
 
 @NgModule({
   declarations: [
     LayoutPageComponent,
-    DbStatusComponent
-  ],
+    DbStatusComponent,
+    ComputoComponent,
+    RegistroIncidentesComponent,
+    GruposTrabajoComponent,
+    ActasComponent,
+    ReportesComponent,
+    ],
   imports: [
     CommonModule,
     DistritalRoutingModule,
