@@ -9,6 +9,7 @@ import { User } from '../interfaces/user.interface';
 import { Res } from '../interfaces/res.interface';
 import { catchError, of, tap } from 'rxjs';
 import { WebSocketService } from '../../shared/services/web-socket.service';
+import { TestBed } from '@angular/core/testing';
 
 @Injectable({
   providedIn: 'root'
@@ -53,11 +54,13 @@ export class AuthService {
     return this.http.post<Res>(`${this.baseUrl}/login`,user)
     .pipe(
       tap(res => {
-        if(!res) {
+        if(!res.success) {
           return;
         }
 
         localStorage.setItem('token',res.token!);
+        sessionStorage.setItem('inicio',res.inicioComputo!.toString());
+        sessionStorage.setItem('cierre',res.cierreComputo!.toString());
         this.decodeStorage();
         localStorage.setItem('id_transaccion',this.id_transaccion?.toString()!);
         this.webSocketService.emit('configurar-usuario',{id_transaccion:this.id_transaccion})
