@@ -5,4 +5,6 @@ export interface Res {
   msg?:string;
   token?: string;
   datos?: Computo;
+  inicioComputo:boolean;
+  cierreComputo:boolean;
 }

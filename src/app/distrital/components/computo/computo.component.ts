@@ -7,6 +7,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { ScrollButtonComponent } from '../../../shared/components/scroll-button/scroll-button.component';
+import { VerifyService } from '../../../auth/services/verify.service';
 
 declare var $:any;
 
@@ -21,6 +22,15 @@ export class ComputoComponent implements OnInit {
   private router = inject(Router);
   private computoService = inject(ComputoService);
   private authService = inject(AuthService);
+  private verifyService = inject(VerifyService);
+
+  get inicio_computo():boolean {
+    return this.verifyService.inicio_computo;
+  }
+
+  get cierre_computo():boolean {
+    return this.verifyService.cierre_computo;
+  }
 
   get rol() {
     return this.authService.rol;
@@ -58,16 +68,20 @@ export class ComputoComponent implements OnInit {
     this.year = fecha.getFullYear();
     if(this.location.path().match('inicio_computo')) {
       this.computo = 'inicio';
-      this.computoService.getComputo(this.computo)
-      .subscribe(res => {
-        this.myForm.patchValue(res.datos as Computo);
-      })
+      if(this.inicio_computo) {
+        this.computoService.getComputo(this.computo)
+        .subscribe(res => {
+          this.myForm.patchValue(res.datos as Computo);
+        })
+      }
     } else {
       this.computo = 'cierre';
-      this.computoService.getComputo(this.computo)
-      .subscribe(res => {
-        this.myForm.patchValue(res.datos as Computo);
-      })
+      if(this.cierre_computo) {
+        this.computoService.getComputo(this.computo)
+        .subscribe(res => {
+          this.myForm.patchValue(res.datos as Computo);
+        })
+      }
     }
   }
 

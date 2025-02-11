@@ -7,6 +7,7 @@ import { RegistroIncidentesComponent } from './components/registro-incidentes/re
 import { ActasComponent } from './components/actas/actas.component';
 import { GruposTrabajoComponent } from './components/grupos-trabajo/grupos-trabajo.component';
 import { ReportesComponent } from './components/reportes/reportes.component';
+import { IncidentesPageComponent } from './pages/incidentes-page/incidentes-page.component';
 
 const routes: Routes = [
   {
@@ -43,7 +44,7 @@ const routes: Routes = [
     children: [
       {
         path:'registro_incidentes',
-        component:RegistroIncidentesComponent
+        component:IncidentesPageComponent
       },
       {
         path:'actas',

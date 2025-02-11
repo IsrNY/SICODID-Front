@@ -23,7 +23,7 @@ export class ComputoService {
     });
     const body = computo
 
-    return this.http.post<Res>(`${this.baseUrl}/${path}`,body,{headers})
+    return this.http.post<Res>(`${this.baseUrl}/distrital/${path}`,body,{headers})
     .pipe(
       catchError(res => of(res.error as Res))
     )
@@ -35,7 +35,7 @@ export class ComputoService {
       'Authorization' : `Bearer ${this.loadStorage}`
     });
 
-    return this.http.get<Res>(`${this.baseUrl}/${path}`,{headers})
+    return this.http.get<Res>(`${this.baseUrl}/distrital/${path}`,{headers})
     .pipe(
       catchError(res => of(res.error as Res))
     )
@@ -49,7 +49,7 @@ export class ComputoService {
 
     const body = computo;
 
-    return this.http.put<Res>(`${this.baseUrl}/${path}`,body, {headers})
+    return this.http.put<Res>(`${this.baseUrl}/distrital/${path}`,body, {headers})
     .pipe(
       catchError(res => of(res.error as Res)
       ))

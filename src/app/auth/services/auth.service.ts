@@ -9,7 +9,6 @@ import { User } from '../interfaces/user.interface';
 import { Res } from '../interfaces/res.interface';
 import { catchError, of, tap } from 'rxjs';
 import { WebSocketService } from '../../shared/services/web-socket.service';
-import { TestBed } from '@angular/core/testing';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +22,7 @@ export class AuthService {
 
   constructor() {
     this.decodeStorage();
-    console.log(this.loadStorage())
+    console.log(this.decodeStorage())
   }
 
   get id_transaccion() {
@@ -42,7 +41,7 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  private decodeStorage() {
+  public decodeStorage() {
     if(!this.loadStorage()) {
       this.data = undefined;
       return;
@@ -59,11 +58,11 @@ export class AuthService {
         }
 
         localStorage.setItem('token',res.token!);
-        sessionStorage.setItem('inicio',res.inicioComputo!.toString());
-        sessionStorage.setItem('cierre',res.cierreComputo!.toString());
+        // sessionStorage.setItem('inicio',res.inicioComputo!.toString());
+        // sessionStorage.setItem('cierre',res.cierreComputo!.toString());
         this.decodeStorage();
         localStorage.setItem('id_transaccion',this.id_transaccion?.toString()!);
-        this.webSocketService.emit('configurar-usuario',{id_transaccion:this.id_transaccion})
+        this.webSocketService.emit('configurar-usuario',{id_transaccion:this.id_transaccion});
       }),
       catchError(res => of(res.error as Res))
     )
@@ -80,6 +79,8 @@ export class AuthService {
   clearStorage() {
     this.data = undefined;
     localStorage.clear();
+    sessionStorage.clear();
     this.webSocketService.emit('logout');
+    this.data == undefined;
   }
 }
