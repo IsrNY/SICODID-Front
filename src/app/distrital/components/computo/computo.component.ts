@@ -183,6 +183,13 @@ export class ComputoComponent implements OnInit {
     })
   }
 
+  reset(option:number) {
+    if(option == 1) {
+      this.myForm.patchValue({fecha_sesion:''});
+    } else {
+      this.myForm.patchValue({hora_sesion:''});
+    }
+  }
   // soloNumeros(event:any) {
   //   let charCode = event.charCode;
 

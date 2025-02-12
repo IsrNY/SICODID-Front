@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "cls && ng serve",
     "build": "ng build",
-    "build:href":"ng build --base-href ./",
+    "build:href": "ng build --base-href ./",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

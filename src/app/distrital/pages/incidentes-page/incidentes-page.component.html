@@ -2,7 +2,7 @@
   <h3>Registro de incidentes</h3>
   <div class="row py-2 m-0 ">
     <div class="col-12 d-flex justify-content-end align-items-center">
-      <button class="btn btn-main"><i class="bi bi-plus-lg"></i> Agregar incidente</button>
+      <button class="btn btn-main" (click)="openModal(0,1)"><i class="bi bi-plus-lg"></i> Agregar incidente</button>
     </div>
     <div class="col-12 py-3">
       <table class="table table-bordered table-striped row-border hover">
@@ -11,31 +11,23 @@
             <th>Tipo de incidente</th>
             <th>Fecha y hora</th>
             <th>Participantes</th>
-            <th>Hechos</th>
-            <th>Acciones tomadas</th>
             <th>Ver más</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>dfsdf</td>
-            <td>sdfsdf</td>
-            <td>sdfdsf</td>
-            <td>sdfsdfsd</td>
-            <td><button class="btn btn-success"><i class="bi bi-eye-fill"></i></button></td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>dfsdf</td>
-            <td>sdfsdf</td>
-            <td>sdfdsf</td>
-            <td>sdfsdfsd</td>
-            <td><button class="btn btn-success"><i class="bi bi-eye-fill"></i></button></td>
-          </tr>
+          @if(incidentes !== undefined) {
+            @for(incidente of incidentes; track i; let i = $index) {
+              <tr>
+                <td>{{incidente.id_tipo_incidente}}</td>
+                <td>{{incidente.fecha_hora_incidente}}</td>
+                <td>{{incidente.participantes}}</td>
+                <td><button class="btn btn-secondary" (click)="openModal(incidente.id_incidente, i+2)"><i class="bi bi-eye-fill"></i></button></td>
+              </tr>
+            }
+          }
         </tbody>
       </table>
     </div>
   </div>
 </div>
-<distrital-registro-incidentes/>
+<distrital-registro-incidentes [incidente]="incidente" [opcion]="opcion" (reset_opcion)="getReset($event)"/>

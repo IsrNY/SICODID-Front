@@ -76,19 +76,25 @@
       </div>
       <div class="col-12">
         <div class="row">
-          <div class="col-6">
+          <div class="col-5">
             <strong>Fecha de {{computo}}</strong>
             <input type="date" class="form-control text-center" formControlName="fecha_sesion">
           </div>
-          <div class="col-6">
+          <div class="col-1">
+            <button type="button" class="btn btn-secondary" (click)="reset(1)">Reiniciar fecha</button>
+          </div>
+          <div class="col-5">
             <strong>Hora de {{computo}}</strong>
             <input type="time" class="form-control text-center" formControlName="hora_sesion">
+          </div>
+          <div class="col-1">
+            <button type="button" class="btn btn-secondary" (click)="reset(2)">Reiniciar hora</button>
           </div>
         </div>
       </div>
       <div class="col-12 py-3">
         <strong>Observaciones</strong>
-        <textarea class="form-control" cols="auto" rows="3" style="resize: none;" formControlName="observaciones"></textarea>
+        <textarea class="form-control" cols="auto" rows="3" formControlName="observaciones"></textarea>
       </div>
       <div class="col-12 d-flex justify-content-end align-items-center py-1">
         @if(!inicio_computo || !cierre_computo) {
