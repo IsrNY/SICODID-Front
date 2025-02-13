@@ -8,6 +8,7 @@ import { ActasComponent } from './components/actas/actas.component';
 import { GruposTrabajoComponent } from './components/grupos-trabajo/grupos-trabajo.component';
 import { ReportesComponent } from './components/reportes/reportes.component';
 import { IncidentesPageComponent } from './pages/incidentes-page/incidentes-page.component';
+import { GestionActasComponent } from './pages/gestion-actas/gestion-actas.component';
 
 const routes: Routes = [
   {
@@ -48,7 +49,7 @@ const routes: Routes = [
       },
       {
         path:'actas',
-        component:ActasComponent
+        component:GestionActasComponent
       },
       {
         path:'grupos_trabajo',

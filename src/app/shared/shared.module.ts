@@ -6,6 +6,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
 import { LogoutButtonComponent } from './components/logout-button/logout-button.component';
+import { ModifyDateHourPipe } from './pipes/modify-date-hour.pipe';
+import { ErrorsComponent } from './components/errors/errors.component';
 
 
 
@@ -15,7 +17,9 @@ import { LogoutButtonComponent } from './components/logout-button/logout-button.
     ScrollButtonComponent,
     HeaderComponent,
     SidebarComponent,
-    LogoutButtonComponent
+    LogoutButtonComponent,
+    ModifyDateHourPipe,
+    ErrorsComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +29,9 @@ import { LogoutButtonComponent } from './components/logout-button/logout-button.
     ScrollButtonComponent,
     HeaderComponent,
     SidebarComponent,
-    LogoutButtonComponent
+    LogoutButtonComponent,
+    ErrorsComponent,
+    ModifyDateHourPipe
   ]
 })
 export class SharedModule { }

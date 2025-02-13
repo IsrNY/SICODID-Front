@@ -9,32 +9,71 @@
         <div class="container-fluid">
           <form [formGroup]="myForm">
             <div class="row py-2">
-              <div class="col-6">
-                <strong>Fecha y hora del incidente *</strong>
-                <input type="datetime-local" class="form-control text-center" formControlName="fecha_hora_incidente">
-              </div>
-              <div class="col-6">
-                <strong>TIpo de incidente *</strong>
-                <select class="form-select text-center" formControlName="id_tipo_incidente">
-                  <option value="">Seleccionar incidente</option>
-                  @for (id_incidente of id_incidentes; track $index) {
-                    <option [value]="id_incidente.id">{{id_incidente.id + '.- '}}{{ id_incidente.nombre}}</option>
+              @if(opcion < 2) {
+                <div class="col-6">
+                  <strong>Fecha y hora del incidente *</strong>
+                  <input type="datetime-local" class="form-control text-center" formControlName="fecha_hora_incidente">
+                  @if(isValidField('fecha_hora_incidente')) {
+                    <span class="text-danger">{{getFieldErrors('fecha_hora_incidente')}}</span>
                   }
-                </select>
-              </div>
+                </div>
+                <div class="col-6">
+                  <strong>Tipo de incidente *</strong>
+                  <select class="form-select text-center" formControlName="id_tipo_incidente">
+                    <option value="">Seleccionar incidente</option>
+                    @for (id_incidente of id_incidentes; track $index) {
+                      <option [value]="id_incidente.id">{{id_incidente.id + '.- '}}{{ id_incidente.nombre}}</option>
+                    }
+                  </select>
+                  @if(isValidField('id_tipo_incidente')) {
+                    <span class="text-danger">{{getFieldErrors('id_tipo_incidente')}}</span>
+                  }
+                </div>
+              } @else {
+                <div class="col-5">
+                  <strong>Fecha y hora del incidente *</strong>
+                  <input type="datetime-local" class="form-control text-center" formControlName="fecha_hora_incidente">
+                  @if(isValidField('fecha_hora_incidente')) {
+                    <span class="text-danger">{{getFieldErrors('fecha_hora_incidente')}}</span>
+                  }
+                </div>
+                <div class="col-2">
+                  <strong>Reiniciar</strong><br>
+                @if(edit) {
+                    <button type="button" class="btn btn-secondary" (click)="resetDate()">Fecha/hora</button>
+                  } @else {
+                    <button class="btn btn-secondary" disabled>Fecha/hora</button>
+                  }
+                </div>
+                <div class="col-5">
+                  <strong>Tipo de incidente *</strong>
+                  <select class="form-select text-center" formControlName="id_tipo_incidente">
+                    <option value="">Seleccionar incidente</option>
+                    @for (id_incidente of id_incidentes; track $index) {
+                      <option [value]="id_incidente.id">{{id_incidente.id + '.- '}}{{ id_incidente.nombre}}</option>
+                    }
+                  </select>
+                  @if(isValidField('id_tipo_incidente')) {
+                    <span class="text-danger">{{getFieldErrors('id_tipo_incidente')}}</span>
+                  }
+                </div>
+              }
             </div>
             <div class="row py-2">
               <div class="col-12">
                 <strong>Participantes *</strong>
-                <textarea class="form-control" cols="auto" rows="3" formControlName="participantes"></textarea>
+                <textarea class="form-control" cols="auto" rows="3" formControlName="participantes" [maxlength]="maxlength/4"></textarea>
+                <shared-errors [maxlength]="maxlength/4" [form]="myForm" [field]="'participantes'" [touched]="touched('participantes')"/>
               </div>
               <div class="col-12">
                 <strong>Descripción de los hechos *</strong>
-                <textarea class="form-control" cols="auto" rows="3" formControlName="hechos"></textarea>
+                <textarea class="form-control" cols="auto" rows="3" formControlName="hechos" [maxlength]="maxlength"></textarea>
+                <shared-errors [maxlength]="maxlength" [form]="myForm" [field]="'hechos'" [touched]="touched('hechos')"/>
               </div>
               <div class="col-12">
                 <strong>Acciones tomadas *</strong>
-                <textarea class="form-control" cols="auto" rows="3" formControlName="accion_tomada"></textarea>
+                <textarea class="form-control" cols="auto" rows="3" formControlName="accion_tomada" [maxlength]="maxlength"></textarea>
+                <shared-errors [maxlength]="maxlength" [form]="myForm" [field]="'accion_tomada'" [touched]="touched('accion_tomada')"/>
               </div>
             </div>
           </form>

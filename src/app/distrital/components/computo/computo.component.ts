@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { ScrollButtonComponent } from '../../../shared/components/scroll-button/scroll-button.component';
 import { VerifyService } from '../../../auth/services/verify.service';
+import { ValidatorsService } from '../../../shared/services/validators.service';
 
 declare var $:any;
 
@@ -23,6 +24,7 @@ export class ComputoComponent implements OnInit {
   private computoService = inject(ComputoService);
   private authService = inject(AuthService);
   private verifyService = inject(VerifyService);
+  private validatorsService = inject(ValidatorsService);
 
   get inicio_computo():boolean {
     return this.verifyService.inicio_computo;
@@ -51,17 +53,17 @@ export class ComputoComponent implements OnInit {
     spen_3:[false],
     spen_4:[false],
     spen_5:[false],
-    // quorum_asistencia:['', [Validators.required, Validators.maxLength(2)]],
     mc_prensa:[false],
     mc_radio:[false],
     mc_tv:[false],
-    observaciones:['', [Validators.required, Validators.maxLength(250)]],
+    observaciones:['', [Validators.required, Validators.minLength(5), Validators.maxLength(250)]],
     fecha_sesion:['', [Validators.required]],
     hora_sesion:['', [Validators.required]],
   });
 
   public computo:string = '';
   private year:number = 0;
+  public maxlength:number = 250;
 
   ngOnInit(): void {
     let fecha = new Date();
@@ -82,6 +84,14 @@ export class ComputoComponent implements OnInit {
           this.myForm.patchValue(res.datos as Computo);
         })
       }
+    }
+  }
+
+  touched(field:string) {
+    if(this.getFieldLengthErrors(field) == 'Campo obligatorio' || this.getFieldLengthErrors(field).match('Cantidad mínima de caracteres:') || this.myForm.get(field)?.value.length > this.maxlength) {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -190,20 +200,16 @@ export class ComputoComponent implements OnInit {
       this.myForm.patchValue({hora_sesion:''});
     }
   }
-  // soloNumeros(event:any) {
-  //   let charCode = event.charCode;
 
-  //   if(charCode !== 8 && charCode !== 9) {
-  //     let max = 1;
+  isValidField(field:string):boolean {
+    return this.validatorsService.isValidField(this.myForm,field);
+  }
 
-  //     if((charCode < 48 || charCode > 57 ||event.target.value.length >= max)) return false;
-  //   }
-  //   return;
-  // }
+  getFieldErrors(field:string):string {
+    return this.validatorsService.getFieldErrors(this.myForm, field);
+  }
 
-  // bloquear(event:KeyboardEvent) {
-  //   if(event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-  //     event.preventDefault();
-  //   }
-  // }
+  getFieldLengthErrors(field:string, maxlength:number = 0):string {
+    return this.validatorsService.getFieldLengthErrors(this.myForm,field, maxlength);
+  }
 }

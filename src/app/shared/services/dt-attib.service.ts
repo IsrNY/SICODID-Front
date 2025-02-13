@@ -30,7 +30,7 @@ export class DtAttibService {
       lengthMenu: "<b>Mostrando _MENU_ registros</b>",
       loadingRecords: "Cargando...",
       processing: "Procesando...",
-      search: "<b>Realizar búsqueda:</b>",
+      search: "<b>Buscar:</b>",
       searchPlaceholder:"Término de búsqueda",
       zeroRecords: "No se encontró información con el término de busqueda especificado."
     }

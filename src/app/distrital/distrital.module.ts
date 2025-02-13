@@ -14,6 +14,7 @@ import { GruposTrabajoComponent } from './components/grupos-trabajo/grupos-traba
 import { ActasComponent } from './components/actas/actas.component';
 import { ReportesComponent } from './components/reportes/reportes.component';
 import { IncidentesPageComponent } from './pages/incidentes-page/incidentes-page.component';
+import { GestionActasComponent } from './pages/gestion-actas/gestion-actas.component';
 
 
 
@@ -27,6 +28,7 @@ import { IncidentesPageComponent } from './pages/incidentes-page/incidentes-page
     ActasComponent,
     ReportesComponent,
     IncidentesPageComponent,
+    GestionActasComponent,
     ],
   imports: [
     CommonModule,

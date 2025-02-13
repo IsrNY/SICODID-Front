@@ -79,6 +79,9 @@
           <div class="col-5">
             <strong>Fecha de {{computo}}</strong>
             <input type="date" class="form-control text-center" formControlName="fecha_sesion">
+            @if(isValidField('fecha_sesion')) {
+              <span class="text-danger">{{getFieldErrors('fecha_sesion')}}</span>
+            }
           </div>
           <div class="col-1">
             <button type="button" class="btn btn-secondary" (click)="reset(1)">Reiniciar fecha</button>
@@ -86,6 +89,9 @@
           <div class="col-5">
             <strong>Hora de {{computo}}</strong>
             <input type="time" class="form-control text-center" formControlName="hora_sesion">
+            @if(isValidField('hora_sesion')) {
+              <span class="text-danger">{{getFieldErrors('hora_sesion')}}</span>
+            }
           </div>
           <div class="col-1">
             <button type="button" class="btn btn-secondary" (click)="reset(2)">Reiniciar hora</button>
@@ -94,7 +100,8 @@
       </div>
       <div class="col-12 py-3">
         <strong>Observaciones</strong>
-        <textarea class="form-control" cols="auto" rows="3" formControlName="observaciones"></textarea>
+        <textarea class="form-control" cols="auto" rows="3" formControlName="observaciones" [maxlength]="maxlength"></textarea>
+        <shared-errors [maxlength]="maxlength" [form]="myForm" [field]="'observaciones'" [touched]="touched('observaciones')"/>
       </div>
       <div class="col-12 d-flex justify-content-end align-items-center py-1">
         @if(!inicio_computo || !cierre_computo) {

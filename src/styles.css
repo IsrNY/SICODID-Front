@@ -5630,7 +5630,8 @@ textarea.form-control-lg {
     --bs-modal-width: 300px;
   }
 }
-@media (min-width: 992px) {
+
+/* @media (min-width: 992px) {
   .modal-lg,
   .modal-xl {
     --bs-modal-width: 800px;
@@ -5639,6 +5640,46 @@ textarea.form-control-lg {
 @media (min-width: 1200px) {
   .modal-xl {
     --bs-modal-width: 1140px;
+  }
+} */
+
+@media screen and (min-width:200px) and (max-width:449px) {
+  .modal-lg,
+  .modal-xl {
+    --bs-modal-width: 380px
+  }
+}
+
+@media screen and (min-width: 450px) and (max-width:720px) {
+  .modal-lg,
+  .modal-xl {
+    --bs-modal-width: 700px;
+  }
+}
+
+@media screen and (min-width:721px) and (max-width:1200px) {
+  .modal-lg,
+  .modal-xl {
+    --bs-modal-width:1000px;
+  }
+}
+
+@media screen and (min-width:1201px) and (max-width:1366px) {
+  .modal-lg,
+  .modal-xl {
+    --bs-modal-width:1260px;
+  }
+}
+
+@media screen and (min-width:1367px) and (max-width: 1920px) {
+  .modal-xl {
+    --bs-modal-width: 1700px;
+  }
+}
+
+@media screen and (min-width:1921px) and (max-width:1440px) {
+  .modal-xl {
+    --bs-modal-width: 1390px;
   }
 }
 .modal-fullscreen {
@@ -12054,6 +12095,31 @@ textarea.form-control-lg {
   }
 }
 
+/* Modificaciones en estilos del datatable */
+
+input, textarea {
+  text-transform: uppercase;
+}
+
+div.dt-container .dt-search input {
+  text-align: center !important;
+  border: 1px solid #aaa !important;
+  border-radius: 8px !important;
+  padding: 5px !important;
+  background-color: transparent !important;
+  color: inherit !important;
+  margin-left: 3px !important;
+  width: 225px !important;
+  text-transform: none !important;
+}
+div.dt-container .dt-input {
+  border: 1px solid #aaa !important;
+  border-radius: 3px !important;
+  padding: 5px !important;
+  background-color: transparent !important;
+  color: inherit !important;
+}
+
 /* Clases personalizadas de CSS */
 
 textarea {
@@ -12064,6 +12130,19 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.form-control:focus, .form-select:focus, .form-check-input:focus, .form-check-input:checked {
+  border-color: #3423a7;
+  box-shadow: 0 0 0 0.2rem rgba(52, 35, 167, .5);
+}
+
+.form-check-input:checked {
+  background-color: #3423a7;
+}
+
+option:hover {
+  background: #000 !important;
 }
 
 input[type=checkbox] {
@@ -12087,6 +12166,15 @@ section {
   height: 100vh;
   padding-top: 85px;
   padding-left: 200px;
+}
+
+
+td {
+  text-align: center !important;
+}
+
+th {
+  text-align: center !important;
 }
 
 .btn-main {

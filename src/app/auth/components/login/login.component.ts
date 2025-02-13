@@ -1,17 +1,17 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ValidatorsService } from '../../shared/services/validators.service';
-import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
-import { User } from '../interfaces/user.interface';
+import Swal from 'sweetalert2';
+import { ValidatorsService } from '../../../shared/services/validators.service';
+import { User } from '../../interfaces/user.interface';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'auth-login-page',
-  templateUrl: './login-page.component.html',
-  styleUrl: './login-page.component.css'
+  selector: 'auth-login',
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css'
 })
-export class LoginPageComponent {
+export class LoginComponent {
   private fb = inject(FormBuilder);
   private validatorsService = inject(ValidatorsService);
   private authService = inject(AuthService);

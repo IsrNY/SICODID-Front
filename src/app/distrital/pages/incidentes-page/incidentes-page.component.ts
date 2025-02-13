@@ -1,6 +1,8 @@
 import { Component, inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { IncidentesService } from '../../services/incidentes.service';
 import { Incidente } from '../../interfaces/incidentes.interface';
+import { DtAttibService } from '../../../shared/services/dt-attib.service';
+import { Config } from 'datatables.net';
 
 declare var $:any;
 
@@ -11,19 +13,21 @@ declare var $:any;
 })
 export class IncidentesPageComponent implements OnInit, OnChanges {
   private incidenttesService = inject(IncidentesService);
+  private dtAttrib = inject(DtAttibService);
 
   ngOnInit(): void {
-    this.getListaIncidentes();
+    this.dtOptions = this.dtAttrib.dtOptions;
   }
 
   ngOnChanges(): void {
-    console.log(this.opcion);
+    this.getListaIncidentes();
   }
 
   public incidentes:Incidente[] | undefined;
   public incidente!:Incidente;
   public show_modal:boolean = false;
   public opcion:number = 0;
+  public dtOptions:Config = {};
 
   getListaIncidentes() {
     this.incidenttesService.getIncidentes()
@@ -35,6 +39,7 @@ export class IncidentesPageComponent implements OnInit, OnChanges {
   getReset(opcion:number) {
     console.log(opcion)
     if(opcion == 0) {
+      this.incidentes = undefined;
       this.getListaIncidentes();
     }
   }
@@ -51,5 +56,5 @@ export class IncidentesPageComponent implements OnInit, OnChanges {
     this.opcion = id_opcion;
   }
 
-  
+
 }

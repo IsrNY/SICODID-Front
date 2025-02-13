@@ -19,10 +19,13 @@
   font-weight: bold;
 }
 
+input {
+  text-transform: none !important;
+}
+
 @media screen and (min-width:1366) {
   .login {
     width: 450;
     height: 500;
   }
 }
-
