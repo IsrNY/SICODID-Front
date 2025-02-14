@@ -20,6 +20,12 @@ export class TablaActasComponent implements OnInit, OnChanges {
   @Input()
   public modo_acta:number = 0;
 
+  @Input()
+  public operacion:number = 0;
+
+  @Output()
+  public tipo_operacion = new EventEmitter<number>();
+
   @Output()
   public acta = new EventEmitter<Casillas>();
 
@@ -32,12 +38,20 @@ export class TablaActasComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    this.dtOptions = this.dtAttrib.dtOptions;
-    console.log(this.actas)
   }
 
   getData(acta: Casillas) {
-    this.acta.emit(acta);
+    let act = {};
+    if(this.titulo !== 'Capturadas') {
+      act = { ...acta, tipo_operacion:1 };
+    } else {
+      act = { ...acta, tipo_operacion:2 };
+    }
+    this.acta.emit(act as Casillas);
+  }
+
+  getOperacion(tipo_operacion:number) {
+    this.tipo_operacion.emit(tipo_operacion)
   }
 
   getSelect(id_select:number, id_seccion:number) {

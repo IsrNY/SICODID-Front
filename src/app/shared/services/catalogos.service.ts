@@ -2,8 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { environments } from '../../../environments/environments';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Res } from '../../auth/interfaces/res.interface';
-import { catchError, of, tap } from 'rxjs';
-import { Casillas } from '../interfaces/catalogos.interface';
+import { catchError, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

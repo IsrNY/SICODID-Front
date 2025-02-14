@@ -1,90 +1,20 @@
-<div class="container">
-  <h3>Registro de actas</h3>
-  <form [formGroup]="selectForm">
-    <div class="row py-3 m-0">
-      <div class="col-3">
-        <strong>Demarcación</strong>
-        <select class="form-select text-center" formControlName="id_demarcacion">
-          <option value="">Seleccionar</option>
-          <option value="1">1</option>
-        </select>
+<div class="modal fade" id="actas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="actasLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="actasLabel"> del incidente</h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
       </div>
-      <div class="col-3">
-        <strong>Sección</strong>
-        <select class="form-select text-center" formControlName="id_seccion">
-          <option value="">Seleccionar</option>
-          <option value="1">1</option>
-        </select>
+      <div class="modal-body">
+        <div class="container-fluid">
+
+        </div>
       </div>
-      <div class="col-3">
-        <strong>Tipo de casilla</strong>
-        <select class="form-select text-center" formControlName="tipo_casilla">
-          <option value="">Seleccionar</option>
-          <option value="1">1</option>
-        </select>
+      <div class="modal-footer">
+        <div class="container-fluid">
+
+        </div>
       </div>
-      <div class="col-3">
-        <strong>Tipo de elección</strong>
-        <select class="form-select text-center" formControlName="id_tipo_eleccion" (change)="getTipoEleccion()">
-          <option value="">Seleccionar</option>
-          <option value="1">Elección 1</option>
-          <option value="2">Elección 2</option>
-          <option value="3">Elección 3</option>
-        </select>
-      </div>
-    </div>
-  </form>
-  @if (tipo_eleccion == 1) {
-    <div class="row py-3 m-0">
-      <div class="col-12">
-        <form [formGroup]="formGroup1">
-          <table class="table table-bordered table-striped row-border hover">
-            <thead>
-             <tr>
-                <th>Número de participante</th>
-                <th>Cantidad de votos</th>
-                <th>Nombre del participante</th>
-                <th>Postula</th>
-                <th>Juzgado</th>
-              </tr>
-            </thead>
-            <tbody>
-             <tr>
-                <td>1</td>
-                <td>
-                  <input type="number" class="form-control text-center" formControlName="votos_cand_1">
-                </td>
-                <td>Lorem ipsum dolor sit amet</td>
-                <td>Lorem ipsum dolor sit amet</td>
-                <td>Lorem ipsum dolor sit amet</td>
-              </tr>
-             <tr>
-                <td>2</td>
-                <td>
-                  <input type="number" class="form-control text-center" formControlName="votos_cand_2">
-                </td>
-                <td>Lorem ipsum dolor sit amet</td>
-                <td>Lorem ipsum dolor sit amet</td>
-                <td>Lorem ipsum dolor sit amet</td>
-              </tr>
-             <tr>
-                <td>3</td>
-                <td>
-                  <input type="number" class="form-control text-center" formControlName="votos_cand_3">
-                </td>
-                <td>Lorem ipsum dolor sit amet</td>
-                <td>Lorem ipsum dolor sit amet</td>
-                <td>Lorem ipsum dolor sit amet</td>
-              </tr>
-            </tbody>
-          </table>
-        </form>
-      </div>
-    </div>
-  }
-  <div class="row py-2 m-0">
-    <div class="col-12 d-flex justify-content-end align-items-center">
-      <button class="btn btn-main" (click)="registVotos()"><i class="bi bi-floppy-fill"></i> Guardar acta</button>
     </div>
   </div>
 </div>

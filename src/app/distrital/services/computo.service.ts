@@ -3,7 +3,7 @@ import { Computo } from '../interfaces/computo.interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Res } from '../../auth/interfaces/res.interface';
 import { environments } from '../../../environments/environments';
-import { catchError, of } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +37,7 @@ export class ComputoService {
 
     return this.http.get<Res>(`${this.baseUrl}/distrital/${path}`,{headers})
     .pipe(
+      tap(res => console.log(res)),
       catchError(res => of(res.error as Res))
     )
   }
