@@ -32,7 +32,9 @@ export class IncidentesService {
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${this.loadStorage}`
     });
-    const body = {...incidente}
+    const id_tipo_incidente = +incidente.id_tipo_incidente;
+    const body = {...incidente, id_tipo_incidente};
+    console.log(body)
     return this.http.post<Res>(`${this.baseUrl}/distrital/incidentes`,body,{headers})
     .pipe(
       catchError(res => of(res.error as Res))

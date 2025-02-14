@@ -1,1 +1,24 @@
-<p>gestion-actas works!</p>
+<div class="pb-4">
+  <h3>Gestión de actas</h3>
+  <div class="row p-0 m-0">
+    <div class="col-6">
+      <form [formGroup]="myForm">
+        <strong>Tipo de Elección</strong>
+        <select class="form-select text-center" formControlName="tipo_eleccion" (change)="getActasPorCapturar()" (change)="getActasCapturadas()">
+          <option value="">Seleccionar tipo</option>
+          @for(tipo of tipo_eleccion; track i ; let i = $index) {
+            <option [value]="tipo.id">{{tipo.descripcion}}</option>
+          }
+        </select>
+      </form>
+    </div>
+  </div>
+  <div class="row py-3 m-0">
+    <div class="col-6">
+      <distrital-tabla-actas [titulo]="'por Capturar'" [actas]="actas_por_capturar" (acta)="getActa($event)"/>
+    </div>
+    <div class="col-6">
+      <distrital-tabla-actas [titulo]="'Capturadas'" [actas]="actas_capturadas" (acta)="getActa($event)"/>
+    </div>
+  </div>
+</div>

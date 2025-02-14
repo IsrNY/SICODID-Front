@@ -5,6 +5,7 @@ import { Catalogos } from '../../../shared/interfaces/catalogos.interface';
 import Swal from 'sweetalert2';
 import { IncidentesService } from '../../services/incidentes.service';
 import { ValidatorsService } from '../../../shared/services/validators.service';
+import { CatalogosService } from '../../../shared/services/catalogos.service';
 
 declare var $:any;
 
@@ -17,6 +18,7 @@ export class RegistroIncidentesComponent implements OnInit, OnChanges {
   private fb = inject(FormBuilder);
   private incidentesService = inject(IncidentesService);
   private validatorsService = inject(ValidatorsService);
+  private catalogosService = inject(CatalogosService);
 
   public myForm = this.fb.group({
     id_tipo_incidente:['',[Validators.required]],
@@ -26,44 +28,7 @@ export class RegistroIncidentesComponent implements OnInit, OnChanges {
     accion_tomada:['',[Validators.required, Validators.minLength(10), Validators.maxLength(1000)]],
   })
 
-  public id_incidentes:Catalogos[] = [
-    {
-      id:'1',
-      nombre:'Paquetes recibidos que no reúnen requisitos establecidos en el Código.'
-    },
-    {
-      id:'2',
-      nombre:'Retraso en la entrega de los paquetes.'
-    },
-    {
-      id:'3',
-      nombre:'Paquetes que muestran muestras de alteración.'
-    },
-    {
-      id:'4',
-      nombre:'Paquetes que contienen documentación de la Elección Federal.'
-    },
-    {
-      id:'5',
-      nombre:'Paquetes sin documentación.'
-    },
-    {
-      id:'6',
-      nombre:'Alteraciones evidentes en las actas.'
-    },
-    {
-      id:'7',
-      nombre:'Actas de casilla ilegibles.'
-    },
-    {
-      id:'8',
-      nombre:'Objeciones manifestadas por cualquiera de los representantes acreditados ante el Consejo Distrital.'
-    },
-    {
-      id:'9',
-      nombre:'Suspensión en la sesión de cómputo.'
-    }
-  ];
+  public id_incidentes:Catalogos[] = [];
 
   public edit:boolean = false;
   public maxlength:number = 1000;
@@ -79,6 +44,7 @@ export class RegistroIncidentesComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.resetValues();
+    this.getCatalogos();
   }
 
   resetValues() {
@@ -136,7 +102,16 @@ export class RegistroIncidentesComponent implements OnInit, OnChanges {
     }
   }
 
+  getCatalogos() {
+    this.catalogosService.getCatalogo('incidentes')
+    .subscribe(res => {
+      this.id_incidentes = res.datos as Catalogos[];
+      console.log(this.id_incidentes)
+    })
+  }
+
   sendIncidente() {
+    console.log(this.myForm.value);
     if(this.myForm.invalid) {
       this.myForm.markAllAsTouched();
       Swal.fire({

@@ -1,0 +1,36 @@
+<strong>Actas {{titulo}}</strong>
+@if(actas !== undefined) {
+<table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped row-border hover">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Sección</th>
+      <th>Casilla</th>
+    </tr>
+  </thead>
+  <tbody>
+      @for(acta of actas; track i ; let i = $index) {
+        <tr  [class]="{'table-primary' : selected_row == i && id_seccion == +acta.id_seccion}" (dblclick)="getData(acta)" (click)="getSelect(i, +acta.id_seccion)">
+          <td>{{i+1}}</td>
+          <td>{{acta.id_seccion}}</td>
+          <td>{{acta.tipo_casilla}}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+} @else {
+  <table class="table table-bordered table-striped row-border hover">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Sección</th>
+        <th>Casilla</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="table-warning">
+        <td colspan="3">Sin información para mostrar.</td>
+      </tr>
+    </tbody>
+  </table>
+}

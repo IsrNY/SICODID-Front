@@ -1,9 +1,10 @@
 export interface Catalogos {
   id:string;
-  nombre:string;
+  descripcion:string;
 }
 
-export interface Secciones {
-  seccion:string;
-  casilla:string;
+export interface Casillas {
+  id_seccion:string;
+  tipo_casilla:string;
 }
+
