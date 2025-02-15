@@ -23,6 +23,9 @@ export class TablaActasComponent implements OnInit, OnChanges {
   @Input()
   public operacion:number = 0;
 
+  @Input()
+  public tipo_eleccion:number = 0;
+
   @Output()
   public tipo_operacion = new EventEmitter<number>();
 
@@ -38,6 +41,11 @@ export class TablaActasComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
+    switch(this.tipo_eleccion) {
+      default:
+        this.selected_row = 0;
+        this.id_seccion = 0;
+    }
   }
 
   getData(acta: Casillas) {

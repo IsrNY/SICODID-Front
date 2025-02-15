@@ -1,7 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject, Input} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { ValidatorsService } from '../../../shared/services/validators.service';
+
 
 declare var $:any;
 
@@ -11,6 +11,24 @@ declare var $:any;
   styleUrl: './actas.component.css'
 })
 export class ActasComponent{
+  private fb = inject(FormBuilder);
+
+  public myForm = this.fb.group({
+    boletas_sobrantes: ['',[Validators.required]],
+    cand_no_registrados: ['',[Validators.required]],
+    votos_nulos: ['',[Validators.required]],
+    total_emitida: ['',[Validators.required]],
+    candidatos: this.fb.array([]),
+  })
+
+  @Input()
+  public tipo_eleccion:string = '';
+
+  @Input()
+  public seccion:number = 0;
+
+  @Input()
+  public casilla:string = '';
 
   closeModal() {
     $('#actas').modal('hide')
