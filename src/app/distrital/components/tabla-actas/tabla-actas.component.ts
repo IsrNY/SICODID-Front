@@ -6,7 +6,10 @@ import { Config } from 'datatables.net';
 @Component({
   selector: 'distrital-tabla-actas',
   templateUrl: './tabla-actas.component.html',
-  styles: ``
+  styles: ` {
+    
+  }
+  `
 })
 export class TablaActasComponent implements OnInit, OnChanges {
   private dtAttrib = inject(DtAttibService);
@@ -49,13 +52,7 @@ export class TablaActasComponent implements OnInit, OnChanges {
   }
 
   getData(acta: Casillas) {
-    let act = {};
-    if(this.titulo !== 'Capturadas') {
-      act = { ...acta, tipo_operacion:1 };
-    } else {
-      act = { ...acta, tipo_operacion:2 };
-    }
-    this.acta.emit(act as Casillas);
+    this.acta.emit(acta);
   }
 
   getOperacion(tipo_operacion:number) {

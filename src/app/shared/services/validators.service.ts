@@ -50,4 +50,19 @@ export class ValidatorsService {
     return `${form.get(field)?.value.toString().length}/${maxlength}`;
   }
 
+  public isValidFieldVotos(form:FormGroup, field:string, position:string, form_field:string) {
+    return form.get(field)?.get(position)?.get(form_field)?.errors && form.get(field)?.get(position)?.get(form_field)?.touched;
+  }
+
+  public getFieldErrorsVotos(form: FormGroup, field:string, position:string, form_field:string) {
+    const errors = form.get(field)?.get(position)?.get(form_field)?.errors || {};
+
+    for(const key of Object.keys(errors)) {
+      switch(key) {
+        case 'required':
+          return 'Obligatorio';
+      }
+    }
+    return null;
+  }
 }

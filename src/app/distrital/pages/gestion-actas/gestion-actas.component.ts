@@ -2,6 +2,8 @@ import { Component, inject, OnChanges, OnInit } from '@angular/core';
 import { CatalogosService } from '../../../shared/services/catalogos.service';
 import { Casillas, Catalogos } from '../../../shared/interfaces/catalogos.interface';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ActasService } from '../../services/actas.service';
+import { Actas } from '../../interfaces/actas.interface';
 
 declare var $:any;
 
@@ -13,6 +15,7 @@ declare var $:any;
 export class GestionActasComponent implements OnInit, OnChanges {
   private catalogosService = inject(CatalogosService);
   private fb = inject(FormBuilder);
+  private actasService = inject(ActasService);
 
   public myForm = this.fb.group({
     tipo_eleccion:['', [Validators.required]]
@@ -22,7 +25,9 @@ export class GestionActasComponent implements OnInit, OnChanges {
   public actas_por_capturar: Casillas[] | undefined;
   public actas_capturadas: Casillas[] | undefined;
   public tipo_operacion:number = 0;
+  public eleccion:number = 0;
   public acta?:Casillas;
+  public actas?:Actas;
 
   ngOnInit(): void {
     this.getTipoEleccion();
@@ -57,6 +62,15 @@ export class GestionActasComponent implements OnInit, OnChanges {
 
   getActa(acta:Casillas) {
     this.acta = acta;
+  }
+
+  getOperacion(tipo_operacion:number) {
+    this.eleccion = +this.myForm.get('tipo_eleccion')?.value!;
+    this.tipo_operacion = tipo_operacion;
+    this.actasService.getActas(this.acta!,this.eleccion)
+    .subscribe(res => {
+      this.actas = res.datos as Actas;
+    })
     $('#actas').modal('show');
   }
 }
