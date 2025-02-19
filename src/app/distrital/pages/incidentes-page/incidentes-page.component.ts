@@ -37,7 +37,6 @@ export class IncidentesPageComponent implements OnInit, OnChanges {
   }
 
   getReset(opcion:number) {
-    console.log(opcion)
     if(opcion == 0) {
       this.incidentes = undefined;
       this.getListaIncidentes();

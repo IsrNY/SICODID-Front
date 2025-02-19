@@ -29,4 +29,15 @@ export class CatalogosService {
           return of(res as Res);
       }))
   }
+
+  getContador() {
+    const headers = new HttpHeaders({
+      'Authorization' : `Bearer ${this.loadStorage}`
+    });
+
+    return this.http.get<Res>(`${this.baseUrl}/distrital/contadorActas`,{headers})
+    .pipe(
+      catchError(res => of(res.error as Res))
+    )
+  }
 }

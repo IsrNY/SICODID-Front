@@ -104,11 +104,18 @@
         <shared-errors [maxlength]="maxlength" [form]="myForm" [field]="'observaciones'" [touched]="touched('observaciones')"/>
       </div>
       <div class="col-12 d-flex justify-content-end align-items-center py-1">
-        @if(!inicio_computo || !cierre_computo) {
-          <button type="submit" class="btn btn-main m-1"><i class="bi bi-floppy-fill"></i> Guardar {{computo}}</button>
-        }
-        @if(inicio_computo || cierre_computo) {
-          <button type="button" class="btn btn-warning m-1" (click)="actualizar()"><i class="bi bi-pencil-fill"></i>Actualizar {{computo}}</button>
+        @if(computo == 'inicio') {
+          @if(!inicio_computo) {
+            <button type="submit" class="btn btn-main m-1"><i class="bi bi-floppy-fill"></i> Guardar inicio</button>
+          } @else {
+            <button type="button" class="btn btn-warning m-1" (click)="actualizar()"><i class="bi bi-pencil-fill"></i>Actualizar inicio</button>
+          }
+        } @else {
+          @if(!cierre_computo) {
+            <button type="submit" class="btn btn-main m-1"><i class="bi bi-floppy-fill"></i> Guardar cierre</button>
+          } @else {
+            <button type="button" class="btn btn-warning m-1" (click)="actualizar()"><i class="bi bi-pencil-fill"></i>Actualizar cierre</button>
+          }
         }
       </div>
     </form>

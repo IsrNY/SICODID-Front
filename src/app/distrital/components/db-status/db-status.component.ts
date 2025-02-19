@@ -12,6 +12,5 @@ export class DbStatusComponent implements OnInit{
   public ubicacion:string = '';
   ngOnInit(): void {
     this.ubicacion = this.location.path().split('/')[3];
-    console.log(this.location.path().split('/')[3])
   }
 }

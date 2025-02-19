@@ -49,12 +49,12 @@ export class VerifyService {
         // sessionStorage.setItem('cierre',res.cierreComputo.toString());
         this.inicio_computo = res.inicioComputo;
         this.cierre_computo = res.cierreComputo;
-        console.log(this.inicio_computo,this.cierre_computo)
         if(res.token) {
           localStorage.setItem('token',res.token);
+          localStorage.setItem('inicio',res.inicioComputo.toString())!;
+          localStorage.setItem('cierre',res.cierreComputo.toString())!;
           this.authService.decodeStorage();
           localStorage.setItem('id_transaccion', this.authService.id_transaccion!.toString());
-          console.log(this.authService.id_transaccion)
         }
         this.webSocketService.emit('configurar-usuario', {id_transaccion: this.authService.id_transaccion});
       }),

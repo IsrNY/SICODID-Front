@@ -22,7 +22,7 @@ export class AuthService {
 
   constructor() {
     this.decodeStorage();
-    console.log(this.decodeStorage())
+
   }
 
   get id_transaccion() {
@@ -58,8 +58,8 @@ export class AuthService {
         }
 
         localStorage.setItem('token',res.token!);
-        // sessionStorage.setItem('inicio',res.inicioComputo!.toString());
-        // sessionStorage.setItem('cierre',res.cierreComputo!.toString());
+        localStorage.setItem('inicio',res.inicioComputo!.toString());
+        localStorage.setItem('cierre',res.cierreComputo!.toString());
         this.decodeStorage();
         localStorage.setItem('id_transaccion',this.id_transaccion?.toString()!);
         this.webSocketService.emit('configurar-usuario',{id_transaccion:this.id_transaccion});

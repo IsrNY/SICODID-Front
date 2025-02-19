@@ -26,7 +26,25 @@
               }
             </tbody>
         </table>
-      }
+      } @else {
+        <table class="table table-bordered table-striped row-border hover">
+          <thead>
+            <tr>
+              <th>Tipo de incidente</th>
+              <th>Participantes</th>
+              <th>Fecha y hora</th>
+              <th>Ver más</th>
+            </tr>
+          </thead>
+          <tbody>
+              <!-- @for(incidente of incidentes; track i; let i = $index) { -->
+                <tr class="table-warning">
+                  <td colspan="4">No hay información para mostrar.</td>
+                </tr>
+              <!-- } -->
+            </tbody>
+        </table>
+      } 
     </div>
   </div>
 </div>

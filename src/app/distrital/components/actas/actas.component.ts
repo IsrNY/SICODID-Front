@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnChanges, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Casillas } from '../../../shared/interfaces/catalogos.interface';
@@ -39,6 +39,9 @@ export class ActasComponent implements OnChanges {
   @Input()
   public actas!:Actas | undefined;
 
+  @Output()
+  public reload = new EventEmitter<boolean>();
+
   get candidatos():FormArray {
     return this.myForm.get('candidatos') as FormArray;
   }
@@ -69,8 +72,7 @@ export class ActasComponent implements OnChanges {
       candidatos:([]),
     });
     this.candidatos.clear();
-    this.tipo_operacion = 0;
-    this.acta = undefined;
+    // this.acta = undefined;
     this.actas  = undefined;
     this.myForm.markAsUntouched();
   }
@@ -126,7 +128,6 @@ export class ActasComponent implements OnChanges {
   }
 
   saveActa() {
-    this.actasService.saveActas(this.myForm.value as Actas,this.tipo_eleccion,+this.acta?.id_seccion!,this.acta?.tipo_casilla!, this.tipo_operacion);
     if(this.myForm.invalid) {
       this.myForm.markAllAsTouched();
       Swal.fire({
@@ -140,14 +141,31 @@ export class ActasComponent implements OnChanges {
 
     Swal.fire({
       icon:'question',
-      title:'¿Confirmar registro?',
-      text:'¿Está seguro/a de realizar la captura del acta?',
+      title:`¿Confirmar ${this.tipo_operacion == 1 ? 'registro' : 'actualización'}?`,
+      text:`Está a punto de realizar ${this.tipo_operacion == 1 ? 'la captura' : 'una actualización'} del acta, ¿Desea confirmar?`,
       showCancelButton:true,
-      cancelButtonText:'No',
-      confirmButtonText:'Sí'
+      cancelButtonText:'Cancelar',
+      confirmButtonText:'Confirmar'
     }).then((result) => {
       if(result.isConfirmed) {
-        this.actasService.saveActas(this.myForm.value as Actas,this.tipo_eleccion,+this.acta?.id_seccion!,this.acta?.tipo_casilla!, this.tipo_operacion);
+        this.actasService.saveActas(this.myForm.value as Actas,this.tipo_eleccion,+this.acta?.id_seccion!,this.acta?.tipo_casilla!, this.tipo_operacion)
+        .subscribe(res => {
+          Swal.fire({
+            icon:res.success ? 'success' : 'error',
+            title:res.success ? '¡Correcto!' : '¡Error!',
+            text:res.msg,
+            showConfirmButton:false,
+            timer:2500
+          }).then(() => {
+            if(res.success) {
+              if(this.tipo_operacion == 1) {
+                this.reload.emit(true);
+              }
+              this.resetValues();
+              $('#actas').modal('hide');
+            }
+          })
+        })
       }
     })
   }

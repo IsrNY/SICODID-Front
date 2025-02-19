@@ -37,7 +37,6 @@ export class ComputoService {
 
     return this.http.get<Res>(`${this.baseUrl}/distrital/${path}`,{headers})
     .pipe(
-      tap(res => console.log(res)),
       catchError(res => of(res.error as Res))
     )
   }

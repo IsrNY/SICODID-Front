@@ -27,11 +27,11 @@ export class ComputoComponent implements OnInit {
   private validatorsService = inject(ValidatorsService);
 
   get inicio_computo():boolean {
-    return this.verifyService.inicio_computo;
+    return localStorage.getItem('inicio')! == 'true' ? true : false;
   }
 
   get cierre_computo():boolean {
-    return this.verifyService.cierre_computo;
+    return localStorage.getItem('cierre')! == 'true' ? true : false;
   }
 
   get rol() {
@@ -136,7 +136,12 @@ export class ComputoComponent implements OnInit {
             timer:2000
           }).then(() => {
             if(res.success) {
-              this.router.navigateByUrl('distrital')
+              if(this.computo == 'inicio') {
+                localStorage.setItem('inicio','true');
+              } else {
+                localStorage.setItem('cierre','true');
+              }
+              this.router.navigateByUrl('distrital');
             }
           })
         })

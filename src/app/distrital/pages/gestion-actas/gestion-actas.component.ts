@@ -4,13 +4,20 @@ import { Casillas, Catalogos } from '../../../shared/interfaces/catalogos.interf
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActasService } from '../../services/actas.service';
 import { Actas } from '../../interfaces/actas.interface';
+import { Contador } from '../../interfaces/contador.interface';
+import { ValidatorsService } from '../../../shared/services/validators.service';
 
 declare var $:any;
 
 @Component({
   selector: 'distrital-gestion-actas',
   templateUrl: './gestion-actas.component.html',
-  styles: ``
+  styles: `
+    .fixed {
+      position: sticky;
+      top:90px;
+    }
+  `
 })
 export class GestionActasComponent implements OnInit, OnChanges {
   private catalogosService = inject(CatalogosService);
@@ -28,19 +35,29 @@ export class GestionActasComponent implements OnInit, OnChanges {
   public eleccion:number = 0;
   public acta?:Casillas;
   public actas?:Actas;
+  public contador?:Contador;
 
   ngOnInit(): void {
     this.getTipoEleccion();
+    this.getDatosContador();
   }
 
   ngOnChanges(): void {
-    console.log(this.acta,this.tipo_eleccion);
   }
 
   getTipoEleccion() {
     this.catalogosService.getCatalogo('tipo-eleccion')
     .subscribe(res => {
       this.tipo_eleccion = res.datos as Catalogos[];
+    })
+  }
+
+  getDatosContador() {
+    this.contador = undefined;
+    this.catalogosService.getContador()
+    .subscribe(res => {
+      this.contador = res.datos as Contador;
+      console.log(res.datos)
     })
   }
 
@@ -72,5 +89,13 @@ export class GestionActasComponent implements OnInit, OnChanges {
       this.actas = res.datos as Actas;
     })
     $('#actas').modal('show');
+  }
+
+  getReload(reload:boolean) {
+    if(reload) {
+      this.getActasCapturadas();
+      this.getActasPorCapturar();
+      this.getDatosContador();
+    }
   }
 }

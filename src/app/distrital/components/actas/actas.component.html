@@ -9,7 +9,19 @@
         <div class="container-fluid">
           <form [formGroup]="myForm">
             <div class="row p-0 m-0">
-              <div class="col-12">
+              <div class="col-6">
+                <strong>Tipo de elección</strong>
+                <input type="text" class="form-control text-center" readonly [value]="getTipoEleccion()">
+              </div>
+              <div class="col-3">
+                <strong>Sección</strong>
+                <input type="text" class="form-control text-center" readonly [value]="acta?.id_seccion">
+              </div>
+              <div class="col-3">
+                <strong>Casilla</strong>
+                <input type="text" class="form-control text-center" readonly [value]="acta?.tipo_casilla">
+              </div>
+              <!-- <div class="col-12">
                  <table class="table table-bordered table-striped row-border hover">
                   <thead>
                     <tr>
@@ -26,7 +38,7 @@
                     </tr>
                   </tbody>
                  </table>
-              </div>
+              </div> -->
             </div>
             <div class="row p-0 m-0">
               <div class="col-3">
@@ -100,7 +112,7 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-12 d-flex justify-content-end align-items-center">
-              <button class="btn btn-main" (click)="saveActa()">Capturar acta</button>
+              <button class="btn btn-main" (click)="saveActa()">{{tipo_operacion == 1 ? 'Capturar acta' : 'Actualizar acta'}}</button>
             </div>
           </div>
         </div>

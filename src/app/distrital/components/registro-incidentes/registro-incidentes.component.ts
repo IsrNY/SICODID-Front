@@ -78,7 +78,6 @@ export class RegistroIncidentesComponent implements OnInit, OnChanges {
   }
 
   getErrors(field:string) {
-    console.log(this.getFieldLengthErrors(field))
   }
 
   changeEdit() {
@@ -106,12 +105,10 @@ export class RegistroIncidentesComponent implements OnInit, OnChanges {
     this.catalogosService.getCatalogo('incidentes')
     .subscribe(res => {
       this.id_incidentes = res.datos as Catalogos[];
-      console.log(this.id_incidentes)
     })
   }
 
   sendIncidente() {
-    console.log(this.myForm.value);
     if(this.myForm.invalid) {
       this.myForm.markAllAsTouched();
       Swal.fire({

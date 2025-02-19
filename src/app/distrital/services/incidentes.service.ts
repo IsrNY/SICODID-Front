@@ -28,13 +28,11 @@ export class IncidentesService {
   }
 
   saveIncidente(incidente:Incidente, id_usuario:number) {
-    console.log(incidente)
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${this.loadStorage}`
     });
     const id_tipo_incidente = +incidente.id_tipo_incidente;
     const body = {...incidente, id_tipo_incidente};
-    console.log(body)
     return this.http.post<Res>(`${this.baseUrl}/distrital/incidentes`,body,{headers})
     .pipe(
       catchError(res => of(res.error as Res))
@@ -42,7 +40,6 @@ export class IncidentesService {
   }
 
   updtIncidente(incidente:Incidente, id_incidente:number) {
-    console.log(incidente)
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${this.loadStorage}`
     });
@@ -54,14 +51,12 @@ export class IncidentesService {
   }
 
   delIncidente(id_incidente:number) {
-    console.log(id_incidente)
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${this.loadStorage}`
     });
 
     return this.http.delete<Res>(`${this.baseUrl}/distrital/incidentes?id_incidente=${id_incidente}`,{headers})
     .pipe(
-      tap(res => console.log(res)),
       catchError(res => of(res.error as Res))
     )
   }
