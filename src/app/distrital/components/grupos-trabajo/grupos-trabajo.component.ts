@@ -1,10 +1,177 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { CatalogosService } from '../../../shared/services/catalogos.service';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Integrantes } from '../../interfaces/integrantes.interface';
+import { Catalogos } from '../../../shared/interfaces/catalogos.interface';
+import { IntegrantesService } from '../../services/integrantes.service';
+import Swal from 'sweetalert2';
+import { ValidatorsService } from '../../../shared/services/validators.service';
 
 @Component({
   selector: 'distrital-grupos-trabajo',
   templateUrl: './grupos-trabajo.component.html',
   styleUrl: './grupos-trabajo.component.css'
 })
-export class GruposTrabajoComponent {
+export class GruposTrabajoComponent implements OnInit {
+  private catalogosService = inject(CatalogosService);
+  private integrantesService = inject(IntegrantesService);
+  private validatorsService = inject(ValidatorsService);
+  private fb = inject(FormBuilder);
 
+  public myForm = this.fb.group({
+    id_integrante:[''],
+    nombres:['',[Validators.required]],
+    apellido1:['',[Validators.required]],
+    apellido2:['',[Validators.required]],
+    id_cargo:['',[Validators.required]],
+    id_funcion:['',[Validators.required]]
+  });
+
+  public cargos:Catalogos[] = [];
+  public funciones:Catalogos[] = [];
+  public integrantes:Integrantes[] = [];
+  public integrante:Integrantes | undefined;
+
+
+  ngOnInit(): void {
+    this.integrantesService.getIntegrantes()
+    .subscribe(res => {
+      this.integrantes = res.datos as Integrantes[];
+    })
+
+    this.catalogosService.getCatalogo('cargos')
+    .subscribe(res => {
+      this.cargos = res.datos as Catalogos[];
+    });
+  }
+
+  resetValues() {
+    this.myForm.patchValue({
+      nombres:'',
+      apellido1:'',
+      apellido2:'',
+      id_cargo:'',
+      id_funcion:''
+    });
+    this.myForm.markAsUntouched();
+    this.integrante = undefined;
+
+  }
+
+  getFunciones() {
+    this.catalogosService.getCatalogo(`funciones?id_cargo=${this.myForm.get('id_cargo')?.value!}`)
+    .subscribe(res => {
+      this.funciones = res.datos as Catalogos[];
+    })
+  }
+
+  getIntegrantes() {
+    this.integrantes = [];
+    this.integrantesService.getIntegrantes()
+    .subscribe(res => {
+      this.integrantes = res.datos as Integrantes[];
+    })
+  }
+
+  saveIntegrante() {
+    if(this.myForm.invalid) {
+      this.myForm.markAllAsTouched();
+      Swal.fire({
+        icon:'warning',
+        title:'¡Atención!',
+        text:'Para realizar el registro de un integrante se deben cumplir todas las validaciones en el formulario.',
+        confirmButtonText:'Entendido'
+      })
+      return;
+    }
+
+    Swal.fire({
+      icon:'question',
+      title:'¿Confirmar el registro?',
+      text:'Los datos del integrante se guardarán en la tabla.',
+      showCancelButton:true,
+      cancelButtonText:'Cancelar',
+      confirmButtonText:'Confirmar'
+    }).then((result) => {
+      if(result.isConfirmed) {
+        this.integrantesService.saveIntegrante(this.myForm.value as Integrantes)
+        .subscribe(res => {
+          Swal.fire({
+            icon:res.success?'success' : 'error',
+            title:res.success? '¡Correcto!' : '¡Error!',
+            text:res.msg,
+            showConfirmButton:false,
+            timer:3000
+          }).then(() => {
+            if(res.success) {
+              this.resetValues();
+              this.getIntegrantes();
+            }
+          })
+        })
+      }
+    })
+  }
+
+  updtIntegrante() {
+    this.integrantesService.updateIntegrante(this.myForm.value as Integrantes)
+    .subscribe(res => {
+      Swal.fire({
+        icon:res.success?'success' : 'error',
+        title:res.success? '��Correcto!' : '��Error!',
+        text:res.msg,
+        showConfirmButton:false,
+        timer:3000
+      }).then(() => {
+        if(res.success) {
+          this.resetValues();
+          this.getIntegrantes();
+        }
+      })
+    })
+  }
+
+  editIntegrante(id_integrante:number) {
+    // this.integrante = undefined;
+    this.integrantesService.getIntegrante(id_integrante)
+    .subscribe(res => {
+      this.integrante = res.datos as Integrantes;
+      this.myForm.patchValue(this.integrante);
+      this.myForm.markAsTouched();
+    })
+  }
+
+  deleteIntegrante(id_integrante:number) {
+    Swal.fire({
+      icon:'warning',
+      title:'¡Atención!',
+      text:'La eliminación de un integrante es un proceso irreversible, ¿Desea confirmar la eliminación?',
+      showCancelButton:true,
+      cancelButtonText:'Cancelar',
+      confirmButtonText:'Confirmar'
+    }).then((result) => {
+      if(result.isConfirmed) {
+        this.integrantesService.deleteIntegrante(id_integrante)
+        .subscribe(res => {
+          Swal.fire({
+            icon:res.success?'success' : 'error',
+            title:res.success? '¡Correcto!' : '¡Error!',
+            text:res.msg,
+            showConfirmButton:false,
+            timer:3000
+          }).then(() => {
+            this.getIntegrantes();
+          })
+        })
+      }
+    })
+  }
+
+  isValidField(field:string) {
+    return this.validatorsService.isValidField(this.myForm,field);
+  }
+
+  getFieldErrors(field:string) {
+    return this.validatorsService.getFieldErrors(this.myForm,field);
+  }
 }

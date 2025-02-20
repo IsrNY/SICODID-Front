@@ -5,7 +5,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActasService } from '../../services/actas.service';
 import { Actas } from '../../interfaces/actas.interface';
 import { Contador } from '../../interfaces/contador.interface';
-import { ValidatorsService } from '../../../shared/services/validators.service';
 
 declare var $:any;
 
@@ -17,6 +16,7 @@ declare var $:any;
       position: sticky;
       top:90px;
     }
+
   `
 })
 export class GestionActasComponent implements OnInit, OnChanges {
