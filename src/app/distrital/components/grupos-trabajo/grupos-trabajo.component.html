@@ -1,4 +1,4 @@
-<h3>Grupos de trabajo</h3>
+<h3>Integrantes del grupo de trabajo</h3>
 <div class="row py-2 m-0">
   <div class="col-3">
     <h5>Registrar integrante</h5>
@@ -71,10 +71,10 @@
             <td>{{integrante.cargo}}</td>
             <td>{{integrante.funcion}}</td>
             <td>
-              <button type="button" class="btn btn-sm btn-warning" (click)="editIntegrante(+integrante.id_integrante)"><i class="bi bi-pencil-fill"></i></button>
+              <button type="button" class="btn btn-sm btn-warning" (click)="editIntegrante(integrante.id_integrante)"><i class="bi bi-pencil-fill"></i></button>
             </td>
             <td>
-              <button type="button" class="btn btn-sm btn-danger" (click)="deleteIntegrante(+integrante.id_integrante)"><i class="bi bi-trash-fill"></i></button>
+              <button type="button" class="btn btn-sm btn-danger" (click)="deleteIntegrante(integrante.id_integrante)"><i class="bi bi-trash-fill"></i></button>
             </td>
           </tr>
         }

@@ -1,5 +1,5 @@
 export interface Integrantes {
-  id_integrante:  string;
+  id_integrante:  number;
   nombres:        string;
   apellido1:      string;
   apellido2:      string;

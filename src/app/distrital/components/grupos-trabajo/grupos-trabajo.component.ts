@@ -19,7 +19,7 @@ export class GruposTrabajoComponent implements OnInit {
   private fb = inject(FormBuilder);
 
   public myForm = this.fb.group({
-    id_integrante:[''],
+    id_integrante:[0],
     nombres:['',[Validators.required]],
     apellido1:['',[Validators.required]],
     apellido2:['',[Validators.required]],
@@ -34,10 +34,8 @@ export class GruposTrabajoComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.integrantesService.getIntegrantes()
-    .subscribe(res => {
-      this.integrantes = res.datos as Integrantes[];
-    })
+    this.myForm.get('id_funcion')?.disable();
+    this.getIntegrantes();
 
     this.catalogosService.getCatalogo('cargos')
     .subscribe(res => {
@@ -47,6 +45,7 @@ export class GruposTrabajoComponent implements OnInit {
 
   resetValues() {
     this.myForm.patchValue({
+      id_integrante:0,
       nombres:'',
       apellido1:'',
       apellido2:'',
@@ -54,14 +53,21 @@ export class GruposTrabajoComponent implements OnInit {
       id_funcion:''
     });
     this.myForm.markAsUntouched();
+    this.myForm.get('id_funcion')?.disable();
     this.integrante = undefined;
 
   }
 
   getFunciones() {
+    this.myForm.patchValue({id_funcion:''});
     this.catalogosService.getCatalogo(`funciones?id_cargo=${this.myForm.get('id_cargo')?.value!}`)
     .subscribe(res => {
-      this.funciones = res.datos as Catalogos[];
+      if(!res.success) {
+        this.myForm.get('id_funcion')?.disable();
+      } else {
+        this.myForm.get('id_funcion')?.enable();
+        this.funciones = res.datos as Catalogos[];
+      }
     })
   }
 
@@ -118,7 +124,7 @@ export class GruposTrabajoComponent implements OnInit {
     .subscribe(res => {
       Swal.fire({
         icon:res.success?'success' : 'error',
-        title:res.success? '��Correcto!' : '��Error!',
+        title:res.success? '¡Correcto!' : '¡Error!',
         text:res.msg,
         showConfirmButton:false,
         timer:3000
@@ -132,12 +138,12 @@ export class GruposTrabajoComponent implements OnInit {
   }
 
   editIntegrante(id_integrante:number) {
-    // this.integrante = undefined;
     this.integrantesService.getIntegrante(id_integrante)
     .subscribe(res => {
       this.integrante = res.datos as Integrantes;
       this.myForm.patchValue(this.integrante);
-      this.myForm.markAsTouched();
+      this.getFunciones();
+      this.myForm.patchValue({id_funcion:this.integrante.id_funcion})
     })
   }
 
@@ -151,18 +157,47 @@ export class GruposTrabajoComponent implements OnInit {
       confirmButtonText:'Confirmar'
     }).then((result) => {
       if(result.isConfirmed) {
-        this.integrantesService.deleteIntegrante(id_integrante)
-        .subscribe(res => {
+        if(id_integrante === this.myForm.get('id_integrante')?.value!) {
           Swal.fire({
-            icon:res.success?'success' : 'error',
-            title:res.success? '¡Correcto!' : '¡Error!',
-            text:res.msg,
-            showConfirmButton:false,
-            timer:3000
-          }).then(() => {
-            this.getIntegrantes();
+            icon:'info',
+            title:'¡Atención!',
+            text:'El integrante que intenta eliminar se encuentra en edición, ¿Confirmar eliminación?',
+            showCancelButton:true,
+            cancelButtonText:'Cancelar',
+            confirmButtonText:'Confirmar'
+          }).then((result) => {
+            if(result.isConfirmed) {
+              this.resetValues();
+              this.integrantesService.deleteIntegrante(id_integrante)
+              .subscribe(res => {
+                Swal.fire({
+                  icon:res.success?'success' : 'error',
+                  title:res.success? '¡Correcto!' : '¡Error!',
+                  text:res.msg,
+                  showConfirmButton:false,
+                  timer:3000
+                }).then(() => {
+                  this.getIntegrantes();
+                })
+              })
+            } else {
+              return;
+            }
           })
-        })
+        } else {
+          this.integrantesService.deleteIntegrante(id_integrante)
+          .subscribe(res => {
+            Swal.fire({
+              icon:res.success?'success' : 'error',
+              title:res.success? '¡Correcto!' : '¡Error!',
+              text:res.msg,
+              showConfirmButton:false,
+              timer:3000
+            }).then(() => {
+              this.getIntegrantes();
+            })
+          })
+        }
       }
     })
   }

@@ -22,12 +22,8 @@ export class CatalogosService {
 
     return this.http.get<Res>(`${this.baseUrl}/cat/${path}`,{headers})
     .pipe(
-      catchError(res => {
-        if (res.status == 404)
-          return of({datos:[]});
-        else
-          return of(res as Res);
-      }))
+      catchError(res => of(res.error as Res))
+    )
   }
 
   getContador() {
