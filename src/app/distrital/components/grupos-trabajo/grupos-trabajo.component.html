@@ -1,7 +1,7 @@
 <h3>Integrantes del grupo de trabajo</h3>
 <div class="row py-2 m-0">
   <div class="col-3">
-    <h5>Registrar integrante</h5>
+    <h5>{{integrante !== undefined ? 'Actualizar' : 'Registrar'}} integrante</h5>
     <div class="fixed">
       <form [formGroup]="myForm">
         <strong>Nombre(s)</strong>
@@ -68,8 +68,8 @@
             <td>{{integrante.nombres}}</td>
             <td>{{integrante.apellido1}}</td>
             <td>{{integrante.apellido2}}</td>
-            <td>{{integrante.cargo}}</td>
-            <td>{{integrante.funcion}}</td>
+            <td>{{integrante.cargo | uppercase}}</td>
+            <td>{{integrante.funcion | uppercase}}</td>
             <td>
               <button type="button" class="btn btn-sm btn-warning" (click)="editIntegrante(integrante.id_integrante)"><i class="bi bi-pencil-fill"></i></button>
             </td>
