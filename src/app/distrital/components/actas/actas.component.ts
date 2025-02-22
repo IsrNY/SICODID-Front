@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Casillas } from '../../../shared/interfaces/catalogos.interface';
 import { ActasService } from '../../services/actas.service';
-import { Actas, Candidato } from '../../interfaces/actas.interface';
+import { Actas, Candidato, Datos } from '../../interfaces/actas.interface';
 import { ValidatorsService } from '../../../shared/services/validators.service';
 
 
@@ -42,6 +42,10 @@ export class ActasComponent implements OnChanges {
   @Output()
   public reload = new EventEmitter<boolean>();
 
+  public arrayH:Datos[] = [];
+  public arrayM:Datos[] = [];
+  public arrayData:Datos[] = [];
+
   get candidatos():FormArray {
     return this.myForm.get('candidatos') as FormArray;
   }
@@ -50,12 +54,17 @@ export class ActasComponent implements OnChanges {
     this.candidatos.clear();
     switch(this.tipo_operacion) {
       default:
-        this.myForm.patchValue(this.actas as Actas);
-        this.patchCandidatos(this.actas?.candidatos!);
+        this.myForm.patchValue({
+          boletas_sobrantes: this.actas!.boletas_sobrantes,
+          cand_no_registrados: this.actas!.cand_no_registrados,
+          votos_nulos: this.actas!.votos_nulos,
+          total_emitida: this.actas!.total_emitida,
+        });
+        this.patchCandidatos(this.actas?.candidatos!.H as Datos[]);
     }
   }
 
-  patchCandidatos = (candidatos:Candidato[]) => candidatos.forEach(candidato => this.candidatos.push(this.fb.group({
+  patchCandidatos = (candidatos:Datos[]) => candidatos.forEach(candidato => this.candidatos.push(this.fb.group({
     id_candidato:[candidato.id_candidato],
     nombre:[candidato.nombre],
     postula:[candidato.postula],
@@ -128,46 +137,46 @@ export class ActasComponent implements OnChanges {
   }
 
   saveActa() {
-    if(this.myForm.invalid) {
-      this.myForm.markAllAsTouched();
-      Swal.fire({
-        icon:'warning',
-        title:'¡Atención!',
-        text:'Para realizar el registro o actualización de un acta se deben cumplir todas las validaciones en el formulario.',
-        confirmButtonText:'Entendido'
-      })
-      return;
-    }
+    // if(this.myForm.invalid) {
+    //   this.myForm.markAllAsTouched();
+    //   Swal.fire({
+    //     icon:'warning',
+    //     title:'¡Atención!',
+    //     text:'Para realizar el registro o actualización de un acta se deben cumplir todas las validaciones en el formulario.',
+    //     confirmButtonText:'Entendido'
+    //   })
+    //   return;
+    // }
 
-    Swal.fire({
-      icon:'question',
-      title:`¿Confirmar ${this.tipo_operacion == 1 ? 'registro' : 'actualización'}?`,
-      text:`Está a punto de realizar ${this.tipo_operacion == 1 ? 'la captura' : 'una actualización'} del acta, ¿Desea confirmar?`,
-      showCancelButton:true,
-      cancelButtonText:'Cancelar',
-      confirmButtonText:'Confirmar'
-    }).then((result) => {
-      if(result.isConfirmed) {
-        this.actasService.saveActas(this.myForm.value as Actas,this.tipo_eleccion,+this.acta?.id_seccion!,this.acta?.tipo_casilla!, this.tipo_operacion)
-        .subscribe(res => {
-          Swal.fire({
-            icon:res.success ? 'success' : 'error',
-            title:res.success ? '¡Correcto!' : '¡Error!',
-            text:res.msg,
-            showConfirmButton:false,
-            timer:2500
-          }).then(() => {
-            if(res.success) {
-              if(this.tipo_operacion == 1) {
-                this.reload.emit(true);
-              }
-              this.resetValues();
-              $('#actas').modal('hide');
-            }
-          })
-        })
-      }
-    })
+    // Swal.fire({
+    //   icon:'question',
+    //   title:`¿Confirmar ${this.tipo_operacion == 1 ? 'registro' : 'actualización'}?`,
+    //   text:`Está a punto de realizar ${this.tipo_operacion == 1 ? 'la captura' : 'una actualización'} del acta, ¿Desea confirmar?`,
+    //   showCancelButton:true,
+    //   cancelButtonText:'Cancelar',
+    //   confirmButtonText:'Confirmar'
+    // }).then((result) => {
+    //   if(result.isConfirmed) {
+    //     this.actasService.saveActas(this.myForm.value as Actas,this.tipo_eleccion,+this.acta?.id_seccion!,this.acta?.tipo_casilla!, this.tipo_operacion)
+    //     .subscribe(res => {
+    //       Swal.fire({
+    //         icon:res.success ? 'success' : 'error',
+    //         title:res.success ? '¡Correcto!' : '¡Error!',
+    //         text:res.msg,
+    //         showConfirmButton:false,
+    //         timer:2500
+    //       }).then(() => {
+    //         if(res.success) {
+    //           if(this.tipo_operacion == 1) {
+    //             this.reload.emit(true);
+    //           }
+    //           this.resetValues();
+    //           $('#actas').modal('hide');
+    //         }
+    //       })
+    //     })
+    //   }
+    // })
   }
 
   isValidField(field:string) {

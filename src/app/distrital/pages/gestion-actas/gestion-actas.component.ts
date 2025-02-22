@@ -86,6 +86,7 @@ export class GestionActasComponent implements OnInit, OnChanges {
     this.tipo_operacion = tipo_operacion;
     this.actasService.getActas(this.acta!,this.eleccion)
     .subscribe(res => {
+      console.log(res.datos)
       this.actas = res.datos as Actas;
     })
     $('#actas').modal('show');
