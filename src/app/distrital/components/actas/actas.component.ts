@@ -24,6 +24,7 @@ export class ActasComponent implements OnChanges {
     cand_no_registrados: ['',[Validators.required]],
     votos_nulos: ['',[Validators.required]],
     total_emitida: ['',[Validators.required]],
+    genero:['',[Validators.required]],
     candidatos: this.fb.array([]),
   })
 
@@ -137,16 +138,16 @@ export class ActasComponent implements OnChanges {
   }
 
   saveActa() {
-    // if(this.myForm.invalid) {
-    //   this.myForm.markAllAsTouched();
-    //   Swal.fire({
-    //     icon:'warning',
-    //     title:'¡Atención!',
-    //     text:'Para realizar el registro o actualización de un acta se deben cumplir todas las validaciones en el formulario.',
-    //     confirmButtonText:'Entendido'
-    //   })
-    //   return;
-    // }
+    if(this.myForm.invalid) {
+      this.myForm.markAllAsTouched();
+      Swal.fire({
+        icon:'warning',
+        title:'¡Atención!',
+        text:'Para realizar el registro o actualización de un acta se deben cumplir todas las validaciones en el formulario.',
+        confirmButtonText:'Entendido'
+      })
+      return;
+    }
 
     // Swal.fire({
     //   icon:'question',

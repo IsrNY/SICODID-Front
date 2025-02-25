@@ -13,32 +13,25 @@
                 <strong>Tipo de elección</strong>
                 <input type="text" class="form-control text-center" readonly [value]="getTipoEleccion()">
               </div>
-              <div class="col-3">
+              <div class="col-2">
                 <strong>Sección</strong>
                 <input type="text" class="form-control text-center" readonly [value]="acta?.id_seccion">
               </div>
-              <div class="col-3">
+              <div class="col-2">
                 <strong>Casilla</strong>
                 <input type="text" class="form-control text-center" readonly [value]="acta?.tipo_casilla">
               </div>
-              <!-- <div class="col-12">
-                 <table class="table table-bordered table-striped row-border hover">
-                  <thead>
-                    <tr>
-                      <th>Tipo de elección</th>
-                      <th>Sección</th>
-                      <th>Casilla</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>{{getTipoEleccion()}}</td>
-                      <td>{{acta?.id_seccion}}</td>
-                      <td>{{acta?.tipo_casilla}}</td>
-                    </tr>
-                  </tbody>
-                 </table>
-              </div> -->
+              <div class="col-2">
+                <strong>Género</strong>
+                <select class="form-select text-center" formControlName="genero">
+                  <option value="">Seleccionar sexo</option>
+                  <option value="M">FEMENINO</option>
+                  <option value="H">MASCULINO</option>
+                </select>
+                @if(isValidField('genero')) {
+                  <span class="text-danger">{{getFieldErrors('genero')}}</span>
+                }
+              </div>
             </div>
             <div class="row p-0 m-0">
               <div class="col-3">
