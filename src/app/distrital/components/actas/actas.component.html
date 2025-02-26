@@ -65,7 +65,7 @@
             </div>
             <div class="row py-3 m-0">
               <div class="col-12">
-                <table class="table table-bordered table-striped row-border hover" formArrayName="candidatos">
+                <table class="table table-bordered table-striped row-border hover" [formGroup]="candidatos">
                   <thead class="head">
                     <tr class="stick">
                       <th>ID Candidato</th>
@@ -77,14 +77,35 @@
                       }
                     </tr>
                   </thead>
-                  <tbody>
-                    @for (candidato of candidatos.controls; track i; let i = $index) {
-                      <tr [formGroupName]="i">
-                        <td>{{candidato.get('id_candidato')?.value}}</td>
+                  <tbody formArrayName="M">
+                    @for (candidato of candidatosM.controls; track i; let i = $index) {
+                      <tr [formGroupName]="i" class="table-danger">
+                        <!-- <td>{{candidato.get('id_candidato')?.value}}</td> -->
+                        <td>{{i + 1}}</td>
                         <td>
                           <input type="number" formControlName="votos" [id]="i" class="form-control text-center" (keydown)="bloquear($event)" (keydown)="enter($event, i+1)" (keypress)="limit($event)">
-                          @if(isValidFieldVotos('candidatos', i.toString(),'votos')) {
-                            <span class="text-danger">{{ getFieldErrorsVotos('candidatos',i.toString(),'votos') }}</span>
+                          @if(isValidFieldVotos('M', i.toString(),'votos')) {
+                            <span class="text-danger">{{ getFieldErrorsVotos('M' , i.toString(), 'votos') }}</span>
+                          }
+                        </td>
+                        <td>{{candidato.get('nombre')?.value}}</td>
+                        <td>{{candidato.get('postula')?.value}}</td>
+                        @if(tipo_eleccion !== 3) {
+                          <td>{{candidato.get('descripcion')?.value}}</td>
+                        }
+                      </tr>
+                    }
+                  </tbody>
+                      <td colspan="5"><hr></td>
+                  <tbody formArrayName="H">
+                    @for (candidato of candidatosH.controls; track i; let i = $index) {
+                      <tr [formGroupName]="i"  class="table-primary">
+                        <!-- <td>{{candidato.get('id_candidato')?.value}}</td> -->
+                        <td>{{i + 1}}</td>
+                        <td>
+                          <input type="number" formControlName="votos" [id]="i" class="form-control text-center" (keydown)="bloquear($event)" (keydown)="enter($event, i+1)" (keypress)="limit($event)">
+                          @if(isValidFieldVotos('H', i.toString(),'votos')) {
+                            <span class="text-danger">{{ getFieldErrorsVotos('H', i.toString(), 'votos') }}</span>
                           }
                         </td>
                         <td>{{candidato.get('nombre')?.value}}</td>

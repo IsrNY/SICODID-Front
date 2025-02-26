@@ -32,22 +32,23 @@ export class ActasService {
 
   saveActas(acta:Actas, tipo_eleccion:number, id_seccion:number, tipo_casilla:string, tipo_operacion:number) {
     const body = {...acta, tipo_eleccion,id_seccion,tipo_casilla};
+    console.log(body)
 
-    const headers = new HttpHeaders({
-      'Authorization' : `Bearer ${this.loadStorage}`
-    });
+    // const headers = new HttpHeaders({
+    //   'Authorization' : `Bearer ${this.loadStorage}`
+    // });
 
-    if(tipo_operacion == 1) {
-      return this.http.post<Res>(`${this.baseUrl}/distrital/acta`,body,{headers})
-      .pipe(
-        catchError(res => of(res.error as Res))
-      )
-    } else {
-      return this.http.put<Res>(`${this.baseUrl}/distrital/acta`,body,{headers})
-      .pipe(
-        catchError(res => of(res.error as Res))
-      )
-    }
+    // if(tipo_operacion == 1) {
+    //   return this.http.post<Res>(`${this.baseUrl}/distrital/acta`,body,{headers})
+    //   .pipe(
+    //     catchError(res => of(res.error as Res))
+    //   )
+    // } else {
+    //   return this.http.put<Res>(`${this.baseUrl}/distrital/acta`,body,{headers})
+    //   .pipe(
+    //     catchError(res => of(res.error as Res))
+    //   )
+    // }
 
   }
 }
