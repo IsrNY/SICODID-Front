@@ -60,7 +60,6 @@ export class IntegrantesService {
   }
 
   deleteIntegrante(id_integrante: number) {
-    console.log(id_integrante)
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.loadStorage}`
     })

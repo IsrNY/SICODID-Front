@@ -7,3 +7,15 @@
   text-align: center !important;
   /* border: solid 1px #32215c88 !important; */
 }
+
+.bg-1 {
+  background-color: #BFA3C4;
+}
+
+.bg-2 {
+  background-color: #F4D7DF;
+}
+
+.bg-3 {
+  background-color: #C0D1C9;
+}

@@ -1,9 +1,8 @@
-<div class="modal fade" id="actas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="actasLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="actas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="actasLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header" [class]="{'bg-1' : elect == 1, 'bg-2' : elect == 2, 'bg-3' : elect == 3}">
         <h5 class="modal-title" id="actasLabel">Captura de actas</h5>
-        <button type="button" class="btn-close" (click)="closeModal()"></button>
       </div>
       <div class="modal-body">
         <div class="container-fluid">
@@ -11,7 +10,12 @@
             <div class="row p-0 m-0">
               <div class="col-6">
                 <strong>Tipo de elección</strong>
-                <input type="text" class="form-control text-center" readonly [value]="getTipoEleccion()">
+                <select class="form-select text-center">
+                  <option value="">Seleccionar elección</option>
+                  @for(elect of eleccion; track i ; let i = $index) {
+                    <option [value]="elect.id">{{elect.descripcion}}</option>
+                  }
+                </select>
               </div>
               <div class="col-2">
                 <strong>Sección</strong>
@@ -22,15 +26,19 @@
                 <input type="text" class="form-control text-center" readonly [value]="acta?.tipo_casilla">
               </div>
               <div class="col-2">
-                <strong>Género</strong>
-                <select class="form-select text-center" formControlName="genero">
-                  <option value="">Seleccionar sexo</option>
-                  <option value="M">FEMENINO</option>
-                  <option value="H">MASCULINO</option>
-                </select>
-                @if(isValidField('genero')) {
-                  <span class="text-danger">{{getFieldErrors('genero')}}</span>
-                }
+                <table class="table table-bordered">
+                  <thead>
+                    <tr style="position:inherit;">
+                      <th style="position:static; top:0px;" colspan="2">Candidatos</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="table-danger">Mujeres</td>
+                      <td class="table-primary">Hombres</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
             <div class="row p-0 m-0">
@@ -57,7 +65,7 @@
               </div>
               <div class="col-3">
                 <strong>Total de votos emitidos</strong>
-                <input type="number" class="form-control text-center" (keydown)="bloquear($event)" (keypress)="limit($event)" (keyup)="next($event,'0')" formControlName="total_emitida" id="emitida">
+                <input type="number" class="form-control text-center" (keydown)="bloquear($event)" (keypress)="limit($event)" (keyup)="next($event,'M0')" formControlName="total_emitida" id="emitida">
                 @if(isValidField('total_emitida')) {
                   <span class="text-danger">{{getFieldErrors('total_emitida')}}</span>
                 }
@@ -68,7 +76,7 @@
                 <table class="table table-bordered table-striped row-border hover" [formGroup]="candidatos">
                   <thead class="head">
                     <tr class="stick">
-                      <th>ID Candidato</th>
+                      <th>#</th>
                       <th>Votos</th>
                       <th>Nombre</th>
                       <th>Postula</th>
@@ -80,10 +88,9 @@
                   <tbody formArrayName="M">
                     @for (candidato of candidatosM.controls; track i; let i = $index) {
                       <tr [formGroupName]="i" class="table-danger">
-                        <!-- <td>{{candidato.get('id_candidato')?.value}}</td> -->
-                        <td>{{i + 1}}</td>
-                        <td>
-                          <input type="number" formControlName="votos" [id]="i" class="form-control text-center" (keydown)="bloquear($event)" (keydown)="enter($event, i+1)" (keypress)="limit($event)">
+                        <td style="width: 75px;">{{i + 1}}</td>
+                        <td style="width: 150px;">
+                          <input type="number" formControlName="votos" [id]="'M' + i" class="form-control text-center" (keydown)="bloquear($event)" (keydown)="enter($event, i < candidatosM.controls.length - 1 ? 'M' + (i + 1) : 'H0')" (keypress)="limit($event)">
                           @if(isValidFieldVotos('M', i.toString(),'votos')) {
                             <span class="text-danger">{{ getFieldErrorsVotos('M' , i.toString(), 'votos') }}</span>
                           }
@@ -100,10 +107,9 @@
                   <tbody formArrayName="H">
                     @for (candidato of candidatosH.controls; track i; let i = $index) {
                       <tr [formGroupName]="i"  class="table-primary">
-                        <!-- <td>{{candidato.get('id_candidato')?.value}}</td> -->
-                        <td>{{i + 1}}</td>
-                        <td>
-                          <input type="number" formControlName="votos" [id]="i" class="form-control text-center" (keydown)="bloquear($event)" (keydown)="enter($event, i+1)" (keypress)="limit($event)">
+                        <td style="width: 75px;">{{i + 1}}</td>
+                        <td style="width: 150px;">
+                          <input type="number" formControlName="votos" [id]="'H' + i" class="form-control text-center" (keydown)="bloquear($event)" (keydown)="enter($event,'H' + (i + 1))" (keypress)="limit($event)">
                           @if(isValidFieldVotos('H', i.toString(),'votos')) {
                             <span class="text-danger">{{ getFieldErrorsVotos('H', i.toString(), 'votos') }}</span>
                           }
@@ -126,6 +132,7 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-12 d-flex justify-content-end align-items-center">
+              <button class="btn btn-danger mx-3" (click)="closeModal()"><i class="bi bi-exit"></i>Cerrar</button>
               <button class="btn btn-main" (click)="saveActa()">{{tipo_operacion == 1 ? 'Capturar acta' : 'Actualizar acta'}}</button>
             </div>
           </div>
@@ -133,4 +140,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

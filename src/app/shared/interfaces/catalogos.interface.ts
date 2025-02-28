@@ -8,5 +8,6 @@ export interface Casillas {
   tipo_casilla:    string;
   tipo_eleccion:   number;
   status?:         number;
+  escaner?:        number;
 }
 

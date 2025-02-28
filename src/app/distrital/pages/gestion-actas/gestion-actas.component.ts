@@ -1,10 +1,10 @@
-import { Component, inject, OnChanges, OnInit } from '@angular/core';
-import { CatalogosService } from '../../../shared/services/catalogos.service';
-import { Casillas, Catalogos } from '../../../shared/interfaces/catalogos.interface';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActasService } from '../../services/actas.service';
-import { Actas } from '../../interfaces/actas.interface';
+import { CatalogosService } from '../../../shared/services/catalogos.service';
+import { Casillas, Catalogos } from '../../../shared/interfaces/catalogos.interface';
 import { Contador } from '../../interfaces/contador.interface';
+
 
 declare var $:any;
 
@@ -14,35 +14,28 @@ declare var $:any;
   styles: `
     .fixed {
       position: sticky;
-      top:90px;
+      top:85px;
     }
-
   `
 })
-export class GestionActasComponent implements OnInit, OnChanges {
-  private catalogosService = inject(CatalogosService);
+// export class GestionActasComponent implements OnInit, OnChanges {
+export class GestionActasComponent implements OnInit {
   private fb = inject(FormBuilder);
   private actasService = inject(ActasService);
+  private catalogosService = inject(CatalogosService);
 
   public myForm = this.fb.group({
     tipo_eleccion:['', [Validators.required]]
-  })
+  });
 
   public tipo_eleccion:Catalogos[] = [];
-  public actas_por_capturar: Casillas[] | undefined;
-  public actas_capturadas: Casillas[] | undefined;
-  public tipo_operacion:number = 0;
-  public eleccion:number = 0;
-  public acta?:Casillas;
-  public actas?:Actas;
   public contador?:Contador;
+  public actas_por_capturar?: Casillas[] | undefined;
+  public actas_capturadas?: Casillas[] | undefined;
 
   ngOnInit(): void {
     this.getTipoEleccion();
-    this.getDatosContador();
-  }
-
-  ngOnChanges(): void {
+    this.getDataContador();
   }
 
   getTipoEleccion() {
@@ -52,51 +45,99 @@ export class GestionActasComponent implements OnInit, OnChanges {
     })
   }
 
-  getDatosContador() {
-    this.contador = undefined;
+  getDataContador() {
     this.catalogosService.getContador()
     .subscribe(res => {
       this.contador = res.datos as Contador;
-      console.log(res.datos)
-    })
+    });
   }
 
-  getActasPorCapturar() {
-    this.actas_por_capturar = undefined;
-    this.catalogosService.getCatalogo(`actasNoRegistradas?id_tipo_eleccion=${this.myForm.get('tipo_eleccion')?.value!}`)
+  getListasActas() {
+    this.catalogosService.getCatalogo(`actasNoRegistradas?id_tipo_eleccion=${this.myForm.get('tipo_eleccion')?.value}`)
     .subscribe(res => {
       this.actas_por_capturar = res.datos as Casillas[];
     })
-  }
-
-  getActasCapturadas() {
-    this.actas_capturadas = undefined;
-    this.catalogosService.getCatalogo(`actasRegistradas?id_tipo_eleccion=${this.myForm.get('tipo_eleccion')?.value!}`)
+    this.catalogosService.getCatalogo(`actasRegistradas?id_tipo_eleccion=${this.myForm.get('tipo_eleccion')?.value}`)
     .subscribe(res => {
       this.actas_capturadas = res.datos as Casillas[];
     })
   }
 
-  getActa(acta:Casillas) {
-    this.acta = acta;
-  }
+// private catalogosService = inject(CatalogosService);
+  // private fb = inject(FormBuilder);
+  // private actasService = inject(ActasService);
 
-  getOperacion(tipo_operacion:number) {
-    this.eleccion = +this.myForm.get('tipo_eleccion')?.value!;
-    this.tipo_operacion = tipo_operacion;
-    this.actasService.getActas(this.acta!,this.eleccion)
-    .subscribe(res => {
-      console.log(res.datos)
-      this.actas = res.datos as Actas;
-    })
-    $('#actas').modal('show');
-  }
+  // public myForm = this.fb.group({
+  //   tipo_eleccion:['', [Validators.required]]
+  // })
 
-  getReload(reload:boolean) {
-    if(reload) {
-      this.getActasCapturadas();
-      this.getActasPorCapturar();
-      this.getDatosContador();
-    }
-  }
+  // public tipo_eleccion:Catalogos[] = [];
+  // public actas_por_capturar: Casillas[] | undefined;
+  // public actas_capturadas: Casillas[] | undefined;
+  // public tipo_operacion:number = 0;
+  // public eleccion:number = 0;
+  // public acta?:Casillas;
+  // public actas?:Actas;
+  // public contador?:Contador;
+
+  // ngOnInit(): void {
+  //   this.getTipoEleccion();
+  //   this.getDatosContador();
+  // }
+
+  // ngOnChanges(): void {
+  // }
+
+  // getTipoEleccion() {
+  //   this.catalogosService.getCatalogo('tipo-eleccion')
+  //   .subscribe(res => {
+  //     this.tipo_eleccion = res.datos as Catalogos[];
+  //   })
+  // }
+
+  // getDatosContador() {
+  //   this.contador = undefined;
+  //   this.catalogosService.getContador()
+  //   .subscribe(res => {
+  //     this.contador = res.datos as Contador;
+  //   })
+  // }
+
+  // getActasPorCapturar() {
+  //   this.actas_por_capturar = undefined;
+  //   this.catalogosService.getCatalogo(`actasNoRegistradas?id_tipo_eleccion=${this.myForm.get('tipo_eleccion')?.value!}`)
+  //   .subscribe(res => {
+  //     this.actas_por_capturar = res.datos as Casillas[];
+  //   })
+  // }
+
+  // getActasCapturadas() {
+  //   this.actas_capturadas = undefined;
+  //   this.catalogosService.getCatalogo(`actasRegistradas?id_tipo_eleccion=${this.myForm.get('tipo_eleccion')?.value!}`)
+  //   .subscribe(res => {
+  //     this.actas_capturadas = res.datos as Casillas[];
+  //   })
+  // }
+
+  // getActa(acta:Casillas) {
+  //   this.acta = acta;
+  // }
+
+  // getOperacion(tipo_operacion:number) {
+  //   this.eleccion = +this.myForm.get('tipo_eleccion')?.value!;
+  //   this.tipo_operacion = tipo_operacion;
+  //   // this.actasService.getActas(this.acta!,this.eleccion)
+  //   // .subscribe(res => {
+  //   //   this.actas = res.datos as Actas;
+  //   // })
+  //   $('#actas').modal('show');
+  // }
+
+  // getReload(reload:boolean) {
+  //   if(reload) {
+  //     this.getActasCapturadas();
+  //     this.getActasPorCapturar();
+  //     this.getDatosContador();
+  //   }
+  // }
 }

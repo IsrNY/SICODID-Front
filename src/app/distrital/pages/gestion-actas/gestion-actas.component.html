@@ -1,4 +1,4 @@
-<div class="pb-4">
+<!-- <div class="pb-4">
   <h3>Gestión de actas</h3>
   <div class="row p-0 m-0">
     <div class="col-7">
@@ -12,22 +12,29 @@
         </select>
       </form>
     </div>
-    <!-- <div class="col-9">
-    </div> -->
   </div>
   <div class="row py-3 m-0">
     <div class="col-2 py-2">
       <div class="fixed">
-        <strong>Casillas aprobadas</strong>
-        <input type="text" class="form-control text-center" [value]="contador?.casillasA">
-        <strong>Casillas instaladas</strong>
-        <input type="text" class="form-control text-center" [value]="contador?.casillasI">
-        <strong>Capturadas Juzgados</strong>
-        <input type="text" class="form-control text-center" [value]="contador?.capturadasJ">
-        <strong>Capturadas Salas</strong>
-        <input type="text" class="form-control text-center" [value]="contador?.capturadasS">
-        <strong>Capturadas Tribubal Disciplina</strong>
-        <input type="text" class="form-control text-center" [value]="contador?.capturadasT">
+        <div class="pb-1">
+          <strong>Casillas aprobadas</strong>
+          <input type="text" class="form-control text-center" readonly [value]="contador?.casillasA">
+          <strong>Casillas instaladas</strong>
+          <input type="text" class="form-control text-center" readonly [value]="contador?.casillasI">
+          <strong>Capturadas Juzgados</strong>
+  public modo_acta:number = 0;      <input type="text" class="form-control text-center" readonly [value]="contador?.capturadasJ">
+          <strong>Capturadas Salas</strong>
+          <input type="text" class="form-control text-center" readonly [value]="contador?.capturadasS">
+          <strong>Capturadas Tribubal Disciplina</strong>
+          <input type="text" class="form-control text-center" readonly [value]="contador?.capturadasT">
+        </div>
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td class="table-warning">Actas capturadas por escáner</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <div class="col-5">
@@ -38,4 +45,52 @@
     </div>
   </div>
 </div>
-<distrital-actas [tipo_eleccion]="eleccion" [acta]="acta" [actas]="actas!" [tipo_operacion]="tipo_operacion" (reload)="getReload($event)"/>
+<distrital-actas [tipo_eleccion]="eleccion" [acta]="acta" [tipo_operacion]="tipo_operacion" (reload)="getReload($event)"/> -->
+<div class="pb-4">
+  <h3>Gestión de actas</h3>
+  <div class="row p-0 m-0 d-flex justify-content-center align-items-center">
+    <div class="col-8">
+      <form [formGroup]="myForm">
+        <strong>Tipo de Elección</strong>
+        <select class="form-select text-center" formControlName="tipo_eleccion" (change)="getListasActas()">
+          <option value="">Seleccionar tipo de elección</option>
+          @for(tipo of tipo_eleccion; track i ; let i = $index) {
+            <option [value]="tipo.id">{{tipo.descripcion}}</option>
+          }
+        </select>
+      </form>
+    </div>
+    <div class="row py-3 m-0">
+      <div class="col-2 py-1">
+        <div class="fixed">
+          <div class="pb-1">
+            <strong>Casillas aprobadas</strong>
+            <input type="text" class="form-control text-center" readonly [value]="contador?.casillasA">
+            <strong>Casillas instaladas</strong>
+            <input type="text" class="form-control text-center" readonly [value]="contador?.casillasI">
+            <strong>Capturadas Juzgados</strong>
+            <input type="text" class="form-control text-center" readonly [value]="contador?.capturadasJ">
+            <strong>Capturadas Salas</strong>
+            <input type="text" class="form-control text-center" readonly [value]="contador?.capturadasS">
+            <strong>Capturadas Tribunal Disciplina</strong>
+            <input type="text" class="form-control text-center" readonly [value]="contador?.capturadasT">
+            <table class="table table-bordered">
+              <tbody>
+                <tr>
+                  <td class="table-warning">Actas capturadas por escáner</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-5">
+        <distrital-tabla-actas [titulo]="'por Capturar'" [datos]="actas_por_capturar" [operacion]="1"/>
+      </div>
+      <div class="col-5">
+        <distrital-tabla-actas [titulo]="'Capturadas'" [datos]="actas_capturadas" [operacion]="2"/>
+      </div>
+    </div>
+  </div>
+</div>
+<distrital-actas/>
