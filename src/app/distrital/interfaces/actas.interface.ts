@@ -40,3 +40,10 @@ export interface Datos {
   votos:        number;
 }
 
+export interface DatosActa {
+  id_seccion: string;
+  tipo_casilla: string;
+  operacion: number;
+  tipo_eleccion: number;
+}
+

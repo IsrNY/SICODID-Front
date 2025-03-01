@@ -141,3 +141,151 @@
     </div>
   </div>
 </div> -->
+
+<div class="modal fade" id="actas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="actasLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="actasLabel">Captura de actas</h5>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <form [formGroup]="myForm">
+            <div class="row p-0 m-0">
+              <div class="col-6">
+                <strong>Tipo de elección</strong>
+                <select class="form-select text-center" formControlName="tipo_eleccion" (change)="getDatosActa()">
+                  <option value="">Seleccionar tipo elección</option>
+                  @for(t_eleccion of tipos_eleccion; track i; let i = $index) {
+                    <option [value]="t_eleccion.id">{{t_eleccion.descripcion}}</option>
+                  }
+                </select>
+              </div>
+              <div class="col-2">
+                <strong>Sección</strong>
+                <input type="text" class="form-control text-center" readonly [value]="datos_acta?.id_seccion">
+              </div>
+              <div class="col-2">
+                <strong>Casilla</strong>
+                <input type="text" class="form-control text-center" readonly [value]="datos_acta?.tipo_casilla">
+              </div>
+              <div class="col-2">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr style="position:inherit;">
+                      <th style="position:static;" colspan="2">Candidatos</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="table-danger">Mujeres</td>
+                      <td class="table-primary">Hombres</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row p-0 m-0">
+              <div class="col-3">
+                <strong>Boletas sobrantes</strong>
+                <input type="number" formControlName="boletas_sobrantes" class="form-control text-center" id="sobrantes" (keydown)="bloquear($event)" (keypress)="limit($event)" (keyup)="next($event,'nr')">
+                @if(isValidField('boletas_sobrantes')) {
+                  <span class="text-danger">{{getFieldErrors('boletas_sobrantes')}}</span>
+                }
+              </div>
+              <div class="col-3">
+                <strong>Candidatos no registrados</strong>
+                <input type="number" formControlName="cand_no_registrados" class="form-control text-center" id="nr" (keydown)="bloquear($event)" (keypress)="limit($event)" (keyup)="next($event,'nulos')">
+                @if(isValidField('cand_no_registrados')) {
+                  <span class="text-danger">{{getFieldErrors('cand_no_registrados')}}</span>
+                }
+              </div>
+              <div class="col-3">
+                <strong>Boletas sobrantes</strong>
+                <input type="number" formControlName="votos_nulos" class="form-control text-center" id="nulos" (keydown)="bloquear($event)" (keypress)="limit($event)" (keyup)="next($event,'emitida')">
+                @if(isValidField('votos_nulos')) {
+                  <span class="text-danger">{{getFieldErrors('votos_nulos')}}</span>
+                }
+              </div>
+              <div class="col-3">
+                <strong>Boletas sobrantes</strong>
+                <input type="number" formControlName="total_emitida" class="form-control text-center" id="emitida" (keydown)="bloquear($event)" (keypress)="limit($event)" (keyup)="next($event,'M0')">
+                @if(isValidField('total_emitida')) {
+                  <span class="text-danger">{{getFieldErrors('total_emitida')}}</span>
+                }
+              </div>
+            </div>
+            <div class="row py-3 m-0">
+              <div class="col-12">
+                @if(eleccion !== '') {
+                  <table class="table table-bordered table-striped row-border hover" [formGroup]="candidatos">
+                    <thead class="head">
+                      <tr class="stick">
+                        <th>#</th>
+                        <th>Votos</th>
+                        <th>Nombre</th>
+                        <th>Postula</th>
+                        @if(+eleccion !== 3) {
+                          <th>{{+eleccion == 1 ? 'Juzgado' : 'Sala en materia'}}</th>
+                        }
+                      </tr>
+                    </thead>
+                    <tbody formArrayName="M">
+                      @for(candidato of candidatosM.controls; track i; let i = $index) {
+                        <tr [formGroupName]="i"  class="table-danger">
+                          <td style="width: 75px;">{{i + 1}}</td>
+                          <td style="width: 150px;">
+                            <input type="number" formControlName="votos" [id]="'M' + i" class="form-control text-center" (keydown)="bloquear($event)" (keydown)="enter($event, i < candidatosM.controls.length - 1 ? 'M' + (i + 1) : 'H0')" (keypress)="limit($event)">
+                            @if(isValidFieldVotos('M', i.toString(),'votos')) {
+                              <span class="text-danger">{{ getFieldErrorsVotos('M', i.toString(), 'votos') }}</span>
+                            }
+                          </td>
+                          <td>{{candidato.get('nombre')?.value}}</td>
+                          <td>{{candidato.get('postula')?.value}}</td>
+                          @if(+eleccion!== 3) {
+                            <td>{{candidato.get('descripcion')?.value}}</td>
+                          }
+                        </tr>
+                      }
+                    </tbody>
+                    <tbody>
+                      <td colspan="5"><hr><td>
+                    </tbody>
+                    <tbody formArrayName="H">
+                      @for(candidato of candidatosH.controls; track i; let i = $index) {
+                        <tr [formGroupName]="i"  class="table-primary">
+                          <td style="width: 75px;">{{i + 1}}</td>
+                          <td style="width: 150px;">
+                            <input type="number" formControlName="votos" [id]="'H' + i" class="form-control text-center" (keydown)="bloquear($event)" (keydown)="enter($event,'H' + (i + 1))" (keypress)="limit($event)">
+                            @if(isValidFieldVotos('M', i.toString(),'votos')) {
+                              <span class="text-danger">{{ getFieldErrorsVotos('H', i.toString(), 'votos') }}</span>
+                            }
+                          </td>
+                          <td>{{candidato.get('nombre')?.value}}</td>
+                          <td>{{candidato.get('postula')?.value}}</td>
+                          @if(+eleccion!== 3) {
+                            <td>{{candidato.get('descripcion')?.value}}</td>
+                          }
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                }
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12 d-flex justify-content-end align-items-center">
+              <button class="btn btn-danger mx-3" (click)="closeModal()"><i class="bi bi-exit"></i>Cerrar</button>
+              <button class="btn btn-main" (click)="saveActa()">{{datos_acta?.operacion == 1 ? 'Capturar' : 'Actualizar'}} acta</button>
+            </div>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>

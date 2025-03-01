@@ -4,6 +4,7 @@ import { ActasService } from '../../services/actas.service';
 import { CatalogosService } from '../../../shared/services/catalogos.service';
 import { Casillas, Catalogos } from '../../../shared/interfaces/catalogos.interface';
 import { Contador } from '../../interfaces/contador.interface';
+import { DatosActa } from '../../interfaces/actas.interface';
 
 
 declare var $:any;
@@ -32,6 +33,11 @@ export class GestionActasComponent implements OnInit {
   public contador?:Contador;
   public actas_por_capturar?: Casillas[] | undefined;
   public actas_capturadas?: Casillas[] | undefined;
+  public datos_acta:DatosActa | undefined
+
+  get eleccion(): number {
+    return +this.myForm.get('tipo_eleccion')?.value!;
+  }
 
   ngOnInit(): void {
     this.getTipoEleccion();
@@ -62,6 +68,12 @@ export class GestionActasComponent implements OnInit {
       this.actas_capturadas = res.datos as Casillas[];
     })
   }
+
+  getDatosActa(datos: DatosActa) {
+    this.datos_acta = datos;
+    $('#actas').modal('show');
+  }
+
 
 // private catalogosService = inject(CatalogosService);
   // private fb = inject(FormBuilder);

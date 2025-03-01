@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, Output, SimpleChanges, EventEmitter, injec
 import { Casillas } from '../../../shared/interfaces/catalogos.interface';
 import { DtAttibService } from '../../../shared/services/dt-attib.service';
 import { Config } from 'datatables.net';
+import { DatosActa } from '../../interfaces/actas.interface';
 
 @Component({
   selector: 'distrital-tabla-actas',
@@ -31,7 +32,7 @@ export class TablaActasComponent implements OnInit, OnChanges {
   public tipo_operacion = new EventEmitter<number>();
 
   @Output()
-  public datos_acta = new EventEmitter<Casillas>();
+  public datos_acta = new EventEmitter<DatosActa>();
 
   public dtOptions:Config = {}
 
@@ -40,11 +41,11 @@ export class TablaActasComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log('datos',this.datos)
+    console.log('datos',this.tipo_eleccion)
   }
 
-  getData(datos:Casillas):void {
-    console.log(datos);
+  getData(acta:Casillas, operacion:number, tipo_eleccion:number):void {
+    this.datos_acta.emit({...acta, operacion,tipo_eleccion});
   }
 
   // private dtAttrib = inject(DtAttibService);

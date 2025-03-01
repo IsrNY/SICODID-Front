@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ActasService } from '../../services/actas.service';
 import { ValidatorsService } from '../../../shared/services/validators.service';
-import { Actas, Datos } from '../../interfaces/actas.interface';
+import { Actas, Datos, DatosActa } from '../../interfaces/actas.interface';
 
 import { Casillas, Catalogos } from '../../../shared/interfaces/catalogos.interface';
 
@@ -19,7 +19,160 @@ declare var $:any;
   styleUrl: './actas.component.css'
 })
 // export class ActasComponent implements OnChanges, OnInit {
-export class ActasComponent {
+export class ActasComponent implements OnInit, OnChanges{
+  private fb = inject(FormBuilder);
+  private actasService = inject(ActasService);
+  private validatorsService = inject(ValidatorsService);
+  private catalogosService = inject(CatalogosService);
+
+  public myForm = this.fb.group({
+    tipo_eleccion:['',[Validators.required]],
+    boletas_sobrantes: ['',[Validators.required]],
+    cand_no_registrados: ['',[Validators.required]],
+    votos_nulos: ['',[Validators.required]],
+    total_emitida: ['',[Validators.required]],
+    candidatos: this.fb.group({
+      M: this.fb.array([]),
+      H: this.fb.array([])
+    })
+  });
+
+  public tipos_eleccion:Catalogos[] = [];
+  public acta:Actas | undefined;
+
+  @Input()
+  public datos_acta:DatosActa | undefined;
+
+  get eleccion():string {
+    return this.myForm.get('tipo_eleccion')?.value!;
+  }
+
+  get candidatos():FormGroup {
+    return this.myForm.get('candidatos') as FormGroup;
+  }
+
+  get candidatosM():FormArray {
+    return this.myForm.get('candidatos')?.get('M') as FormArray;
+  }
+
+  get candidatosH():FormArray {
+    return this.myForm.get('candidatos')?.get('H') as FormArray;
+  }
+
+  ngOnInit(): void {
+    this.getTiposEleccion();
+  }
+
+  ngOnChanges(): void {
+    switch(+this.eleccion) {
+      default:
+        console.log(this.datos_acta?.tipo_eleccion)
+        this.myForm.patchValue({tipo_eleccion:this.datos_acta?.tipo_eleccion!.toString()});
+        this.getDatosActa();
+      break;
+    }
+  }
+
+  getTiposEleccion() {
+    this.catalogosService.getCatalogo('tipo-eleccion')
+   .subscribe(res => {
+    this.tipos_eleccion = res.datos as Catalogos[];
+   });
+  }
+
+  getDatosActa() {
+    this.acta = undefined;
+    this.candidatosM.clear();
+    this.candidatosH.clear();
+    this.actasService.getActas(this.datos_acta!, +this.eleccion)
+    .subscribe(res => {
+      this.acta = res.datos as Actas;
+        this.myForm.patchValue({
+        boletas_sobrantes: this.acta?.boletas_sobrantes == null ? '': this.acta!.boletas_sobrantes,
+        cand_no_registrados: this.acta?.cand_no_registrados,
+        votos_nulos: this.acta?.votos_nulos,
+        total_emitida: this.acta?.total_emitida,
+      });
+      this.patchCandidatosM(this.acta?.candidatos!.M as Datos[]);
+      this.patchCandidatosH(this.acta?.candidatos!.H as Datos[]);
+    })
+  }
+
+  patchCandidatosM = (candidatos:Datos[]) => candidatos.forEach(candidato => this.candidatosM.push(this.fb.group({
+    id_candidato:[candidato.id_candidato],
+    nombre:[candidato.nombre],
+    postula:[candidato.postula],
+    descripcion:[candidato.descripcion],
+    votos:[candidato.votos, [Validators.required]],
+  })))
+
+  patchCandidatosH = (candidatos:Datos[]) => candidatos.forEach(candidato => this.candidatosH.push(this.fb.group({
+    id_candidato:[candidato.id_candidato],
+    nombre:[candidato.nombre],
+    postula:[candidato.postula],
+    descripcion:[candidato.descripcion],
+    votos:[candidato.votos, [Validators.required]],
+  })))
+
+  saveActa() {
+
+  }
+
+  closeModal() {
+    $('#actas').modal('hide');
+    // this.reload.emit(true);
+  }
+
+   bloquear(event:KeyboardEvent) {
+    if(event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+      event.preventDefault()
+    }
+  }
+
+  next(event:any, id:string) {
+    let keyCode = event.keyCode;
+
+    if(keyCode == 13) {
+      $(`#${id}`).select();
+    }
+  }
+
+  enter(event:any, id:string){
+    let keyCode = event.keyCode;
+
+    if(keyCode == 13) {
+        $(`#${id}`).select();
+    }
+  }
+
+  limit(event:any) {
+    let charCode = event.charCode;
+
+    if(charCode !== 8 || charCode !== 9) {
+      let max = 3;
+
+      if((charCode < 48 || charCode > 57 || event.target.value.length >= max)) return false;
+    }
+    return;
+  }
+
+  isValidField(field:string) {
+    return this.validatorsService.isValidField(this.myForm,field);
+  }
+
+  getFieldErrors(field:string) {
+    return this.validatorsService.getFieldErrors(this.myForm,field);
+  }
+
+  isValidFieldVotos(array:string , position:string, form_field:string) {
+    return this.validatorsService.isValidVotosField(this.candidatos, array, position,form_field);
+  }
+
+  getFieldErrorsVotos(array:string, position:string, form_field:string) {
+    return this.validatorsService.getFieldVotosErrors(this.candidatos, array, position,form_field);
+  }
+
+
   // private fb = inject(FormBuilder);
   // private actasService = inject(ActasService);
   // private validatorsService = inject(ValidatorsService);
