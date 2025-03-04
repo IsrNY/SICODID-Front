@@ -59,10 +59,12 @@ export class GestionActasComponent implements OnInit {
   }
 
   getListasActas() {
+    this.actas_por_capturar = undefined;
     this.catalogosService.getCatalogo(`actasNoRegistradas?id_tipo_eleccion=${this.myForm.get('tipo_eleccion')?.value}`)
     .subscribe(res => {
       this.actas_por_capturar = res.datos as Casillas[];
     })
+    this.actas_capturadas = undefined;
     this.catalogosService.getCatalogo(`actasRegistradas?id_tipo_eleccion=${this.myForm.get('tipo_eleccion')?.value}`)
     .subscribe(res => {
       this.actas_capturadas = res.datos as Casillas[];
@@ -72,6 +74,13 @@ export class GestionActasComponent implements OnInit {
   getDatosActa(datos: DatosActa) {
     this.datos_acta = datos;
     $('#actas').modal('show');
+  }
+
+  getReload(reload:boolean) {
+    if(reload) {
+      this.getListasActas();
+      this.getDataContador();
+    }
   }
 
 

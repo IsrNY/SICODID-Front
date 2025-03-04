@@ -45,5 +45,6 @@ export interface DatosActa {
   tipo_casilla: string;
   operacion: number;
   tipo_eleccion: number;
+  status: number;
 }
 

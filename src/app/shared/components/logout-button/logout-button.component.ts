@@ -17,7 +17,7 @@ export class LogoutButtonComponent {
   logout() {
     Swal.fire({
       icon:'question',
-      title:'¿Confirmar cierre?',
+      title:'¿Cerrar sesión?',
       text:'¿Está seguro/a de cerrar sesión y salir del sistema?',
       showCancelButton:true,
       cancelButtonText:'No',

@@ -44,8 +44,8 @@ export class TablaActasComponent implements OnInit, OnChanges {
     console.log('datos',this.tipo_eleccion)
   }
 
-  getData(acta:Casillas, operacion:number, tipo_eleccion:number):void {
-    this.datos_acta.emit({...acta, operacion,tipo_eleccion});
+  getData(acta:Casillas, operacion:number, tipo_eleccion:number, status:number):void {
+    this.datos_acta.emit({...acta, operacion,tipo_eleccion, status});
   }
 
   // private dtAttrib = inject(DtAttibService);

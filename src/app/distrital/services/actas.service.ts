@@ -4,7 +4,7 @@ import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
 import { Casillas } from '../../shared/interfaces/catalogos.interface';
 import { Res } from '../../auth/interfaces/res.interface';
 import { catchError, of, tap } from 'rxjs';
-import { Actas } from '../interfaces/actas.interface';
+import { Actas, DatosActa } from '../interfaces/actas.interface';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 @Injectable({
@@ -30,8 +30,12 @@ export class ActasService {
     )
   }
 
-  saveActas(acta:Actas, tipo_eleccion:number, id_seccion:number, tipo_casilla:string, tipo_operacion:number, status:number) {
-    const body = {...acta, tipo_eleccion,id_seccion,tipo_casilla};
+  saveActas(acta:Actas, datos_acta:DatosActa, tipo_eleccion:number) {
+    const id_seccion = datos_acta.id_seccion;
+    const tipo_casilla = datos_acta.tipo_casilla;
+    const tipo_operacion = datos_acta.operacion;
+    const status = datos_acta.status;
+    const body = {...acta, id_seccion, tipo_casilla, tipo_eleccion};
 
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${this.loadStorage}`
@@ -48,6 +52,5 @@ export class ActasService {
         catchError(res => of(res.error as Res))
       )
     }
-
   }
 }

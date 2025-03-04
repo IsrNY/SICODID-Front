@@ -3,12 +3,12 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ActasService } from '../../services/actas.service';
 import { ValidatorsService } from '../../../shared/services/validators.service';
-import { Actas, Datos, DatosActa } from '../../interfaces/actas.interface';
+import { CatalogosService } from '../../../shared/services/catalogos.service';
 
-import { Casillas, Catalogos } from '../../../shared/interfaces/catalogos.interface';
+import { Actas, Datos, DatosActa } from '../../interfaces/actas.interface';
+import { Catalogos } from '../../../shared/interfaces/catalogos.interface';
 
 import Swal from 'sweetalert2';
-import { CatalogosService } from '../../../shared/services/catalogos.service';
 
 
 declare var $:any;
@@ -43,6 +43,9 @@ export class ActasComponent implements OnInit, OnChanges{
   @Input()
   public datos_acta:DatosActa | undefined;
 
+  @Output()
+  public reload = new EventEmitter<boolean>();
+
   get eleccion():string {
     return this.myForm.get('tipo_eleccion')?.value!;
   }
@@ -52,11 +55,11 @@ export class ActasComponent implements OnInit, OnChanges{
   }
 
   get candidatosM():FormArray {
-    return this.myForm.get('candidatos')?.get('M') as FormArray;
+    return this.myForm.get('candidatos.M') as FormArray;
   }
 
   get candidatosH():FormArray {
-    return this.myForm.get('candidatos')?.get('H') as FormArray;
+    return this.myForm.get('candidatos.H') as FormArray;
   }
 
   ngOnInit(): void {
@@ -66,7 +69,7 @@ export class ActasComponent implements OnInit, OnChanges{
   ngOnChanges(): void {
     switch(+this.eleccion) {
       default:
-        console.log(this.datos_acta?.tipo_eleccion)
+        // console.log(this.datos_acta?.tipo_eleccion)
         this.myForm.patchValue({tipo_eleccion:this.datos_acta?.tipo_eleccion!.toString()});
         this.getDatosActa();
       break;
@@ -84,6 +87,7 @@ export class ActasComponent implements OnInit, OnChanges{
     this.acta = undefined;
     this.candidatosM.clear();
     this.candidatosH.clear();
+    this.myForm.markAsUntouched();
     this.actasService.getActas(this.datos_acta!, +this.eleccion)
     .subscribe(res => {
       this.acta = res.datos as Actas;
@@ -115,12 +119,48 @@ export class ActasComponent implements OnInit, OnChanges{
   })))
 
   saveActa() {
-
+    console.log(this.acta);
+    if (this.myForm.invalid) {
+      this.myForm.markAllAsTouched();
+      Swal.fire({
+        icon: 'warning',
+        title: '¡Atención!',
+        text: 'Todos los campos del furmulario deben contener la información requerida y sus validaciones completas.',
+        confirmButtonText: 'Corregir formulario'
+      });
+      return;
+    }
+    Swal.fire({
+      icon:'question',
+      title:`Confirmar ${this.datos_acta?.operacion == 1 ? 'captura' : 'actualización'}`,
+      text:`Está a punto de realizar ${this.datos_acta?.operacion == 1 ? 'la captura' : 'una actualización'} del acta, ¿Desea confirmar?`,
+      showCancelButton:true,
+      cancelButtonText:'Cancelar',
+      confirmButtonText:'Confirmar'
+    }).then((result) => {
+      if(result.isConfirmed) {
+        this.actasService.saveActas(this.myForm.value as Actas, this.datos_acta as DatosActa, +this.eleccion)
+        .subscribe(res => {
+          Swal.fire({
+            icon:res.success ? 'success' : 'error',
+            title: res.success ? '¡Correcto!' : '¡Error!',
+            text: res.msg,
+            showConfirmButton: false,
+            timer:2350
+          }).then(() => {
+            if(res.success) {
+              this.myForm.markAsUntouched();
+            }
+          })
+        })
+      }
+    })
   }
 
   closeModal() {
     $('#actas').modal('hide');
-    // this.reload.emit(true);
+    this.reload.emit(true);
+    this.myForm.markAsUntouched();
   }
 
    bloquear(event:KeyboardEvent) {
@@ -170,6 +210,11 @@ export class ActasComponent implements OnInit, OnChanges{
 
   getFieldErrorsVotos(array:string, position:string, form_field:string) {
     return this.validatorsService.getFieldVotosErrors(this.candidatos, array, position,form_field);
+  }
+
+  hasError(arrayName: 'candidatosM' | 'candidatosH', index: number, field: string, error: string) {
+    const control = this[arrayName].at(index).get(field);
+    return control?.hasError(error) && control?.touched;
   }
 
 
