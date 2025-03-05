@@ -12,7 +12,7 @@
                 <strong>Tipo de elección</strong>
                 <select class="form-select text-center" formControlName="tipo_eleccion" (change)="getDatosActa()">
                   <option value="">Seleccionar tipo elección</option>
-                  @for(t_eleccion of tipos_eleccion; track i; let i = $index) {
+                  @for(t_eleccion of tipo_eleccion; track i; let i = $index) {
                     <option [value]="t_eleccion.id">{{t_eleccion.descripcion}}</option>
                   }
                 </select>
@@ -144,7 +144,9 @@
           <div class="row">
             <div class="col-12 d-flex justify-content-end align-items-center">
               <button class="btn btn-danger mx-3" (click)="closeModal()"><i class="bi bi-exit"></i>Cerrar</button>
-              <button class="btn btn-main" (click)="saveActa()">{{datos_acta?.operacion == 1 ? 'Capturar' : 'Actualizar'}} acta</button>
+              @if(tipo_eleccion.length > 0) {
+                <button class="btn btn-main" (click)="saveActa()">{{datos_acta?.operacion == 1 ? 'Capturar' : 'Actualizar'}} acta</button>
+              }
             </div>
           </div>
       </div>

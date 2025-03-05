@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, Output, SimpleChanges, EventEmitter, inject, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter, inject, OnInit } from '@angular/core';
 import { Casillas } from '../../../shared/interfaces/catalogos.interface';
 import { DtAttibService } from '../../../shared/services/dt-attib.service';
 import { Config } from 'datatables.net';
@@ -34,18 +34,24 @@ export class TablaActasComponent implements OnInit, OnChanges {
   @Output()
   public datos_acta = new EventEmitter<DatosActa>();
 
-  public dtOptions:Config = {}
+  public dtOptions:Config = {};
+  public selected_row:number = 0;
 
   ngOnInit(): void {
     this.dtOptions = this.dtAttrib.dtOptions;
   }
 
   ngOnChanges() {
-    console.log('datos',this.tipo_eleccion)
+    // console.log('datos',this.tipo_eleccion)
   }
 
   getData(acta:Casillas, operacion:number, tipo_eleccion:number, status:number):void {
     this.datos_acta.emit({...acta, operacion,tipo_eleccion, status});
+    this.selected_row = +acta.id_seccion;
+  }
+
+  getRowSelected(id:number):void {
+    this.selected_row = id;
   }
 
   // private dtAttrib = inject(DtAttibService);

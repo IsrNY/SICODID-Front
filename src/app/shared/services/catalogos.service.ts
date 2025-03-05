@@ -15,15 +15,23 @@ export class CatalogosService {
     return localStorage.getItem('token');
   }
 
-  getCatalogo(path:string) {
+  getCatalogo(path:string, id_seccion:string | undefined = undefined, tipo_casilla:string | undefined = undefined) {
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${this.loadStorage}`
     });
 
-    return this.http.get<Res>(`${this.baseUrl}/cat/${path}`,{headers})
-    .pipe(
-      catchError(res => of(res.error as Res))
-    )
+    if(id_seccion && tipo_casilla) {
+      return this.http.get<Res>(`${this.baseUrl}/cat/${path}?id_seccion=${id_seccion}&tipo_casilla=${tipo_casilla}`,{headers})
+      .pipe(
+        catchError(res => of(res.error as Res))
+      )
+    } else {
+      return this.http.get<Res>(`${this.baseUrl}/cat/${path}`,{headers})
+      .pipe(
+        catchError(res => of(res.error as Res))
+      )
+    }
+
   }
 
   getContador() {

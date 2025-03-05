@@ -1,6 +1,7 @@
 export interface Catalogos {
   id:           string;
   descripcion:  string;
+  tiene_votos?: number;
 }
 
 export interface Casillas {
