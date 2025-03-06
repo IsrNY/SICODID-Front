@@ -1,4 +1,13 @@
-.modal-custom {
-  position: fixed;
-  
+.card {
+  position: relative;
+  top: 0;
+  transition: ease-in-out .3s;
+  width: 64px;
+}
+
+.card:hover {
+  background-color: rgba(139, 139, 139, 0.37);
+  color: #FFFFFF;
+  top:5px;
+  left: 10px;
 }

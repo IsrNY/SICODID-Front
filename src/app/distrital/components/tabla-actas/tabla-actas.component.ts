@@ -36,13 +36,13 @@ export class TablaActasComponent implements OnInit, OnChanges {
 
   public dtOptions:Config = {};
   public selected_row:number = 0;
+  public index:number = 0;
 
   ngOnInit(): void {
     this.dtOptions = this.dtAttrib.dtOptions;
   }
 
   ngOnChanges() {
-    // console.log('datos',this.tipo_eleccion)
   }
 
   getData(acta:Casillas, operacion:number, tipo_eleccion:number, status:number):void {
@@ -50,8 +50,9 @@ export class TablaActasComponent implements OnInit, OnChanges {
     this.selected_row = +acta.id_seccion;
   }
 
-  getRowSelected(id:number):void {
+  getRowSelected(index:number,id:number):void {
     this.selected_row = id;
+    this.index = index;
   }
 
   // private dtAttrib = inject(DtAttibService);

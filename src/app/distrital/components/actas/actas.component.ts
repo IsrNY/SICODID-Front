@@ -91,19 +91,14 @@ export class ActasComponent implements OnInit, OnChanges{
     this.catalogosService.getCatalogo('tipo-eleccion', id_seccion, tipo_casilla)
    .subscribe(res => {
     this.tipos_eleccion = res.datos as Catalogos[];
-    if(this.datos_acta?.operacion == 1) {
-      this.tipos_eleccion.forEach(t_elec => {
-        if(t_elec.tiene_votos == 0) {
-          this.tipo_eleccion.push(t_elec);
-          console.log(this.tipo_eleccion);
-        }
-      })
-    } else if(this.datos_acta?.operacion == 2) {
+    if(this.datos_acta?.operacion == 2) {
       this.tipos_eleccion.forEach(t_elec => {
         if(t_elec.tiene_votos == 1) {
           this.tipo_eleccion.push(t_elec);
         }
       })
+    } else {
+      this.tipo_eleccion = this.tipos_eleccion;
     }
    })
   }
@@ -157,7 +152,7 @@ export class ActasComponent implements OnInit, OnChanges{
     }
     Swal.fire({
       icon:'question',
-      title:`Confirmar ${this.datos_acta?.operacion == 1 ? 'captura' : 'actualización'}`,
+      title:`¿Confirmar ${this.datos_acta?.operacion == 1 ? 'captura' : 'actualización'}?`,
       text:`Está a punto de realizar ${this.datos_acta?.operacion == 1 ? 'la captura' : 'una actualización'} del acta, ¿Desea confirmar?`,
       showCancelButton:true,
       cancelButtonText:'Cancelar',

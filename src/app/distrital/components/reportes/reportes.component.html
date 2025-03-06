@@ -1,4 +1,17 @@
 <div class="container">
   <h3>Reportes Generales</h3>
 </div>
-
+<h5>Clic para descargar algún reporte</h5>
+<div class="container">
+  <div class="row">
+    @for(reporte of reportes; track i; let i = $index) {
+      <div class="col-12 pb-0" (click)="downloadDocument(reporte.path)">
+        <div class="card" style="width:100%;">
+          <div class="card-body">
+            <h5 class="card-title"><i class="bi bi-arrow-down"></i> {{reporte.nombre}}</h5>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

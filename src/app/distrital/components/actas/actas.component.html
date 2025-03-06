@@ -92,9 +92,6 @@
                           <td style="width: 75px;">{{i + 1}}</td>
                           <td style="width: 150px;">
                             <input type="number" formControlName="votos" [id]="'M' + i" class="form-control text-center" (keydown)="bloquear($event)" (keydown)="enter($event, i < candidatosM.controls.length - 1 ? 'M' + (i + 1) : 'H0')" (keypress)="limit($event)">
-                            <!-- @if(isValidFieldVotos('M', i.toString(),'votos')) {
-                              <span class="text-danger">{{ getFieldErrorsVotos('M', i.toString(), 'votos') }}</span>
-                            } -->
                             @if(hasError('candidatosM', i, 'votos', 'required')) {
                               <span class="text-danger">Obligatorio</span>
                             }
@@ -107,9 +104,7 @@
                         </tr>
                       }
                     </tbody>
-                    <tbody>
-                      <td colspan="5"><hr><td>
-                    </tbody>
+                    <td colspan="5"><hr></td>
                     <tbody formArrayName="H">
                       @for(candidato of candidatosH.controls; track i; let i = $index) {
                         <tr [formGroupName]="i"  class="table-primary">
@@ -143,9 +138,9 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-12 d-flex justify-content-end align-items-center">
-              <button class="btn btn-danger mx-3" (click)="closeModal()"><i class="bi bi-exit"></i>Cerrar</button>
-              @if(tipo_eleccion.length > 0) {
-                <button class="btn btn-main" (click)="saveActa()">{{datos_acta?.operacion == 1 ? 'Capturar' : 'Actualizar'}} acta</button>
+              <button class="btn btn-danger" (click)="closeModal()"><i class="bi bi-exit"></i>Cerrar</button>
+              @if(eleccion !== '') {
+                <button class="btn btn-main mx-3" (click)="saveActa()">{{datos_acta?.operacion == 1 ? 'Capturar' : 'Actualizar'}} acta</button>
               }
             </div>
           </div>

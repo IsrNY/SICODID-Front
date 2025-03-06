@@ -48,8 +48,8 @@
   </thead>
   <tbody>
       @for(dato of datos; track i; let i = $index) {
-        <tr (click)="getRowSelected(i)" (dblclick)="getData(dato,operacion, tipo_eleccion, dato.status!)" [class]="{'table-warning': dato.status == 1 || dato.escaner == 1,
-          'table-primary' : selected_row == i }">
+        <tr (click)="getRowSelected(i, +dato.id_seccion)" (dblclick)="getData(dato,operacion, tipo_eleccion, dato.status!)" [class]="{'table-warning': dato.status == 1 || dato.escaner == 1,
+          'table-primary' : selected_row == +dato.id_seccion && index == i}">
           <td>{{i+1}}</td>
           <td>{{dato.id_seccion}}</td>
           <td>{{dato.tipo_casilla}}</td>
