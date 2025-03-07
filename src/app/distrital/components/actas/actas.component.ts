@@ -162,8 +162,8 @@ export class ActasComponent implements OnInit, OnChanges{
         this.actasService.saveActas(this.myForm.value as Actas, this.datos_acta as DatosActa, +this.eleccion)
         .subscribe(res => {
           Swal.fire({
-            icon:res.success ? 'success' : 'error',
-            title: res.success ? '¡Correcto!' : '¡Error!',
+            icon:res.success ? 'success' : (res.msg == 'Esta acta de este tipo de elección ya fue capturada' ? 'warning' : 'error'),
+            title: res.success ? '¡Correcto!' : (res.msg == 'Esta acta de este tipo de elección ya fue capturada' ? '¡Atención!' : '¡Error!'),
             text: res.msg,
             showConfirmButton: false,
             timer:2350

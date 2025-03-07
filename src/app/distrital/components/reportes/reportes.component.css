@@ -1,13 +1,12 @@
 .card {
   position: relative;
   top: 0;
-  transition: ease-in-out .3s;
+  transition: ease-in-out .5s;
   width: 64px;
 }
 
 .card:hover {
-  background-color: rgba(139, 139, 139, 0.37);
-  color: #FFFFFF;
-  top:5px;
-  left: 10px;
+  background-color:  #b3b3b3;
+  top: 10px;
+  /* left: 10px; */
 }

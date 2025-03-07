@@ -12204,3 +12204,9 @@ thead tr:first-child th {
   background-color: transparent;
   border:none;
 }
+
+.img {
+  width: 25px;
+  height: 25px;
+  padding: 0;
+}
