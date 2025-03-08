@@ -5,35 +5,35 @@
     <div class="fixed  bg-form">
       <form [formGroup]="myForm">
         <strong>Nombre(s)</strong>
-        <input type="text" class="form-control text-center" formControlName="nombres">
+        <input type="text" class="form-control text-center" formControlName="nombres" id="nombre" (keydown)="next($event, 'ape1')">
         @if(isValidField('nombres')) {
           <span class="text-danger">{{getFieldErrors('nombres')}}</span><br>
         }
         <strong>Primer apellido</strong>
-        <input type="text" class="form-control text-center" formControlName="apellido1">
+        <input type="text" class="form-control text-center" formControlName="apellido1" id="ape1" (keydown)="next($event, 'ape2')">
         @if(isValidField('apellido1')) {
           <span class="text-danger">{{getFieldErrors('apellido1')}}</span><br>
         }
         <strong>Segundo apellido</strong>
-        <input type="text" class="form-control text-center" formControlName="apellido2">
+        <input type="text" class="form-control text-center" formControlName="apellido2" id="ape2" (keydown)="next($event, 'cargo')">
         @if(isValidField('apellido2')) {
           <span class="text-danger">{{getFieldErrors('apellido2')}}</span><br>
         }
         <strong>Cargo</strong>
-        <select class="form-select text-center" formControlName="id_cargo" (change)="getFunciones()">
+        <select class="form-select text-center" formControlName="id_cargo" (change)="getFunciones()" id="cargo" (keydown)="next($event, 'funcion')">
           <option value="">Seleccionar</option>
           @for(cargo of cargos; track i; let i = $index) {
-            <option [value]="cargo.id">{{cargo.descripcion}}</option>
+            <option [value]="cargo.id">{{cargo.descripcion | uppercase}}</option>
           }
         </select>
         @if(isValidField('id_cargo')) {
           <span class="text-danger">{{getFieldErrors('id_cargo')}}</span><br>
         }
         <strong>Función</strong>
-        <select class="form-select text-center" formControlName="id_funcion">
+        <select class="form-select text-center" formControlName="id_funcion" id="funcion" (keydown)="next($event, 'submit')">
           <option value="">Seleccionar</option>
           @for(funcion of funciones; track i; let i = $index) {
-            <option [value]="funcion.id">{{funcion.descripcion}}</option>
+            <option [value]="funcion.id">{{funcion.descripcion | uppercase}}</option>
           }
         </select>
         @if(isValidField('id_funcion')) {
@@ -41,9 +41,9 @@
         }
         <div class="py-2 container-fluid p-0 m-0">
           @if(integrante !== undefined) {
-            <button class="btn btn-warning" style="width:100%;" (click)="updtIntegrante()">Actualizar integrante</button>
+            <button type="button" id="submit" class="btn btn-warning" style="width:100%;" (click)="updtIntegrante()">Actualizar integrante</button>
           } @else {
-            <button class="btn btn-primary" style="width:100%;" (click)="saveIntegrante()">Registrar integrante</button>
+            <button type="button" id="submit" class="btn btn-primary" style="width:100%;" (click)="saveIntegrante()">Registrar integrante</button>
           }
         </div>
       </form>
@@ -71,10 +71,11 @@
             <td>{{integrante.cargo | uppercase}}</td>
             <td>{{integrante.funcion | uppercase}}</td>
             <td class="d-flex justify-content-center align-items-center">
-              <button type="button" class="btn btn-sm btn-warning" (click)="editIntegrante(integrante.id_integrante)"><i><img src="assets/edit.gif" alt="edit" height="25px" style="padding:0; margin:0;"></i></button>
+              <button type="button" [id]="i" class="btn btn-sm btn-warning" (click)="editIntegrante(integrante.id_integrante)"
+              (mouseenter)="addMove(i)"><i><img class="edit-img" [src]="'assets/edit.png'" alt="edit" height="20" style="padding:0; margin:0;"></i></button>
             </td>
             <td>
-              <button type="button" class="btn btn-sm btn-danger" (click)="deleteIntegrante(integrante.id_integrante)"><i><img src="assets/delete.gif" alt="delete" height="25px" style="padding:0; margin:0;"></i></button>
+              <button type="button" class="btn btn-sm btn-danger" (click)="deleteIntegrante(integrante.id_integrante)"><i><img [src]="'assets/delete.gif'" alt="delete" height="20px" style="padding:0; margin:0;"></i></button>
             </td>
           </tr>
         }

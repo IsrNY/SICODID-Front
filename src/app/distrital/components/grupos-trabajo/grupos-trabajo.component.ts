@@ -7,6 +7,8 @@ import { IntegrantesService } from '../../services/integrantes.service';
 import Swal from 'sweetalert2';
 import { ValidatorsService } from '../../../shared/services/validators.service';
 
+declare var $:any;
+
 @Component({
   selector: 'distrital-grupos-trabajo',
   templateUrl: './grupos-trabajo.component.html',
@@ -31,11 +33,13 @@ export class GruposTrabajoComponent implements OnInit {
   public funciones:Catalogos[] = [];
   public integrantes:Integrantes[] = [];
   public integrante:Integrantes | undefined;
+  public icon:string = '';
 
 
   ngOnInit(): void {
     this.myForm.get('id_funcion')?.disable();
     this.getIntegrantes();
+    $('#nombre').select();
 
     this.catalogosService.getCatalogo('cargos')
     .subscribe(res => {
@@ -55,7 +59,7 @@ export class GruposTrabajoComponent implements OnInit {
     this.myForm.markAsUntouched();
     this.myForm.get('id_funcion')?.disable();
     this.integrante = undefined;
-
+    $('#nombre').select();
   }
 
   getFunciones() {
@@ -85,7 +89,7 @@ export class GruposTrabajoComponent implements OnInit {
       Swal.fire({
         icon:'warning',
         title:'¡Atención!',
-        text:'Para realizar el registro de un integrante se deben cumplir todas las validaciones en el formulario.',
+        text:'No es posible realizar un nuevo registro si en el formulario se muestran validaciones pendientes de ser atendidas.',
         confirmButtonText:'Entendido'
       })
       return;
@@ -94,7 +98,7 @@ export class GruposTrabajoComponent implements OnInit {
     Swal.fire({
       icon:'question',
       title:'¿Confirmar el registro?',
-      text:'Los datos del integrante se guardarán en la tabla.',
+      text:'Es necesario confirmar el registro del nuevo integrante, ¿Desea confirmar?',
       showCancelButton:true,
       cancelButtonText:'Cancelar',
       confirmButtonText:'Confirmar'
@@ -178,6 +182,7 @@ export class GruposTrabajoComponent implements OnInit {
                   timer:3000
                 }).then(() => {
                   this.getIntegrantes();
+                  this.resetValues();
                 })
               })
             } else {
@@ -195,11 +200,28 @@ export class GruposTrabajoComponent implements OnInit {
               timer:3000
             }).then(() => {
               this.getIntegrantes();
+              this.resetValues();
             })
           })
         }
       }
     })
+  }
+
+  next(event:any, id:string):void {
+    let keyCode = event.keyCode;
+
+    if(keyCode == 13) {
+      if(id == 'ape1' || id == 'ape2') {
+        $(`#${id}`).select();
+      } else {
+        $(`#${id}`).focus();
+      }
+    }
+  }
+
+  addMove(id:number):void {
+    $(`#${id}`).toggleClass(' ')
   }
 
   isValidField(field:string) {
