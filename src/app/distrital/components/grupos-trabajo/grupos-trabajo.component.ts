@@ -240,6 +240,7 @@ import { IntegrantesService } from '../../services/integrantes.service';
 import { ValidatorsService } from '../../../shared/services/validators.service';
 import { Integrantes } from '../../interfaces/integrantes.interface';
 import { Catalogos } from '../../../shared/interfaces/catalogos.interface';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'distrital-grupos-trabajo',
@@ -260,6 +261,7 @@ export class GruposTrabajoComponent implements OnInit {
   public integrante:Integrantes | undefined;
   public cargos:Catalogos[] = [];
   public funciones:Catalogos[] = [];
+  public isEditing:boolean = false;
 
 
   get integrantes():FormArray {
@@ -269,10 +271,10 @@ export class GruposTrabajoComponent implements OnInit {
   ngOnInit():void  {
     this.getCargos();
     this.getIntegrantes();
-    this.myForm.get('integrantes')?.disable()
   }
 
   patchIntegrantes = (integrantes:Integrantes[]) => integrantes.forEach(integrante => this.integrantes.push(this.fb.group({
+    id_integrante:[integrante.id_integrante],
     nombres:[integrante.nombres, [Validators.required]],
     apellido1:[integrante.apellido1, [Validators.required]],
     apellido2:[integrante.apellido2, [Validators.required]],
@@ -280,12 +282,11 @@ export class GruposTrabajoComponent implements OnInit {
     id_funcion:[integrante.id_funcion, [Validators.required]],
     cargo:[integrante.cargo],
     funcion:[integrante.funcion],
-
   })));
 
   addIntegrante = () => {
-      console.log('dfsdfsdrf')
-      this.integrantes.push(this.fb.group({
+    this.integrantes.push(this.fb.group({
+      id_integrante:[''],
       nombres:['', [Validators.required]],
       apellido1:['', [Validators.required]],
       apellido2:['', [Validators.required]],
@@ -296,16 +297,61 @@ export class GruposTrabajoComponent implements OnInit {
     }))
   }
 
-  deleteIntegrante = (index:number) => {
-    this.integrantes.removeAt(index);
+  deleteIntegrante = (index:number, id_integrante:string) => {
+    if(id_integrante !== '') {
+      Swal.fire({
+        icon:'question',
+        title:'¿Confirmar eliminación?',
+        text:'Está a punto de realizar la eliminación del integrante, ¿Desea confirmar?',
+        showCancelButton:true,
+        cancelButtonText:'Cancelar',
+        confirmButtonText:'Confirmar'
+      }).then((result) => {
+        if(result.isConfirmed) {
+          this.integrantesService.deleteIntegrante(+id_integrante)
+          .subscribe(res => {
+            Swal.fire({
+              icon: res.success ? 'success' : 'error',
+              title: res.success ? '¡Correcto!' : '¡Error!',
+              text:res.msg,
+              showConfirmButton:false,
+              timer:2300
+            }).then(() => {
+              if(res.success) {
+                this.integrantes.clear();
+                this.getIntegrantes();
+              }
+            })
+          })
+        }
+      })
+    } else {
+      this.integrantes.removeAt(index);
+    }
   }
 
-  saveIntegrante() {
-    console.log(this.myForm.get('integrantes')?.get('0')?.value)
+  saveIntegrante(index:number) {
+    Swal.fire({
+      icon:'question',
+      title:'¿Confirmar registro?',
+      text:'Está a punto de realizar el registro del integrante, ¿Desea confirmar?',
+      showCancelButton:true,
+      cancelButtonText:'Cancelar',
+      confirmButtonText:'Confirmar'
+    }).then((result) => {
+      if(result.isConfirmed) {
+
+      }
+    })
   }
 
   editIntegrante(index:number):void {
-    console.log(this.myForm.get('integrantes')?.get(index.toString())?.value)
+    // console.log(this.myForm.get('integrantes')?.get(index.toString())?.get('id_cargo')?.value)
+    if(!this.isEditing) {
+      this.myForm.get('integrantes')?.get(index.toString())?.enable();
+      this.getFunciones(index);
+    }
+    this.isEditing = true;
   }
 
   getCargos():void {
@@ -315,10 +361,11 @@ export class GruposTrabajoComponent implements OnInit {
     })
   }
 
-  getFunciones():void {
-    this.catalogosService.getCatalogo(``)
+  getFunciones(index:number):void {
+    this.catalogosService.getCatalogo(`funciones?id_cargo=${this.myForm.get('integrantes')?.get(index.toString())?.get('id_cargo')?.value}`)
     .subscribe(res => {
        this.funciones = res.datos as Catalogos[];
+       console.log(this.funciones);
      })
   }
 
@@ -328,7 +375,9 @@ export class GruposTrabajoComponent implements OnInit {
     .subscribe(res => {
        this.lista_integrantes = res.datos as Integrantes[];
        this.patchIntegrantes(this.lista_integrantes);
-       console.log(this.myForm.value)
+       Object.keys(this.integrantes.controls).forEach(key => {
+        this.integrantes.get(key)?.disable();
+      })
      })
   }
 
