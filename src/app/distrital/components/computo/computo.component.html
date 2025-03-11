@@ -2,7 +2,7 @@
   <h3>{{computo | titlecase}} del cómputo distrital</h3>
   <div class="row p-0 m-0">
     <form [formGroup]="myForm" (ngSubmit)="enviar()">
-      <div class="col-12">
+      <div class="col-12 py-2">
         <h4>Registro de asistencias</h4>
       </div>
       <div class="col-12">
@@ -71,7 +71,7 @@
           </tbody>
         </table>
       </div>
-      <div class="col-12">
+      <div class="col-12 py-2">
         <h5>Fecha y hora de {{computo}} del cómputo distrital</h5>
       </div>
       <div class="col-12">
@@ -98,7 +98,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 py-3">
+      <div class="col-12 py-2">
         <strong>Observaciones</strong>
         <textarea class="form-control" cols="auto" rows="3" formControlName="observaciones" [maxlength]="maxlength"></textarea>
         <shared-errors [maxlength]="maxlength" [form]="myForm" [field]="'observaciones'" [touched]="touched('observaciones')"/>

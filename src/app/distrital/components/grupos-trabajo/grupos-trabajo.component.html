@@ -1,5 +1,63 @@
 <h3>Integrantes del grupo de trabajo</h3>
-<div class="row py-2 m-0">
+<div class="row p-0 m-0">
+  <form [formGroup]="myForm">
+    <div class="col-12 py-2 d-flex justify-content-end">
+      <button type="button" class="btn btn-main" (click)="addIntegrante()"><i class="bi bi-plus-lg"></i>Agregar integrante</button>
+    </div>
+    <div class="col-12">
+      <table class="table table-bordered table-striped row-border hover">
+        <thead>
+          <tr>
+            <th>Nombre(s)</th>
+            <th>Primer apellido</th>
+            <th>Segundo apellido</th>
+            <th>Cargo</th>
+            <th>Función</th>
+            <th colspan="2">Acciones</th>
+          </tr>
+        </thead>
+        <tbody formArrayName="integrantes">
+          @for(integrante of integrantes.controls; track i; let i = $index) {
+            <tr [formGroupName]="i">
+              <td><input type="text" class="form-control text-center" formControlName="nombres"></td>
+              <td><input type="text" class="form-control text-center" formControlName="apellido1"></td>
+              <td><input type="text" class="form-control text-center" formControlName="apellido2"></td>
+              <td>
+                <select class="form-select text-center" formControlName="id_cargo">
+                  <option value="">Seleccionar</option>
+                  @for(cargo of cargos; track i; let i = $index) {
+                    <option [value]="cargo.id">{{cargo.descripcion | uppercase}}</option>
+                  }
+                </select>
+              </td>
+              <td>
+                <select class="form-select text-center" formControlName="id_funcion">
+                  <option value="">Seleccionar</option>
+                  @for(funcion of funciones; track i; let i = $index) {
+                    <option [value]="funcion.id">{{funcion.descripcion | uppercase}}</option>
+                  }
+                </select>
+              </td>
+              <td>
+                <!-- @if() {
+
+                } -->
+                <button class="btn btn-warning" (click)="editIntegrante(i)"><i class="bi bi-pencil-fill"></i></button>
+              </td>
+              <td><button class="btn btn-danger"><i class="bi bi-trash3-fill"></i></button></td>
+            </tr>
+          } @empty {
+            <tr class="table-danger">
+              <td colspan="7">Sin registros para mostrar.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="col-12"><button (click)="saveIntegrante()">Guardar</button></div>
+  </form>
+  </div>
+<!-- <div class="row py-2 m-0">
   <div class="col-3">
     <h5>{{integrante !== undefined ? 'Actualizar' : 'Registrar'}} integrante</h5>
     <div class="fixed  bg-form">
@@ -82,4 +140,4 @@
       </tbody>
     </table>
   </div>
-</div>
+</div> -->
