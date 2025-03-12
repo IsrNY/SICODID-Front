@@ -3,10 +3,10 @@
   top: 0;
   transition: ease-in-out .5s;
   width: 64px;
+  cursor: pointer;
 }
 
 .card:hover {
   background-color:  #b3b3b3;
   top: 10px;
-  /* left: 10px; */
 }

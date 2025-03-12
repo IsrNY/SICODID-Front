@@ -5,6 +5,7 @@
 // import { Catalogos } from '../../../shared/interfaces/catalogos.interface';
 // import { IntegrantesService } from '../../services/integrantes.service';
 // import Swal from 'sweetalert2';
+import { HeaderComponent } from '../../../shared/components/header/header.component';
 // import { ValidatorsService } from '../../../shared/services/validators.service';
 
 // declare var $:any;
@@ -233,7 +234,7 @@
 //   }
 // }
 
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { CatalogosService } from '../../../shared/services/catalogos.service';
 import { IntegrantesService } from '../../services/integrantes.service';
@@ -241,6 +242,8 @@ import { ValidatorsService } from '../../../shared/services/validators.service';
 import { Integrantes } from '../../interfaces/integrantes.interface';
 import { Catalogos } from '../../../shared/interfaces/catalogos.interface';
 import Swal from 'sweetalert2';
+
+declare var $:any;
 
 @Component({
   selector: 'distrital-grupos-trabajo',
@@ -259,10 +262,12 @@ export class GruposTrabajoComponent implements OnInit {
 
   public lista_integrantes:Integrantes[] = [];
   public integrante:Integrantes | undefined;
+  public editing_values:boolean[] = [];
   public cargos:Catalogos[] = [];
-  public funciones:Catalogos[] = [];
+  public funciones:Catalogos[] | undefined;
   public isEditing:boolean = false;
-
+  public isAdded:boolean = false;
+  public show:boolean = false;
 
   get integrantes():FormArray {
     return this.myForm.get('integrantes') as FormArray;
@@ -273,31 +278,71 @@ export class GruposTrabajoComponent implements OnInit {
     this.getIntegrantes();
   }
 
-  patchIntegrantes = (integrantes:Integrantes[]) => integrantes.forEach(integrante => this.integrantes.push(this.fb.group({
-    id_integrante:[integrante.id_integrante],
-    nombres:[integrante.nombres, [Validators.required]],
-    apellido1:[integrante.apellido1, [Validators.required]],
-    apellido2:[integrante.apellido2, [Validators.required]],
-    id_cargo:[integrante.id_cargo, [Validators.required]],
-    id_funcion:[integrante.id_funcion, [Validators.required]],
-    cargo:[integrante.cargo],
-    funcion:[integrante.funcion],
-  })));
+  @HostListener('window:scroll')
+  checkScroll() {
+    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
 
-  addIntegrante = () => {
-    this.integrantes.push(this.fb.group({
-      id_integrante:[''],
-      nombres:['', [Validators.required]],
-      apellido1:['', [Validators.required]],
-      apellido2:['', [Validators.required]],
-      id_cargo:['', [Validators.required]],
-      id_funcion:['', [Validators.required]],
-      cargo:[''],
-      funcion:[''],
+    if(scrollPosition > 150) {
+      this.show = true;
+    } else {
+      this.show = false;
+    }
+  }
+
+  patchIntegrantes = (integrantes:Integrantes[]) => {
+    integrantes.forEach(integrante => {
+      this.editing_values.push(false);
+      this.integrantes.push(this.fb.group({
+        id_integrante:[integrante.id_integrante],
+        nombres:[integrante.nombres, [Validators.required]],
+        apellido1:[integrante.apellido1, [Validators.required]],
+        apellido2:[integrante.apellido2, [Validators.required]],
+        id_cargo:[integrante.id_cargo, [Validators.required]],
+        id_funcion:[integrante.id_funcion, [Validators.required]],
+        cargo:[integrante.cargo],
+        funcion:[integrante.funcion],
     }))
+    });
+  }
+
+  addIntegrante = (tipo:string | undefined = undefined) => {
+    if(this.isEditing) {
+      Swal.fire({
+        icon:'warning',
+        title:'¡Atención!',
+        text:'No se puede agregar un nuevo integrante mientras se esté editando uno existente, guardar los cambios e intentar de nuevo.',
+        confirmButtonText:'Entendido'
+      })
+      return;
+    } else {
+      if(!this.isAdded) {
+        this.isAdded = true;
+        this.editing_values.push(true);
+        this.integrantes.push(this.fb.group({
+          id_integrante:[''],
+          nombres:['', [Validators.required]],
+          apellido1:['', [Validators.required]],
+          apellido2:['', [Validators.required]],
+          id_cargo:['', [Validators.required]],
+          id_funcion:['', [Validators.required]],
+          cargo:[''],
+          funcion:[''],
+        }))
+        if(tipo == 'scroll') {
+          let bottom = document.getElementById('bottom');
+          console.log(tipo)
+
+          if(bottom !== null) {
+            bottom.scrollIntoView({behavior: 'smooth'});
+            bottom = null;
+          }
+        }
+      }
+    }
   }
 
   deleteIntegrante = (index:number, id_integrante:string) => {
+    console.log(this.editing_values)
     if(id_integrante !== '') {
       Swal.fire({
         icon:'question',
@@ -320,6 +365,8 @@ export class GruposTrabajoComponent implements OnInit {
               if(res.success) {
                 this.integrantes.clear();
                 this.getIntegrantes();
+                this.editing_values.splice(index, 1)
+                this.isAdded = false;
               }
             })
           })
@@ -327,10 +374,12 @@ export class GruposTrabajoComponent implements OnInit {
       })
     } else {
       this.integrantes.removeAt(index);
+      this.isAdded = false;
     }
   }
 
   saveIntegrante(index:number) {
+    console.log(this.editing_values);
     Swal.fire({
       icon:'question',
       title:'¿Confirmar registro?',
@@ -340,18 +389,92 @@ export class GruposTrabajoComponent implements OnInit {
       confirmButtonText:'Confirmar'
     }).then((result) => {
       if(result.isConfirmed) {
-
+        this.integrantesService.saveIntegrante(this.myForm.get('integrantes')?.get(index.toString())?.value as Integrantes)
+        .subscribe(res => {
+          Swal.fire({
+            icon: res.success ?'success' : 'error',
+            title: res.success ? '¡Correcto!' : '¡Error!',
+            text:res.msg,
+            showConfirmButton:false,
+            timer:2300
+          }).then(() => {
+            if(res.success) {
+              this.myForm.get('integrantes')?.get(index.toString())?.disable();
+              this.isEditing = false;
+              this.integrantes.clear();
+              this.getIntegrantes();
+              this.editing_values[index] = false;
+              this.isAdded = false;
+            }
+          })
+        })
       }
     })
   }
 
   editIntegrante(index:number):void {
-    // console.log(this.myForm.get('integrantes')?.get(index.toString())?.get('id_cargo')?.value)
-    if(!this.isEditing) {
-      this.myForm.get('integrantes')?.get(index.toString())?.enable();
-      this.getFunciones(index);
+    Swal.fire({
+      icon:'question',
+      title:'¿Confirmar edición?',
+      text:'Está a punto de realizar la edición del integrante, ¿Desea confirmar?',
+      showCancelButton:true,
+      cancelButtonText:'Cancelar',
+      confirmButtonText:'Confirmar'
+    }).then((result) => {
+      if(result.isConfirmed) {
+        this.integrantesService.updateIntegrante(this.myForm.get('integrantes')?.get(index.toString())?.value as Integrantes)
+        .subscribe(res => {
+          Swal.fire({
+            icon: res.success ?'success' : 'error',
+            title: res.success ? '¡Correcto!' : '¡Error!',
+            text:res.msg,
+            showConfirmButton:false,
+            timer:2300
+          }).then(() => {
+            if(res.success) {
+              this.myForm.get('integrantes')?.get(index.toString())?.disable();
+              this.isEditing = false;
+              this.integrantes.clear();
+              this.getIntegrantes();
+              this.editing_values[index] = false;
+              this.isAdded = false;
+            }
+          })
+        })
+      } else {
+        this.myForm.get('integrantes')?.get(index.toString())?.disable();
+        this.isEditing = false;
+        this.editing_values[index] = false;
+      }
+    })
+  }
+
+  edit(index:number):void {
+    if(this.isAdded) {
+      Swal.fire({
+        icon:'warning',
+        title:'¡Atención!',
+        text:'La edición de integrantes no está permitida mientras se está realizando el registro de un nuevo integrante.',
+        confirmButtonText:'Entendido'
+      })
+      return;
     }
-    this.isEditing = true;
+    if(this.isEditing) {
+      Swal.fire({
+        icon:'warning',
+        title:'¡Atención!',
+        text:'No se puede editar la información de otro integrante mientras se encuenta uno en edición, finalizar la edición del actual e intentar de nuevo.',
+        confirmButtonText:'Entendido'
+      })
+      return;
+    } else {
+      this.editing_values[index] = true;
+      if(!this.isEditing) {
+        this.myForm.get('integrantes')?.get(index.toString())?.enable();
+        this.getFunciones(index);
+      }
+      this.isEditing = true;
+    }
   }
 
   getCargos():void {
@@ -362,11 +485,13 @@ export class GruposTrabajoComponent implements OnInit {
   }
 
   getFunciones(index:number):void {
+    this.funciones = undefined;
     this.catalogosService.getCatalogo(`funciones?id_cargo=${this.myForm.get('integrantes')?.get(index.toString())?.get('id_cargo')?.value}`)
     .subscribe(res => {
        this.funciones = res.datos as Catalogos[];
        console.log(this.funciones);
      })
+     console.log(this.funciones);
   }
 
   getIntegrantes():void {
@@ -381,4 +506,7 @@ export class GruposTrabajoComponent implements OnInit {
      })
   }
 
+  isValidField(array:string, position:number) {
+
+  }
 }

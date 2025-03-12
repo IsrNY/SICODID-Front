@@ -1,5 +1,5 @@
 <h3>Integrantes del grupo de trabajo</h3>
-<div class="row p-0 m-0">
+<div class="row pb-5 m-0">
   <form [formGroup]="myForm">
     <div class="col-12 py-2 d-flex justify-content-end">
       <button type="button" class="btn btn-main" (click)="addIntegrante()"><i class="bi bi-plus-lg"></i>Agregar integrante</button>
@@ -19,7 +19,9 @@
         <tbody formArrayName="integrantes">
           @for(integrante of integrantes.controls; track i; let i = $index) {
             <tr [formGroupName]="i">
-              <td><input type="text" class="form-control text-center" formControlName="nombres"></td>
+              <td>
+                <input type="text" class="form-control text-center" formControlName="nombres">
+              </td>
               <td><input type="text" class="form-control text-center" formControlName="apellido1"></td>
               <td><input type="text" class="form-control text-center" formControlName="apellido2"></td>
               <td>
@@ -33,11 +35,16 @@
               <td>
                 <select class="form-select text-center" formControlName="id_funcion">
                   <option value="">Seleccionar</option>
-                  @if(!isEditing) {
+                  <!-- @for(funcion of funciones; track i; let i = $index) {
+                    <option [value]="funcion.id">{{funcion.descripcion | uppercase}}<option>
+                  } -->
+                  @if(!editing_values[i]) {
                     <option [value]="integrante.get('id_funcion')?.value">{{integrante.get('funcion')?.value | uppercase}}</option>
                   } @else {
-                    @for(funcion of funciones; track i; let i = $index) {
-                      <option [value]="funcion.id">{{funcion.descripcion | uppercase}}</option>
+                    @if(funciones !== undefined) {
+                      @for(funcion of funciones; track i; let i = $index) {
+                        <option [value]="funcion.id">{{funcion.descripcion | uppercase}}</option>
+                      }
                     }
                   }
                 </select>
@@ -45,7 +52,7 @@
               <td>
                 @if(integrante.get('id_integrante')?.value !== '') {
                   @if(myForm.get('integrantes')?.get(i.toString())?.disabled) {
-                  <button class="btn btn-secondary" (click)="editIntegrante(i)"><i class="bi bi-pencil-fill"></i></button>
+                  <button class="btn btn-secondary" (click)="edit(i)"><i class="bi bi-pencil-fill"></i></button>
                   } @else {
                     <button class="btn btn-warning" (click)="editIntegrante(i)"><i class="bi bi-pencil-fill"></i></button>
                   }
@@ -63,8 +70,12 @@
         </tbody>
       </table>
     </div>
+    @if(show) {
+      <button type="button" class="btn save" (click)="addIntegrante('scroll')"><i class="bi bi-plus-lg"></i></button>
+    }
   </form>
   </div>
+  <div id="bottom"></div>
 <!-- <div class="row py-2 m-0">
   <div class="col-3">
     <h5>{{integrante !== undefined ? 'Actualizar' : 'Registrar'}} integrante</h5>
