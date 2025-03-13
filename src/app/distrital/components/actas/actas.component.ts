@@ -69,7 +69,6 @@ export class ActasComponent implements OnInit, OnChanges{
 
   ngOnChanges(): void {
     this.opcion = this.datos_acta?.operacion!;
-    console.log(this.datos_acta?.operacion);
     switch(+this.eleccion) {
       default:
         this.myForm.patchValue({tipo_eleccion:this.datos_acta?.tipo_eleccion!.toString()});
@@ -139,7 +138,6 @@ export class ActasComponent implements OnInit, OnChanges{
   })))
 
   saveActa() {
-    console.log(this.acta);
     if (this.myForm.invalid) {
       this.myForm.markAllAsTouched();
       Swal.fire({

@@ -27,7 +27,7 @@ export class DtAttibService {
       infoFiltered: "(Filtrado de _MAX_ total de entradas)",
       infoPostFix: "",
       thousands: ",",
-      lengthMenu: "<b>_MENU_ registros</b>",
+      lengthMenu: "<b>_MENU_ Registros</b>",
       loadingRecords: "Cargando...",
       processing: "Procesando...",
       search: "<b>Buscar:</b>",

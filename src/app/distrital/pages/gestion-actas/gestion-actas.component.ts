@@ -42,6 +42,8 @@ export class GestionActasComponent implements OnInit {
   ngOnInit(): void {
     this.getTipoEleccion();
     this.getDataContador();
+    this.myForm.patchValue({tipo_eleccion:'1'});
+    this.getListasActas();
   }
 
   getTipoEleccion() {

@@ -9,8 +9,9 @@
         <table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped row-border hover">
           <thead>
             <tr>
-              <th>Tipo de incidente</th>
+              <th>Descripción del tipo de incidente</th>
               <th>Participantes</th>
+              <th>Descripción de los hechos</th>
               <th>Fecha y hora</th>
               <th>Ver más</th>
             </tr>
@@ -18,8 +19,9 @@
           <tbody>
               @for(incidente of incidentes; track i; let i = $index) {
                 <tr>
-                  <td>{{incidente.id_tipo_incidente}}</td>
+                  <td>{{incidente.descripcion | uppercase}}</td>
                   <td>{{incidente.participantes}}</td>
+                  <td>{{incidente.hechos}}</td>
                   <td>{{incidente.fecha_hora_incidente | datehour}}</td>
                   <td><button class="btn btn-secondary" (click)="openModal(incidente.id_incidente, i+2)"><i class="bi bi-eye-fill"></i></button></td>
                 </tr>
@@ -37,14 +39,12 @@
             </tr>
           </thead>
           <tbody>
-              <!-- @for(incidente of incidentes; track i; let i = $index) { -->
-                <tr class="table-warning">
-                  <td colspan="4">No hay información para mostrar.</td>
-                </tr>
-              <!-- } -->
-            </tbody>
+            <tr class="table-warning">
+              <td colspan="4">No hay información para mostrar.</td>
+            </tr>
+          </tbody>
         </table>
-      } 
+      }
     </div>
   </div>
 </div>

@@ -22,9 +22,22 @@
             <tr [formGroupName]="i">
               <td>
                 <input type="text" class="form-control text-center" formControlName="nombres" [id]="i">
+                @if(isValidField('integrantes',i.toString(),'nombres')) {
+                  <span class="text-danger">{{ getFieldErrors('integrantes', i.toString(), 'nombres') }}</span>
+                }
               </td>
-              <td><input type="text" class="form-control text-center" formControlName="apellido1"></td>
-              <td><input type="text" class="form-control text-center" formControlName="apellido2"></td>
+              <td>
+                <input type="text" class="form-control text-center" formControlName="apellido1">
+                @if(isValidField('integrantes',i.toString(),'apellido1')) {
+                  <span class="text-danger">{{ getFieldErrors('integrantes', i.toString(), 'apellido1') }}</span>
+                }
+              </td>
+              <td>
+                <input type="text" class="form-control text-center" formControlName="apellido2">
+                @if(isValidField('integrantes',i.toString(),'apellido2')) {
+                  <span class="text-danger">{{ getFieldErrors('integrantes', i.toString(), 'apellido2') }}</span>
+                }
+              </td>
               <td>
                 <select class="form-select text-center" formControlName="id_cargo" (change)="getFunciones(i)">
                   <option value="">Seleccionar</option>
@@ -32,13 +45,13 @@
                     <option [value]="cargo.id">{{cargo.descripcion | uppercase}}</option>
                   }
                 </select>
+                @if(isValidField('integrantes',i.toString(),'id_cargo')) {
+                  <span class="text-danger">{{ getFieldErrors('integrantes', i.toString(), 'id_cargo') }}</span>
+                }
               </td>
               <td>
                 <select class="form-select text-center" formControlName="id_funcion">
                   <option value="">Seleccionar</option>
-                  <!-- @for(funcion of funciones; track i; let i = $index) {
-                    <option [value]="funcion.id">{{funcion.descripcion | uppercase}}<option>
-                  } -->
                   @if(!editing_values[i]) {
                     <option [value]="integrante.get('id_funcion')?.value">{{integrante.get('funcion')?.value | uppercase}}</option>
                   } @else {
@@ -47,6 +60,9 @@
                     }
                   }
                 </select>
+                @if(isValidField('integrantes',i.toString(),'id_funcion')) {
+                  <span class="text-danger">{{ getFieldErrors('integrantes', i.toString(), 'id_funcion') }}</span>
+                }
               </td>
               <td>
                 <select class="form-select text-center" formControlName="gt">
@@ -55,6 +71,9 @@
                     <option [value]="grupo.id">{{grupo.descripcion}}</option>
                   }
                 </select>
+                @if(isValidField('integrantes',i.toString(),'gt')) {
+                  <span class="text-danger">{{ getFieldErrors('integrantes', i.toString(), 'gt') }}</span>
+                }
               </td>
               <td>
                 @if(integrante.get('id_integrante')?.value !== '') {

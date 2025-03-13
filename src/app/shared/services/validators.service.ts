@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -66,4 +66,21 @@ export class ValidatorsService {
    }
    return null;
   }
+
+  public isValidPositionFormArray = (form:FormGroup,array:string, position:string, field:string) => {
+    return form.get(array)?.get(position)?.get(field)?.errors && form.get(array)?.get(position)?.get(field)?.touched;
+  }
+
+  getFieldPositionErrors(form:FormGroup,array:string, position:string, field:string) {
+    const errors = form.get(array)?.get(position)?.get(field)?.errors || {};
+
+    for (const key of Object.keys(errors)) {
+      switch(key) {
+        case 'required':
+          return 'Obligatorio';
+      }
+     }
+     return null;
+  }
+
 }

@@ -57,14 +57,14 @@
                 }
               </div>
               <div class="col-3">
-                <strong>Boletas sobrantes</strong>
+                <strong>Votos nulos</strong>
                 <input type="number" formControlName="votos_nulos" class="form-control text-center" id="nulos" (keydown)="bloquear($event)" (keypress)="limit($event)" (keyup)="next($event,'emitida')">
                 @if(isValidField('votos_nulos')) {
                   <span class="text-danger">{{getFieldErrors('votos_nulos')}}</span>
                 }
               </div>
               <div class="col-3">
-                <strong>Boletas sobrantes</strong>
+                <strong>Total de votos emitidos</strong>
                 <input type="number" formControlName="total_emitida" class="form-control text-center" id="emitida" (keydown)="bloquear($event)" (keypress)="limit($event)" (keyup)="next($event,'M0')">
                 @if(isValidField('total_emitida')) {
                   <span class="text-danger">{{getFieldErrors('total_emitida')}}</span>
