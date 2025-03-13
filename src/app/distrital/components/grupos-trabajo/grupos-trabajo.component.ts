@@ -234,7 +234,7 @@ import { HeaderComponent } from '../../../shared/components/header/header.compon
 //   }
 // }
 
-import { Component, HostListener, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { CatalogosService } from '../../../shared/services/catalogos.service';
 import { IntegrantesService } from '../../services/integrantes.service';
@@ -242,6 +242,7 @@ import { ValidatorsService } from '../../../shared/services/validators.service';
 import { Integrantes } from '../../interfaces/integrantes.interface';
 import { Catalogos } from '../../../shared/interfaces/catalogos.interface';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../../auth/services/auth.service';
 
 declare var $:any;
 
@@ -254,6 +255,7 @@ export class GruposTrabajoComponent implements OnInit {
   private fb = inject(FormBuilder);
   private catalogosService = inject(CatalogosService);
   private integrantesService = inject(IntegrantesService);
+  private authService = inject(AuthService);
   private validatorsService = inject(ValidatorsService);
 
   public myForm = this.fb.group({
@@ -264,7 +266,8 @@ export class GruposTrabajoComponent implements OnInit {
   public integrante:Integrantes | undefined;
   public editing_values:boolean[] = [];
   public cargos:Catalogos[] = [];
-  public funciones:Catalogos[] | undefined;
+  public funciones?:Catalogos[] | [];
+  public gt:Catalogos[] = [];
   public isEditing:boolean = false;
   public isAdded:boolean = false;
   public show:boolean = false;
@@ -273,23 +276,20 @@ export class GruposTrabajoComponent implements OnInit {
     return this.myForm.get('integrantes') as FormArray;
   }
 
+  get distrito() {
+    return this.authService.distrito;
+  }
+
   ngOnInit():void  {
+    for(let i = 1; i < 9; i++) {
+      this.gt.push({id: i.toString(), descripcion: i.toString()});
+    }
     this.getCargos();
     this.getIntegrantes();
   }
 
-  @HostListener('window:scroll')
-  checkScroll() {
-    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-
-    if(scrollPosition > 150) {
-      this.show = true;
-    } else {
-      this.show = false;
-    }
-  }
-
   patchIntegrantes = (integrantes:Integrantes[]) => {
+    this.editing_values = [];
     integrantes.forEach(integrante => {
       this.editing_values.push(false);
       this.integrantes.push(this.fb.group({
@@ -299,13 +299,15 @@ export class GruposTrabajoComponent implements OnInit {
         apellido2:[integrante.apellido2, [Validators.required]],
         id_cargo:[integrante.id_cargo, [Validators.required]],
         id_funcion:[integrante.id_funcion, [Validators.required]],
+        gt:[integrante.gt,[Validators.required]],
         cargo:[integrante.cargo],
         funcion:[integrante.funcion],
+        editing:[false]
     }))
     });
   }
 
-  addIntegrante = (tipo:string | undefined = undefined) => {
+  addIntegrante = () => {
     if(this.isEditing) {
       Swal.fire({
         icon:'warning',
@@ -316,8 +318,6 @@ export class GruposTrabajoComponent implements OnInit {
       return;
     } else {
       if(!this.isAdded) {
-        this.isAdded = true;
-        this.editing_values.push(true);
         this.integrantes.push(this.fb.group({
           id_integrante:[''],
           nombres:['', [Validators.required]],
@@ -325,25 +325,74 @@ export class GruposTrabajoComponent implements OnInit {
           apellido2:['', [Validators.required]],
           id_cargo:['', [Validators.required]],
           id_funcion:['', [Validators.required]],
+          gt:['',[Validators.required]],
           cargo:[''],
           funcion:[''],
+          editing:[false]
         }))
-        if(tipo == 'scroll') {
-          let bottom = document.getElementById('bottom');
-          console.log(tipo)
+        this.isAdded = true;
+        this.editing_values.push(true);
 
-          if(bottom !== null) {
-            bottom.scrollIntoView({behavior: 'smooth'});
-            bottom = null;
-          }
-        }
+        let largo = this.integrantes.length;
+        console.log(`${largo}`);
+        $(`2`).focus()
+      } else {
+        Swal.fire({
+          icon:'warning',
+          title:'¡Atención!',
+          text:'Solo se permite agregar un integrante a la vez, se debe terminar el registro del integrante actual y posteriormente registrar uno nuevo.',
+          confirmButtonText:'Entendido'
+        })
       }
     }
   }
 
+  delete(index:number, id_integrante:string) {
+    this.integrantesService.deleteIntegrante(+id_integrante)
+    .subscribe(res => {
+      Swal.fire({
+        icon: res.success ? 'success' : 'error',
+        title: res.success ? '¡Correcto!' : '¡Error!',
+        text:res.msg,
+        showConfirmButton:false,
+        timer:2300
+      }).then(() => {
+        if(res.success) {
+          this.integrantes.clear();
+          this.getIntegrantes();
+          this.editing_values.splice(index, 1);
+          this.isEditing = false;
+          this.isAdded = false;
+        }
+      })
+    })
+  }
+
   deleteIntegrante = (index:number, id_integrante:string) => {
-    console.log(this.editing_values)
     if(id_integrante !== '') {
+      if(this.editing_values[index] == true) {
+        Swal.fire({
+          icon:'warning',
+          title:'¡Atención!',
+          text:'El integrante que está intentando eliminar se encuentra en edición, ¿Está seguro/a de realizar la eliminación?',
+          showCancelButton:true,
+          cancelButtonText:'No',
+          confirmButtonText:'Sí'
+        }).then((result) => {
+          if(result.isConfirmed) {
+            this.delete(index, id_integrante);
+          }
+        })
+        return;
+      } else if(this.isEditing || this.isAdded) {
+        Swal.fire({
+          icon:'info',
+          title:'¡Atención!',
+          text:'No se permite eliminar integrantes cuando hay alguno en registro o edición.',
+          confirmButtonText:'Entendido'
+        })
+        return;
+      }
       Swal.fire({
         icon:'question',
         title:'¿Confirmar eliminación?',
@@ -353,23 +402,7 @@ export class GruposTrabajoComponent implements OnInit {
         confirmButtonText:'Confirmar'
       }).then((result) => {
         if(result.isConfirmed) {
-          this.integrantesService.deleteIntegrante(+id_integrante)
-          .subscribe(res => {
-            Swal.fire({
-              icon: res.success ? 'success' : 'error',
-              title: res.success ? '¡Correcto!' : '¡Error!',
-              text:res.msg,
-              showConfirmButton:false,
-              timer:2300
-            }).then(() => {
-              if(res.success) {
-                this.integrantes.clear();
-                this.getIntegrantes();
-                this.editing_values.splice(index, 1)
-                this.isAdded = false;
-              }
-            })
-          })
+          this.delete(index, id_integrante);
         }
       })
     } else {
@@ -380,6 +413,15 @@ export class GruposTrabajoComponent implements OnInit {
 
   saveIntegrante(index:number) {
     console.log(this.editing_values);
+    if(this.myForm.invalid) {
+      Swal.fire({
+        icon:'warning',
+        title:'¡Atención!',
+        text:'Todos los campos marcados como obligatorios deben estar completos para realizar esta acción.',
+        confirmButtonText:'Entendido'
+      })
+      return;
+    }
     Swal.fire({
       icon:'question',
       title:'¿Confirmar registro?',
@@ -405,6 +447,7 @@ export class GruposTrabajoComponent implements OnInit {
               this.getIntegrantes();
               this.editing_values[index] = false;
               this.isAdded = false;
+              this.funciones = [];
             }
           })
         })
@@ -499,6 +542,7 @@ export class GruposTrabajoComponent implements OnInit {
     this.integrantesService.getIntegrantes()
     .subscribe(res => {
        this.lista_integrantes = res.datos as Integrantes[];
+       console.log(this.lista_integrantes)
        this.patchIntegrantes(this.lista_integrantes);
        Object.keys(this.integrantes.controls).forEach(key => {
         this.integrantes.get(key)?.disable();

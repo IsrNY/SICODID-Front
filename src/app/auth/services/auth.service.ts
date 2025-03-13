@@ -22,7 +22,6 @@ export class AuthService {
 
   constructor() {
     this.decodeStorage();
-
   }
 
   get id_transaccion() {
@@ -33,8 +32,12 @@ export class AuthService {
     return this.data?.perfil;
   }
 
-  get usuario() {
+  get usuario():string | undefined {
     return this.data?.usuario;
+  }
+
+  get distrito():number | undefined {
+    return this.data?.id_distrito;
   }
 
   private loadStorage() {
