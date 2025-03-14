@@ -313,7 +313,7 @@ export class GruposTrabajoComponent implements OnInit {
       Swal.fire({
         icon:'warning',
         title:'¡Atención!',
-        text:'No se puede agregar un nuevo integrante mientras se esté editando uno existente, guardar los cambios e intentar de nuevo.',
+        text:'No está permitido agregar un nuevo integrante mientras se está editando uno existente, finalizar la edición para registrar uno nuevo.',
         confirmButtonText:'Entendido'
       })
       return;
@@ -340,7 +340,7 @@ export class GruposTrabajoComponent implements OnInit {
         Swal.fire({
           icon:'warning',
           title:'¡Atención!',
-          text:'Solo se permite agregar un integrante a la vez, se debe terminar el registro del integrante actual y posteriormente registrar uno nuevo.',
+          text:'Solo se permite agregar un integrante a la vez, se debe terminar el registro del integrante actual, y posteriormente, iniciar un registro nuevo.',
           confirmButtonText:'Entendido'
         })
       }
@@ -389,7 +389,7 @@ export class GruposTrabajoComponent implements OnInit {
         Swal.fire({
           icon:'info',
           title:'¡Atención!',
-          text:'No se permite eliminar integrantes cuando hay alguno en registro o edición.',
+          text:'La eliminación de un integrante no está permitida cuando hay uno en registro o edición.',
           confirmButtonText:'Entendido'
         })
         return;
@@ -519,7 +519,7 @@ export class GruposTrabajoComponent implements OnInit {
       Swal.fire({
         icon:'warning',
         title:'¡Atención!',
-        text:'No se puede editar la información de otro integrante mientras se encuenta uno en edición, finalizar la edición del actual e intentar de nuevo.',
+        text:'Solo se permite editar la información de un integrante a la vez, favor de finalizar los cambios e iniciar la edición de uno distinto.',
         confirmButtonText:'Entendido'
       })
       return;
