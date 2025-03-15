@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { DistritalRoutingModule } from './distrital-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { AuthModule } from '../auth/auth.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
 
@@ -37,7 +38,8 @@ import { TablaActasComponent } from './components/tabla-actas/tabla-actas.compon
     DistritalRoutingModule,
     SharedModule,
     DataTablesModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AuthModule
   ]
 })
 export class DistritalModule { }
