@@ -19,6 +19,7 @@ import { ConfirmLoginComponent } from './components/confirm-login/confirm-login.
     AuthRoutingModule,
     ReactiveFormsModule,
     SharedModule
-  ]
+  ],
+  exports: [ConfirmLoginComponent]  // para que pueda ser usado en otros modulos
 })
 export class AuthModule { }

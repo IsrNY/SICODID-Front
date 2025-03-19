@@ -3,6 +3,9 @@ import { IncidentesService } from '../../services/incidentes.service';
 import { Incidente } from '../../interfaces/incidentes.interface';
 import { DtAttibService } from '../../../shared/services/dt-attib.service';
 import { Config } from 'datatables.net';
+import { VerifyService } from '../../../auth/services/verify.service';
+import Swal from 'sweetalert2';
+import { AuthService } from '../../../auth/services/auth.service';
 
 declare var $:any;
 
@@ -14,6 +17,8 @@ declare var $:any;
 export class IncidentesPageComponent implements OnInit, OnChanges {
   private incidenttesService = inject(IncidentesService);
   private dtAttrib = inject(DtAttibService);
+  private verifyService = inject(VerifyService);
+  private authService = inject(AuthService);
 
   ngOnInit(): void {
     this.dtOptions = this.dtAttrib.dtOptions;
@@ -44,16 +49,35 @@ export class IncidentesPageComponent implements OnInit, OnChanges {
   }
 
   openModal(id_incidente:number, id_opcion:number) {
-    if(id_incidente !== 0) {
-      this.incidentes!.filter(incidente => {
-        if(id_incidente == incidente.id_incidente) {
-          this.incidente = incidente
+    this.verifyService.verifyToken()
+    .subscribe(res => {
+      if(!res) {
+        Swal.fire({
+          icon:'info',
+          title:'¡Atención!',
+          text:'Su sesión ha expirado, para continuar con sus actividades es necesario volver a ingresar sus credenciales.',
+          showCancelButton:true,
+          confirmButtonText:'Acceder',
+          cancelButtonText:'Cancelar'
+        }).then((result) => {
+          if(result.isConfirmed) {
+            $('#confirmLoginModal').modal('show');
+          } else {
+            this.authService.logout();
+          }
+        })
+        return;
+      } else {
+        if(id_incidente !== 0) {
+          this.incidentes!.filter(incidente => {
+            if(id_incidente == incidente.id_incidente) {
+              this.incidente = incidente
+            }
+          })
         }
-      })
-    }
-    $('#incidentes').modal('show');
-    this.opcion = id_opcion;
+        $('#incidentes').modal('show');
+        this.opcion = id_opcion;
+      }
+    })
   }
-
-
 }

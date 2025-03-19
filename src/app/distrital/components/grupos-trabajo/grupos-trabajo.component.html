@@ -80,7 +80,7 @@
                   @if(myForm.get('integrantes')?.get(i.toString())?.disabled) {
                   <button class="btn btn-secondary" (click)="edit(i)"><i class="bi bi-pencil-fill"></i></button>
                   } @else {
-                    <button class="btn btn-warning" (click)="editIntegrante(i)"><i class="bi bi-pencil-fill"></i></button>
+                    <button class="btn btn-warning" (click)="editIntegrante(i)"><i class="bi bi-floppy-fill" style="color:#FFFFFF !important;"></i></button>
                   }
                 } @else {
                   <button class="btn btn-primary" (click)="saveIntegrante(i)"><i class="bi bi-floppy-fill"></i></button>

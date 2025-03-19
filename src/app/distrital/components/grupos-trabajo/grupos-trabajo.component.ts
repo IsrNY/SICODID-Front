@@ -347,8 +347,8 @@ export class GruposTrabajoComponent implements OnInit {
     }
   }
 
-  delete(index:number, id_integrante:string) {
-    this.integrantesService.deleteIntegrante(+id_integrante)
+  delete(index:number, id_integrante:number) {
+    this.integrantesService.deleteIntegrante(id_integrante)
     .subscribe(res => {
       Swal.fire({
         icon: res.success ? 'success' : 'error',
@@ -375,13 +375,13 @@ export class GruposTrabajoComponent implements OnInit {
         Swal.fire({
           icon:'warning',
           title:'¡Atención!',
-          text:'El integrante que está intentando eliminar se encuentra en edición, ¿Está seguro/a de realizar la eliminación?',
+          text:'El integrante que está intentando eliminar se encuentra en edición, ¿Está seguro/a de confirmar la acción?',
           showCancelButton:true,
           cancelButtonText:'No',
           confirmButtonText:'Sí'
         }).then((result) => {
           if(result.isConfirmed) {
-            this.delete(index, id_integrante);
+            this.delete(index, +id_integrante);
           }
         })
         return;
@@ -389,7 +389,7 @@ export class GruposTrabajoComponent implements OnInit {
         Swal.fire({
           icon:'info',
           title:'¡Atención!',
-          text:'La eliminación de un integrante no está permitida cuando hay uno en registro o edición.',
+          text:'La eliminación de un integrante no está permitida cuando se está editando uno existente o registrando uno nuevo.',
           confirmButtonText:'Entendido'
         })
         return;
@@ -403,7 +403,7 @@ export class GruposTrabajoComponent implements OnInit {
         confirmButtonText:'Confirmar'
       }).then((result) => {
         if(result.isConfirmed) {
-          this.delete(index, id_integrante);
+          this.delete(index, +id_integrante);
         }
       })
     } else {
