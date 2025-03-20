@@ -33,17 +33,43 @@ export class IncidentesPageComponent implements OnInit, OnChanges {
   public show_modal:boolean = false;
   public opcion:number = 0;
   public dtOptions:Config = {};
+  public showModal:boolean = false;
 
   getListaIncidentes() {
-    this.incidenttesService.getIncidentes()
+    this.verifyService.verifyToken()
     .subscribe(res => {
-      this.incidentes = res.datos as Incidente[];
+      if(!res) {
+        this.showModal = true;
+        Swal.fire({
+          icon:'info',
+          title:'¡Atención!',
+          text:'Su sesión ha expirado, es necesario proporcionar nuevamente sus credenciales para continuar, de lo contrario la sesión será terminada y se redirigirá a la página de inicio.',
+          showCancelButton:true,
+          confirmButtonText:'Acceder',
+          cancelButtonText:'Cancelar'
+        }).then((result) => {
+          if(result.isConfirmed) {
+            // this.authService.clearStorage();
+            $('#confirmLoginModal').modal('show');
+          } else {
+            this.authService.logout();
+          }
+        })
+        return;
+      } else {
+        this.incidenttesService.getIncidentes()
+        .subscribe(res => {
+          this.incidentes = res.datos as Incidente[];
+        })
+      }
     })
   }
 
   getReset(opcion:number) {
     if(opcion == 0) {
-      this.incidentes = undefined;
+      if(!this.showModal) {
+        this.incidentes = undefined;
+      }
       this.getListaIncidentes();
     }
   }
@@ -52,15 +78,17 @@ export class IncidentesPageComponent implements OnInit, OnChanges {
     this.verifyService.verifyToken()
     .subscribe(res => {
       if(!res) {
+        this.showModal = true;
         Swal.fire({
           icon:'info',
           title:'¡Atención!',
-          text:'Su sesión ha expirado, para continuar con sus actividades es necesario volver a ingresar sus credenciales.',
+          text:'Su sesión ha expirado, es necesario proporcionar nuevamente sus credenciales para continuar, de lo contrario la sesión será terminada y se redirigirá a la página de inicio.',
           showCancelButton:true,
           confirmButtonText:'Acceder',
           cancelButtonText:'Cancelar'
         }).then((result) => {
           if(result.isConfirmed) {
+            // this.authService.clearStorage();
             $('#confirmLoginModal').modal('show');
           } else {
             this.authService.logout();
@@ -79,5 +107,12 @@ export class IncidentesPageComponent implements OnInit, OnChanges {
         this.opcion = id_opcion;
       }
     })
+  }
+
+  getSuccess(success:boolean) {
+    if(success) {
+      this.showModal = false;
+      this.getListaIncidentes();
+    }
   }
 }

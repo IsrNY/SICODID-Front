@@ -52,12 +52,16 @@ export class AuthService {
     this.data = jwtDecode<Token>(localStorage.getItem('token')!);
   }
 
-  login(user:User) {
+  login(user:User, clear:boolean | undefined = undefined) {
     return this.http.post<Res>(`${this.baseUrl}/login`,user)
     .pipe(
       tap(res => {
         if(!res.success) {
           return;
+        }
+
+        if(clear) {
+          localStorage.clear();
         }
 
         localStorage.setItem('token',res.token!);

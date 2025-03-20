@@ -2,11 +2,49 @@
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
     <div class="modal-content">
       <div class="modal-body">
-        <div class="container-fluid">
-          <form [formGroup]="myForm">
-            
-          </form>
+        <form [formGroup]="myForm" (ngSubmit)="login()">
+        <div class="container-fluid p-0 m-0">
+          <div class="row p-0 m-0">
+            <div class="col-12">
+              <img src="assets/logo-header.png" alt="Logo IECM">
+            </div>
+            <div class="col-12 pt-3">
+              <h3 style="font-size:30px;"><strong>SICODID</strong></h3>
+              <h4 style="font-size:18px;">Sistema de Cómputos Distritales y de Demarcación</h4>
+              <h5 style="font-size: 15px;">Elección del Poder Judicial de la Ciudad de México</h5>
+            </div>
+            <div class="col-12 pt-3 mb-3">
+              <h6 style="font-size: 13px;">Para ingresar al sistema proporcione sus credenciales de acceso</h6>
+              <div class="input-group px-3">
+                <label for="user" class="input-group-text"><i class="bi bi-person-fill p-0 m-0"></i></label>
+                <input type="text" id="user" class="form-control" placeholder="Usuario" formControlName="usuario" autocomplete="off">
+              </div>
+              @if(isValidField('usuario')) {
+                <span class="text-danger">{{getFieldErrors('usuario')}}</span>
+              }
+            </div>
+            <div class="col-12 pt-3 mb-3">
+              <div class="input-group px-3">
+                <label for="pass" class="input-group-text"><i class="bi bi-key-fill p-0 m-0"></i></label>
+                <input type="password" id="pass" class="form-control" placeholder="Contraseña" formControlName="contrasena" autocomplete="off">
+              </div>
+              @if(isValidField('contrasena')) {
+                <span class="text-danger">{{getFieldErrors('contrasena')}}</span>
+              }
+            </div>
+            <div class="col-12 pt-2 text-center">
+              <div class="px-3">
+                <button class="btn btn-main" type="submit">Acceder</button>
+              </div>
+            </div>
+            <div class="col-12 pt-2 text-center">
+              <div class="mb-2 px-3">
+                <button class="btn btn-secondary" type="button" (click)="close(true)" >Cancelar</button>
+              </div>
+            </div>
+          </div>
         </div>
+      </form>
       </div>
   </div>
 </div>

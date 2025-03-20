@@ -1,12 +1,17 @@
 
 .modal-content {
   background-color: rgb(238, 238, 238);
-  border-top: 6px solid #522A78;
+  /* border-top: 6px solid #522A78; */
   border-radius: 10px;
 }
 .modal-dialog-centered {
   width:430px;
 }
+
+.btn {
+  width: 100% !important;
+}
+
 
 input {
   text-transform:none !important;
