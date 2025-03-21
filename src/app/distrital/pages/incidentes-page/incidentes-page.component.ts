@@ -49,7 +49,6 @@ export class IncidentesPageComponent implements OnInit, OnChanges {
           cancelButtonText:'Cancelar'
         }).then((result) => {
           if(result.isConfirmed) {
-            // this.authService.clearStorage();
             $('#confirmLoginModal').modal('show');
           } else {
             this.authService.logout();
