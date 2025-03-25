@@ -4,6 +4,8 @@ import { AuthService } from '../services/auth.service';
 import { VerifyService } from '../services/verify.service';
 import { map, tap } from 'rxjs';
 
+declare var $:any;
+
 export const PublicGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const verificaService = inject(VerifyService);
@@ -19,6 +21,7 @@ export const PublicGuard: CanActivateFn = (route, state) => {
         }
       } else {
         authService.clearStorage();
+        // $('#login').modal('show');
       }
     }),
     map(isAuthenticated => !isAuthenticated)

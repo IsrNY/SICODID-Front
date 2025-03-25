@@ -3,8 +3,8 @@
     <div class="col-5">
       <div class="login">
         <form [formGroup]="myForm" (ngSubmit)="login()">
-          <div class="container">
-            <div class="row pt-4">
+          <div class="container py-5">
+            <div class="row p-0 m-0">
               <div class="col-12">
                 <img src="assets/logo-header.png" alt="Logo IECM">
               </div>
@@ -32,9 +32,9 @@
                   <span class="text-danger">{{getFieldErrors('contrasena')}}</span>
                 }
               </div>
-              <div class="col-12 pt-3 text-center">
-                <div class="mb-5 px-3">
-                  <button class="btn btn-main" type="submit" ><i class="bi bi-box-arrow-in-right"></i> Iniciar sesión</button>
+              <div class="col-12 pt-2 text-center">
+                <div class="px-3">
+                  <button class="btn btn-main" type="submit"><i class="bi bi-box-arrow-in-right"></i> Acceder</button>
                 </div>
               </div>
             </div>

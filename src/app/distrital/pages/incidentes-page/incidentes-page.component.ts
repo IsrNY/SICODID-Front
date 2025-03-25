@@ -50,8 +50,6 @@ export class IncidentesPageComponent implements OnInit, OnChanges {
         }).then((result) => {
           if(result.isConfirmed) {
             $('#confirmLoginModal').modal('show');
-          } else {
-            this.authService.logout();
           }
         })
         return;
