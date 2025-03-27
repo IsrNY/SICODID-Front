@@ -49,6 +49,7 @@
   </div>
 </div>
 <distrital-registro-incidentes [incidente]="incidente" [opcion]="opcion" (reset_opcion)="getReset($event)"/>
-@if(showModal) {
-  <auth-confirm-login (success)="getSuccess($event)"/>
-}
+<!-- @if(showModal) { -->
+  <auth-confirm-login />
+  <!-- <auth-confirm-login (success)="getSuccess($event)"/> -->
+<!-- } -->

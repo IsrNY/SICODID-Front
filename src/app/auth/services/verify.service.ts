@@ -6,8 +6,6 @@ import { WebSocketService } from '../../shared/services/web-socket.service';
 import { Res } from '../interfaces/res.interface';
 import { tap, map, of, catchError } from 'rxjs';
 import Swal from 'sweetalert2';
-import { setThrowInvalidWriteToSignalError } from '@angular/core/primitives/signals';
-
 
 @Injectable({
   providedIn: 'root'

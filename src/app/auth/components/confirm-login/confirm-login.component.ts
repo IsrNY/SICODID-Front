@@ -22,47 +22,47 @@ export class ConfirmLoginComponent {
     contrasena: ['', [Validators.required]]
   });
 
-  @Output()
-  public success = new EventEmitter<boolean>();
+  // @Output()
+  // public success = new EventEmitter<boolean>();
 
-  login() {
-    if(this.myForm.invalid) {
-      this.myForm.markAllAsTouched();
-      Swal.fire({
-        icon:'warning',
-        title:'¡Atención!',
-        text:'Ambos campos del formulario de inicio de sesión deben contener los datos de las credenciales requeridos.',
-        confirmButtonText:'Entendido'
-      });
-      return
-    }
+  // login() {
+  //   if(this.myForm.invalid) {
+  //     this.myForm.markAllAsTouched();
+  //     Swal.fire({
+  //       icon:'warning',
+  //       title:'¡Atención!',
+  //       text:'Ambos campos del formulario de inicio de sesión deben contener los datos de las credenciales requeridos.',
+  //       confirmButtonText:'Entendido'
+  //     });
+  //     return
+  //   }
 
-    this.authService.login(this.myForm.value as User, true)
-    .subscribe(res => {
-      Swal.fire({
-        icon:res.success ? 'success' : 'error',
-        title:res.success? '¡Correcto!' : '¡Error!',
-        text:res.msg,
-        showConfirmButton:false,
-        timer:2200
-      }).then(() => {
-        if(res.success) {
-          this.close();
-        }
-      })
-    })
-  }
+  //   this.authService.login(this.myForm.value as User, true)
+  //   .subscribe(res => {
+  //     Swal.fire({
+  //       icon:res.success ? 'success' : 'error',
+  //       title:res.success? '¡Correcto!' : '¡Error!',
+  //       text:res.msg,
+  //       showConfirmButton:false,
+  //       timer:2200
+  //     }).then(() => {
+  //       if(res.success) {
+  //         this.close();
+  //       }
+  //     })
+  //   })
+  // }
 
-  close(logout:boolean | undefined = undefined) {
-    $('#confirmLoginModal').modal('hide');
-    this.success.emit(true);
-    // this.myForm.reset({usuario:'', contrasena:''});
-    // this.myForm.markAsUntouched();
-    if(logout) {
-      this.authService.logout(); // Desloguear antes de cerrar el modal
-    }
-    // this.myForm.patchValue({usuario:'', contrasena:''});
-  }
+  // close(logout:boolean | undefined = undefined) {
+  //   $('#confirmLoginModal').modal('hide');
+  //   this.success.emit(true);
+  //   this.myForm.patchValue({usuario:'', contrasena:''});
+  //   // this.myForm.reset({usuario:'', contrasena:''});
+  //   this.myForm.markAsUntouched();
+  //   if(logout) {
+  //     this.authService.logout(); // Desloguear antes de cerrar el modal
+  //   }
+  // }
 
   isValidField(field:string) {
     return this.validatorsService.isValidField(this.myForm, field);

@@ -1,9 +1,10 @@
-<div class="modal fade" id="confirmLoginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmLoginLabel" aria-hidden="true">
+<div class="modal fade shadow-lg" id="confirmLoginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmLoginLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content p-0 m-0">
+    <div class="modal-content p-0 m-0 shadow-lg">
       <div class="modal-body p-0 m-0">
-        <form [formGroup]="myForm" (ngSubmit)="login()">
-          <div class="container py-5">
+        <!-- <form [formGroup]="myForm" (ngSubmit)="login()"> -->
+        <form [formGroup]="myForm">
+          <div class="container py-4">
             <div class="row p-0 m-0">
               <div class="col-12">
                 <img src="assets/logo-header.png" alt="Logo IECM">
@@ -14,7 +15,7 @@
                 <h5 style="font-size: 15px;">Elección del Poder Judicial de la Ciudad de México</h5>
               </div>
               <div class="col-12 pt-3 mb-3">
-                <h6 style="font-size: 13px;">Para ingresar al sistema proporcione sus credenciales de acceso</h6>
+                <h6 style="font-size: 13px;">Para continuar su sesión, ingrese sus credenciales de acceso nuevamente</h6>
                 <div class="input-group px-3">
                   <label for="user" class="input-group-text"><i class="bi bi-person-fill p-0 m-0"></i></label>
                   <input type="text" id="user" class="form-control" placeholder="Usuario" formControlName="usuario" autocomplete="off">
@@ -34,7 +35,13 @@
               </div>
               <div class="col-12 pt-2 text-center">
                 <div class="px-3">
-                  <button class="btn btn-main" type="submit"><i class="bi bi-box-arrow-in-right"></i> Acceder</button>
+                  <button class="btn btn-main" type="submit">Acceder</button>
+                </div>
+              </div>
+              <div class="col-12 pt-2 text-center">
+                <div class="px-3">
+                  <!-- <button class="btn btn-secondary" type="button" (click)="close(true)">Salir</button> -->
+                  <button class="btn btn-secondary" type="button">Salir</button>
                 </div>
               </div>
             </div>
