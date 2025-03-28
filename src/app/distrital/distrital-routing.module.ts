@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, CanActivateFn } from '@angular/router';
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
 import { DbStatusComponent } from './components/db-status/db-status.component';
 import { ComputoComponent } from './components/computo/computo.component';
@@ -9,10 +9,12 @@ import { GruposTrabajoComponent } from './components/grupos-trabajo/grupos-traba
 import { ReportesComponent } from './components/reportes/reportes.component';
 import { IncidentesPageComponent } from './pages/incidentes-page/incidentes-page.component';
 import { GestionActasComponent } from './pages/gestion-actas/gestion-actas.component';
+import { verifyGuard } from '../auth/guards/verify.guard';
 
 const routes: Routes = [
   {
     path: 'status',
+    canActivate:[verifyGuard],
     component:LayoutPageComponent,
     children: [
       {
@@ -27,6 +29,7 @@ const routes: Routes = [
   },
   {
     path:'computo',
+    canActivate:[verifyGuard],
     component:LayoutPageComponent,
     children: [
       {
@@ -41,6 +44,7 @@ const routes: Routes = [
   },
   {
     path:'procesos',
+    canActivate:[verifyGuard],
     component:LayoutPageComponent,
     children: [
       {
@@ -59,6 +63,7 @@ const routes: Routes = [
   },
   {
     path:'reportes',
+    canActivate:[verifyGuard],
     component:LayoutPageComponent,
     children: [
       {

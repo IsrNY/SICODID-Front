@@ -1,9 +1,9 @@
-<div class="modal fade shadow-lg" id="confirmLoginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmLoginLabel" aria-hidden="true">
+<div class="modal fade text-center" id="confirmLoginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmLoginLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content p-0 m-0 shadow-lg">
       <div class="modal-body p-0 m-0">
         <!-- <form [formGroup]="myForm" (ngSubmit)="login()"> -->
-        <form [formGroup]="myForm">
+        <form [formGroup]="myForm" (ngSubmit)="login()">
           <div class="container py-4">
             <div class="row p-0 m-0">
               <div class="col-12">
@@ -18,7 +18,7 @@
                 <h6 style="font-size: 13px;">Para continuar su sesión, ingrese sus credenciales de acceso nuevamente</h6>
                 <div class="input-group px-3">
                   <label for="user" class="input-group-text"><i class="bi bi-person-fill p-0 m-0"></i></label>
-                  <input type="text" id="user" class="form-control" placeholder="Usuario" formControlName="usuario" autocomplete="off">
+                  <input type="text" id="user" class="form-control" placeholder="Usuario" formControlName="usuario" aria-label="label_user" autocomplete="off" autofocus="off">
                 </div>
                 @if(isValidField('usuario')) {
                   <span class="text-danger">{{getFieldErrors('usuario')}}</span>
@@ -27,7 +27,7 @@
               <div class="col-12 pt-3 mb-3">
                 <div class="input-group px-3">
                   <label for="pass" class="input-group-text"><i class="bi bi-key-fill p-0 m-0"></i></label>
-                  <input type="password" id="pass" class="form-control" placeholder="Contraseña" formControlName="contrasena" autocomplete="off">
+                  <input type="password" id="pass" class="form-control" placeholder="Contraseña" formControlName="contrasena" aria-label="label_contrasena" autocomplete="off" autofocus="off">
                 </div>
                 @if(isValidField('contrasena')) {
                   <span class="text-danger">{{getFieldErrors('contrasena')}}</span>
@@ -41,12 +41,12 @@
               <div class="col-12 pt-2 text-center">
                 <div class="px-3">
                   <!-- <button class="btn btn-secondary" type="button" (click)="close(true)">Salir</button> -->
-                  <button class="btn btn-secondary" type="button">Salir</button>
+                  <button class="btn btn-secondary" id="close" type="button" (click)="closeLogin()">Salir</button>
                 </div>
               </div>
             </div>
           </div>
       </form>
-      </div>
+    </div>
   </div>
 </div>

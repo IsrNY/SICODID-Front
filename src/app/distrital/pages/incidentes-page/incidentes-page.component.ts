@@ -38,6 +38,7 @@ export class IncidentesPageComponent implements OnInit, OnChanges {
   public dtOptions:Config = {};
   public showModal:boolean = false;
   public recharge?:boolean;
+  public randomValue:number = 0;
 
   async getListaIncidentes() {
     if(this.recharge) {
@@ -83,39 +84,46 @@ export class IncidentesPageComponent implements OnInit, OnChanges {
     }
   }
 
+  getRandom() {
+    return Math.random() * 100;
+  }
+
   openModal(id_incidente:number, id_opcion:number) {
-    this.verifyService.verifyToken()
-    .subscribe(res => {
-      if(!res) {
-        this.showModal = true;
-        Swal.fire({
-          icon:'info',
-          title:'¡Atención!',
-          text:'Su sesión ha expirado, es necesario proporcionar nuevamente sus credenciales para continuar, de lo contrario la sesión será terminada y se redirigirá a la página de inicio.',
-          showCancelButton:true,
-          confirmButtonText:'Acceder',
-          cancelButtonText:'Cancelar'
-        }).then((result) => {
-          if(result.isConfirmed) {
-            // this.authService.clearStorage();
-            $('#confirmLoginModal').modal('show');
-          } else {
-            this.authService.logout();
-          }
-        })
-        return;
-      } else {
-        if(id_incidente !== 0) {
-          this.incidentes!.filter(incidente => {
-            if(id_incidente == incidente.id_incidente) {
-              this.incidente = incidente
-            }
-          })
-        }
-        $('#incidentes').modal('show');
-        this.opcion = id_opcion;
-      }
-    })
+    $('#confirmLoginModal').modal('show');
+    this.randomValue = this.getRandom();
+
+    // this.verifyService.verifyToken()
+    // .subscribe(res => {
+    //   if(!res) {
+    //     this.showModal = true;
+    //     Swal.fire({
+    //       icon:'info',
+    //       title:'¡Atención!',
+    //       text:'Su sesión ha expirado, es necesario proporcionar nuevamente sus credenciales para continuar, de lo contrario la sesión será terminada y se redirigirá a la página de inicio.',
+    //       showCancelButton:true,
+    //       confirmButtonText:'Acceder',
+    //       cancelButtonText:'Cancelar'
+    //     }).then((result) => {
+    //       if(result.isConfirmed) {
+    //         // this.authService.clearStorage();
+    //         $('#confirmLoginModal').modal('show');
+    //       } else {
+    //         this.authService.logout();
+    //       }
+    //     })
+    //     return;
+    //   } else {
+    //     if(id_incidente !== 0) {
+    //       this.incidentes!.filter(incidente => {
+    //         if(id_incidente == incidente.id_incidente) {
+    //           this.incidente = incidente
+    //         }
+    //       })
+    //     }
+    //     $('#incidentes').modal('show');
+    //     this.opcion = id_opcion;
+    //   }
+    // })
   }
 
   getSuccess(success:boolean) {

@@ -1,8 +1,9 @@
 
 .modal-content {
   background-color: rgb(238, 238, 238);
-  /* border-top: 6px solid #522A78; */
-  border-radius: 10px;
+  border-top: 6px solid #522A78;
+  border-radius: 3px;
+  /* border-top: solid 3px rgb(119, 0, 255); */
 }
 .modal-dialog-centered {
   width:430px;
