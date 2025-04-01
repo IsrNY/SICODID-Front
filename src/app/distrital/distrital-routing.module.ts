@@ -19,55 +19,60 @@ const routes: Routes = [
     children: [
       {
         path: 'data_base',
-        component:DbStatusComponent
+        canActivate:[verifyGuard],
+        component:DbStatusComponent,
       },
       {
         path:'**',
+        // canActivate:[verifyGuard],
         redirectTo:'data_base'
       }
     ]
   },
   {
     path:'computo',
-    canActivate:[verifyGuard],
     component:LayoutPageComponent,
     children: [
       {
         path:'inicio_computo',
+        canActivate:[verifyGuard],
         component:ComputoComponent
       },
       {
         path:'cierre_computo',
+        canActivate:[verifyGuard],
         component:ComputoComponent
       }
     ]
   },
   {
     path:'procesos',
-    canActivate:[verifyGuard],
     component:LayoutPageComponent,
     children: [
       {
         path:'registro_incidentes',
+        canActivate:[verifyGuard],
         component:IncidentesPageComponent
       },
       {
         path:'actas',
+        canActivate:[verifyGuard],
         component:GestionActasComponent
       },
       {
         path:'grupos_trabajo',
+        canActivate:[verifyGuard],
         component:GruposTrabajoComponent
       }
     ]
   },
   {
     path:'reportes',
-    canActivate:[verifyGuard],
     component:LayoutPageComponent,
     children: [
       {
         path:'reportes_generales',
+        canActivate:[verifyGuard],
         component:ReportesComponent
       }
     ]

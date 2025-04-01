@@ -18,13 +18,16 @@ export const verifyGuard: CanActivateFn = (route, state) => {
         Swal.fire({
           icon:'warning',
           title:'¡Atención!',
-          text:'El tiempo de su sesión ha expirado, para continuar es necesario proporcionar sus credenciales de acceso',
+          text:'El tiempo de su sesión ha expirado, para continuar es necesario proporcionar nuevamente sus credenciales de acceso',
           showCancelButton:true,
           cancelButtonText:'Cancelar',
           confirmButtonText:'Acceder'
         }).then(result => {
           if(result.isConfirmed) {
             $('#confirmLoginModal').modal('show');
+          } else {
+            authService.logout();
+            return false;
           }
           return true;
         })

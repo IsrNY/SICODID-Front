@@ -7,6 +7,7 @@ import { VerifyService } from '../../../auth/services/verify.service';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../../auth/services/auth.service';
 import { Location } from '@angular/common';
+import { SharedMethodsService } from '../../../shared/services/shared-methods.service';
 
 declare var $:any;
 
@@ -20,119 +21,97 @@ export class IncidentesPageComponent implements OnInit, OnChanges {
   private dtAttrib = inject(DtAttibService);
   private verifyService = inject(VerifyService);
   private authService = inject(AuthService);
-  private location = inject(Location)
+  private sharedMethodsService = inject(SharedMethodsService);
 
   ngOnInit(): void {
     this.dtOptions = this.dtAttrib.dtOptions;
-    this.recharge = true;
+    // this.recharge = true;
+    this.getListaIncidentes();
   }
 
   ngOnChanges(): void {
-    this.getListaIncidentes();
+    // if(this.reset_value !== 0) {
+      this.getListaIncidentes();
+    // }
+    console.log(this.reset_value);
   }
 
   public incidentes:Incidente[] | undefined;
   public incidente!:Incidente;
-  public show_modal:boolean = false;
   public opcion:number = 0;
   public dtOptions:Config = {};
   public showModal:boolean = false;
-  public recharge?:boolean;
-  public randomValue:number = 0;
+  public reset_value:number = 0;
 
-  async getListaIncidentes() {
-    if(this.recharge) {
-      this.verifyService.verifyToken()
-      .subscribe(res => {
-        if(!res) {
-          Swal.fire({
-            icon:'warning',
-            title:'¡Atención!',
-            text:'El tiempo disponible para su sesión se ha agotado, se requieren sus credenciales de acceso para continuar, ¿Desea acceder?',
-            showCancelButton:true,
-            confirmButtonText:'Acceder',
-            cancelButtonText:'Cancelar'
-          }).then((result) => {
-          console.log(result);
-            if(result.isConfirmed) {
-              $('#confirmLoginModal').modal('show');
-              return;
-            } else if(!result.isDismissed) {
-              // $('#confirmLoginModal').modal('hide');
-              this.recharge = false;
-              this.authService.logout();
-              // this.authService.clearStorage();
-            }
-          })
-          return;
-        } else {
-          this.incidenttesService.getIncidentes()
-          .subscribe(res => {
-            this.incidentes = res.datos as Incidente[];
-          })
-        }
-      })
-    }
+  getListaIncidentes() {
+    this.incidenttesService.getIncidentes()
+    .subscribe(res => {
+      this.incidentes = res.datos as Incidente[];
+      console.log(this.incidentes);
+    })
   }
 
   getReset(opcion:number) {
-    if(opcion == 0) {
-      if(!this.showModal) {
-        this.incidentes = undefined;
+    this.reset_value = opcion;
+    if(this.reset_value !== 0) {
+      // this.verifyService.verifyToken()
+      // .subscribe(res => {
+      //   if(!res) {
+      //     this.showModal = true;
+      //     Swal.fire({
+      //       icon:'warning',
+      //       title:'¡Atención!',
+      //       text:'El tiempo de su sesión ha terminado, para continuar con sus actividades, es necesario proporcionar nuevamente sus credenciales de acceso.',
+      //       showCancelButton:true,
+      //       confirmButtonText:'Acceder',
+      //       cancelButtonText:'Cancelar'
+      //     }).then((result) => {
+      //       if(result.isConfirmed) {
+      //         $('#confirmLoginModal').modal('show');
+      //       } else {
+      //         this.authService.logout(true);
+      //       }
+      //     })
+      //     return;
+      //   }
+      // })
+      this.incidentes = undefined;
+      this.getListaIncidentes();
+    }
+  }
+
+  async openModal(id_incidente:number, id_opcion:number) {
+    await this.verifyService.verifyToken()
+    .subscribe(res => {
+      if(!res) {
+        this.showModal = true;
+        Swal.fire({
+          icon:'warning',
+          title:'¡Atención!',
+          text:'El tiempo de su sesión ha terminado, para continuar con sus actividades, es necesario proporcionar nuevamente sus credenciales de acceso.',
+          showCancelButton:true,
+          confirmButtonText:'Acceder',
+          cancelButtonText:'Cancelar'
+        }).then((result) => {
+          if(result.isConfirmed) {
+            $('#confirmLoginModal').modal('show');
+          } else {
+            this.authService.logout(true);
+          }
+        })
+        return;
+      } else {
+        if(id_incidente !== 0) {
+          this.incidentes!.filter(incidente => {
+            if(id_incidente == incidente.id_incidente) {
+              this.incidente = incidente
+            }
+          })
+        }
+        this.opcion = id_opcion;
+        this.reset_value = 0;
+        $('#incidentes').modal('show');
       }
-      this.getListaIncidentes();
-    }
-  }
-
-  getRandom() {
-    return Math.random() * 100;
-  }
-
-  openModal(id_incidente:number, id_opcion:number) {
-    $('#confirmLoginModal').modal('show');
-    this.randomValue = this.getRandom();
-
-    // this.verifyService.verifyToken()
-    // .subscribe(res => {
-    //   if(!res) {
-    //     this.showModal = true;
-    //     Swal.fire({
-    //       icon:'info',
-    //       title:'¡Atención!',
-    //       text:'Su sesión ha expirado, es necesario proporcionar nuevamente sus credenciales para continuar, de lo contrario la sesión será terminada y se redirigirá a la página de inicio.',
-    //       showCancelButton:true,
-    //       confirmButtonText:'Acceder',
-    //       cancelButtonText:'Cancelar'
-    //     }).then((result) => {
-    //       if(result.isConfirmed) {
-    //         // this.authService.clearStorage();
-    //         $('#confirmLoginModal').modal('show');
-    //       } else {
-    //         this.authService.logout();
-    //       }
-    //     })
-    //     return;
-    //   } else {
-    //     if(id_incidente !== 0) {
-    //       this.incidentes!.filter(incidente => {
-    //         if(id_incidente == incidente.id_incidente) {
-    //           this.incidente = incidente
-    //         }
-    //       })
-    //     }
-    //     $('#incidentes').modal('show');
-    //     this.opcion = id_opcion;
-    //   }
-    // })
-  }
-
-  getSuccess(success:boolean) {
-    if(success) {
-      this.showModal = false;
-      this.recharge = true;
-      this.getListaIncidentes();
-    } else {
-      this.recharge = false;
-    }
+    })
   }
 }

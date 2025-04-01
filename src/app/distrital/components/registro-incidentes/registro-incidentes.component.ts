@@ -6,6 +6,9 @@ import Swal from 'sweetalert2';
 import { IncidentesService } from '../../services/incidentes.service';
 import { ValidatorsService } from '../../../shared/services/validators.service';
 import { CatalogosService } from '../../../shared/services/catalogos.service';
+import { VerifyService } from '../../../auth/services/verify.service';
+import { AuthService } from '../../../auth/services/auth.service';
+import { lastValueFrom } from 'rxjs';
 
 declare var $:any;
 
@@ -19,6 +22,8 @@ export class RegistroIncidentesComponent implements OnInit, OnChanges {
   private incidentesService = inject(IncidentesService);
   private validatorsService = inject(ValidatorsService);
   private catalogosService = inject(CatalogosService);
+  private verifyService = inject(VerifyService);
+  private authService = inject(AuthService);
 
   public myForm = this.fb.group({
     id_tipo_incidente:['',[Validators.required]],
@@ -60,7 +65,6 @@ export class RegistroIncidentesComponent implements OnInit, OnChanges {
     if(this.opcion > 1) {
       this.myForm.enable();
     }
-    this.reset_opcion.emit(0);
   }
 
   ngOnChanges(): void {
@@ -94,7 +98,8 @@ export class RegistroIncidentesComponent implements OnInit, OnChanges {
   }
 
   touched(field:string) {
-    if(this.getFieldLengthErrors(field) == 'Campo obligatorio' || this.getFieldLengthErrors(field).match('Cantidad mínima de caracteres:') || this.myForm.get(field)?.value.length > (field === 'participantes' ? (this.maxlength/4) : (this.maxlength))) {
+    if(this.getFieldLengthErrors(field) == 'Campo obligatorio' || this.getFieldLengthErrors(field).match('Cantidad mínima de caracteres:') ||
+      this.myForm.get(field)?.value.length > (field === 'participantes' ? (this.maxlength/4) : (this.maxlength))) {
       return true;
     } else {
       return false;
@@ -142,6 +147,7 @@ export class RegistroIncidentesComponent implements OnInit, OnChanges {
               if(res.success) {
                 $('#incidentes').modal('hide');
                 this.resetValues();
+                this.reset_opcion.emit(1);
               }
             })
           })
@@ -157,6 +163,7 @@ export class RegistroIncidentesComponent implements OnInit, OnChanges {
             }).then(() => {
               $('#incidentes').modal('hide');
               this.resetValues();
+              this.reset_opcion.emit(2);
             })
           })
         }
@@ -165,29 +172,51 @@ export class RegistroIncidentesComponent implements OnInit, OnChanges {
   }
 
   delIncidente(id_incidente:number) {
-    Swal.fire({
-      icon:'info',
-      title:'¡Atención!',
-      text:'La eliminación de un incidente es un proceso irreversible, ¿Desea confirmar la eliminación?',
-      showCancelButton:true,
-      cancelButtonText:'Cancelar',
-      confirmButtonText:'Confirmar'
-    }).then((result) => {
-      if(result.isConfirmed) {
-        this.incidentesService.delIncidente(id_incidente)
-        .subscribe(res => {
-          Swal.fire({
-            icon:res.success ? 'success' : 'error',
-            title:res.success ? '¡Correcto!' : '¡Error!',
-            text:res.msg,
-            showConfirmButton:false,
-            timer:2500
-          }).then(() => {
-            if(res.success) {
-              $('#incidentes').modal('hide');
-              this.resetValues();
-            }
-          })
+    this.verifyService.verifyToken()
+    .subscribe(res => {
+      if(!res) {
+        Swal.fire({
+          icon:'warning',
+          title:'¡Atención!',
+          text:'El tiempo de su sesión ha terminado, para continuar con sus actividades, es necesario proporcionar nuevamente sus credenciales de acceso.',
+          showCancelButton:true,
+          confirmButtonText:'Acceder',
+          cancelButtonText:'Cancelar'
+        }).then((result) => {
+          if(result.isConfirmed) {
+            $('#confirmLoginModal').modal('show');
+          } else {
+            this.authService.logout(true);
+          }
+        })
+        return;
+      }else {
+        Swal.fire({
+          icon:'info',
+          title:'¡Atención!',
+          text:'La eliminación de un incidente es un proceso irreversible, ¿Desea confirmar la eliminación?',
+          showCancelButton:true,
+          cancelButtonText:'Cancelar',
+          confirmButtonText:'Confirmar'
+        }).then((result) => {
+          if(result.isConfirmed) {
+            this.incidentesService.delIncidente(id_incidente)
+            .subscribe(res => {
+              Swal.fire({
+                icon:res.success ? 'success' : 'error',
+                title:res.success ? '¡Correcto!' : '¡Error!',
+                text:res.msg,
+                showConfirmButton:false,
+                timer:2500
+              }).then(() => {
+                if(res.success) {
+                  $('#incidentes').modal('hide');
+                  this.resetValues();
+                  this.reset_opcion.emit(3);
+                }
+              })
+            })
+          }
         })
       }
     })
