@@ -10,6 +10,7 @@ import { ReportesComponent } from './components/reportes/reportes.component';
 import { IncidentesPageComponent } from './pages/incidentes-page/incidentes-page.component';
 import { GestionActasComponent } from './pages/gestion-actas/gestion-actas.component';
 import { verifyGuard } from '../auth/guards/verify.guard';
+import { GestionActasJornadaPageComponent } from './pages/gestion-actas-jornada-page/gestion-actas-jornada-page.component';
 
 const routes: Routes = [
   {
@@ -55,9 +56,14 @@ const routes: Routes = [
         component:IncidentesPageComponent
       },
       {
-        path:'actas',
+        path:'hojas_operaciones',
         canActivate:[verifyGuard],
         component:GestionActasComponent
+      },
+      {
+        path:'actas_jornada',
+        canActivate:[verifyGuard],
+        component:GestionActasJornadaPageComponent
       },
       {
         path:'grupos_trabajo',

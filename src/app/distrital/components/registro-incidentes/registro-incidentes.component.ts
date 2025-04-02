@@ -125,6 +125,7 @@ export class RegistroIncidentesComponent implements OnInit, OnChanges {
       return;
     }
 
+     
     Swal.fire({
       icon:'question',
       title:`¿Confirmar operación?`,

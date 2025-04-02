@@ -14,6 +14,7 @@
             <th>Cargo</th>
             <th>Función</th>
             <th>Grupo de trabajo</th>
+            <th>Turno</th>
             <th colspan="2">Acciones</th>
           </tr>
         </thead>
@@ -76,6 +77,13 @@
                 }
               </td>
               <td>
+                <select class="form-select text-center" formControlName="turno">
+                  <option value="">Seleccionar</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                </select>
+              </td>
+              <td>
                 @if(integrante.get('id_integrante')?.value !== '') {
                   @if(myForm.get('integrantes')?.get(i.toString())?.disabled) {
                   <button class="btn btn-secondary" (click)="edit(i)"><i class="bi bi-pencil-fill"></i></button>
@@ -98,87 +106,3 @@
     </div>
   </form>
 </div>
-<!-- <div class="row py-2 m-0">
-  <div class="col-3">
-    <h5>{{integrante !== undefined ? 'Actualizar' : 'Registrar'}} integrante</h5>
-    <div class="fixed  bg-form">
-      <form [formGroup]="myForm">
-        <strong>Nombre(s)</strong>
-        <input type="text" class="form-control text-center" formControlName="nombres" id="nombre" (keydown)="next($event, 'ape1')">
-        @if(isValidField('nombres')) {
-          <span class="text-danger">{{getFieldErrors('nombres')}}</span><br>
-        }
-        <strong>Primer apellido</strong>
-        <input type="text" class="form-control text-center" formControlName="apellido1" id="ape1" (keydown)="next($event, 'ape2')">
-        @if(isValidField('apellido1')) {
-          <span class="text-danger">{{getFieldErrors('apellido1')}}</span><br>
-        }
-        <strong>Segundo apellido</strong>
-        <input type="text" class="form-control text-center" formControlName="apellido2" id="ape2" (keydown)="next($event, 'cargo')">
-        @if(isValidField('apellido2')) {
-          <span class="text-danger">{{getFieldErrors('apellido2')}}</span><br>
-        }
-        <strong>Cargo</strong>
-        <select class="form-select text-center" formControlName="id_cargo" (change)="getFunciones()" id="cargo" (keydown)="next($event, 'funcion')">
-          <option value="">Seleccionar</option>
-          @for(cargo of cargos; track i; let i = $index) {
-            <option [value]="cargo.id">{{cargo.descripcion | uppercase}}</option>
-          }
-        </select>
-        @if(isValidField('id_cargo')) {
-          <span class="text-danger">{{getFieldErrors('id_cargo')}}</span><br>
-        }
-        <strong>Función</strong>
-        <select class="form-select text-center" formControlName="id_funcion" id="funcion" (keydown)="next($event, 'submit')">
-          <option value="">Seleccionar</option>
-          @for(funcion of funciones; track i; let i = $index) {
-            <option [value]="funcion.id">{{funcion.descripcion | uppercase}}</option>
-          }
-        </select>
-        @if(isValidField('id_funcion')) {
-          <span class="text-danger">{{getFieldErrors('id_funcion')}}</span><br>
-        }
-        <div class="py-2 container-fluid p-0 m-0">
-          @if(integrante !== undefined) {
-            <button type="button" id="submit" class="btn btn-warning" style="width:100%;" (click)="updtIntegrante()">Actualizar integrante</button>
-          } @else {
-            <button type="button" id="submit" class="btn btn-primary" style="width:100%;" (click)="saveIntegrante()">Registrar integrante</button>
-          }
-        </div>
-      </form>
-    </div>
-  </div>
-  <div class="col-9">
-    <h5>Integrantes registrados</h5>
-    <table class="table table-bordered table-striped row-border hover">
-      <thead>
-        <tr>
-          <th>Nombre(s)</th>
-          <th>Primer apellido</th>
-          <th>Segundo apellido</th>
-          <th>Cargo</th>
-          <th>Función</th>
-          <th colspan="2">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for(integrante of integrantes; track i; let i = $index) {
-          <tr>
-            <td>{{integrante.nombres}}</td>
-            <td>{{integrante.apellido1}}</td>
-            <td>{{integrante.apellido2}}</td>
-            <td>{{integrante.cargo | uppercase}}</td>
-            <td>{{integrante.funcion | uppercase}}</td>
-            <td class="d-flex justify-content-center align-items-center">
-              <button type="button" [id]="i" class="btn btn-sm btn-warning" (click)="editIntegrante(integrante.id_integrante)"
-              (mouseenter)="addMove(i)"><i><img class="edit-img" [src]="'assets/edit.png'" alt="edit" height="20" style="padding:0; margin:0;"></i></button>
-            </td>
-            <td>
-              <button type="button" class="btn btn-sm btn-danger" (click)="deleteIntegrante(integrante.id_integrante)"><i><img [src]="'assets/delete.gif'" alt="delete" height="20px" style="padding:0; margin:0;"></i></button>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-</div> -->

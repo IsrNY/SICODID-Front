@@ -30,10 +30,15 @@ export class IncidentesPageComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    // if(this.reset_value !== 0) {
-      this.getListaIncidentes();
-    // }
-    console.log(this.reset_value);
+    if(this.reset_value !== 0) {
+      this.sharedMethodsService.data$
+      .subscribe(success => {
+        if(success) {
+          console.log(success);
+          this.getListaIncidentes();
+        }
+      })
+    }
   }
 
   public incidentes:Incidente[] | undefined;
@@ -80,8 +85,8 @@ export class IncidentesPageComponent implements OnInit, OnChanges {
     }
   }
 
-  async openModal(id_incidente:number, id_opcion:number) {
-    await this.verifyService.verifyToken()
+  openModal(id_incidente:number, id_opcion:number) {
+    this.verifyService.verifyToken()
     .subscribe(res => {
       if(!res) {
         this.showModal = true;

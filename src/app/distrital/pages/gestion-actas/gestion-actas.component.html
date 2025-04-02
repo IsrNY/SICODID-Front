@@ -1,53 +1,5 @@
-<!-- <div class="pb-4">
-  <h3>Gestión de actas</h3>
-  <div class="row p-0 m-0">
-    <div class="col-7">
-      <form [formGroup]="myForm">
-        <strong>Tipo de Elección</strong>
-        <select class="form-select text-center" formControlName="tipo_eleccion" (change)="getActasPorCapturar()" (change)="getActasCapturadas()">
-          <option value="">Seleccionar tipo</option>
-          @for(tipo of tipo_eleccion; track i ; let i = $index) {
-            <option [value]="tipo.id">{{tipo.descripcion}}</option>
-          }
-        </select>
-      </form>
-    </div>
-  </div>
-  <div class="row py-3 m-0">
-    <div class="col-2 py-2">
-      <div class="fixed">
-        <div class="pb-1">
-          <strong>Casillas aprobadas</strong>
-          <input type="text" class="form-control text-center" readonly [value]="contador?.casillasA">
-          <strong>Casillas instaladas</strong>
-          <input type="text" class="form-control text-center" readonly [value]="contador?.casillasI">
-          <strong>Capturadas Juzgados</strong>
-  public modo_acta:number = 0;      <input type="text" class="form-control text-center" readonly [value]="contador?.capturadasJ">
-          <strong>Capturadas Salas</strong>
-          <input type="text" class="form-control text-center" readonly [value]="contador?.capturadasS">
-          <strong>Capturadas Tribubal Disciplina</strong>
-          <input type="text" class="form-control text-center" readonly [value]="contador?.capturadasT">
-        </div>
-        <table class="table table-bordered">
-          <tbody>
-            <tr>
-              <td class="table-warning">Actas capturadas por escáner</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="col-5">
-      <distrital-tabla-actas [titulo]="'por Capturar'" [actas]="actas_por_capturar" [operacion]="1" [tipo_eleccion]="+tipo_eleccion" (acta)="getActa($event)" (tipo_operacion)="getOperacion($event)"/>
-    </div>
-    <div class="col-5">
-      <distrital-tabla-actas [titulo]="'Capturadas'" [actas]="actas_capturadas" [operacion]="2" [tipo_eleccion]="+tipo_eleccion" (acta)="getActa($event)" (tipo_operacion)="getOperacion($event)"/>
-    </div>
-  </div>
-</div>
-<distrital-actas [ti.datos_acta);atos_acta);atos_acta);_eleccion]="eleccion" [acta]="acta" [tipo_operacion]="tipo_operacion" (reload)="getReload($event)"/> -->
 <div class="pb-4">
-  <h3>Gestión de actas</h3>
+  <h3>Captura de Hojas de Operaciones</h3>
   <div class="row p-0 m-0 d-flex justify-content-center align-items-center">
     <div class="col-8">
       <form [formGroup]="myForm">
