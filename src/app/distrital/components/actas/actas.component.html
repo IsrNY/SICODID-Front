@@ -41,31 +41,10 @@
                 </table>
               </div>
             </div>
-            <div class="row p-0 m-0">
-              <div class="col-3">
-                <strong>Boletas sobrantes</strong>
-                <input type="number" formControlName="boletas_sobrantes" class="form-control text-center" id="sobrantes" (keydown)="bloquear($event)" (keypress)="limit($event)" (keyup)="next($event,'nr')">
-                @if(isValidField('boletas_sobrantes')) {
-                  <span class="text-danger">{{getFieldErrors('boletas_sobrantes')}}</span>
-                }
-              </div>
-              <div class="col-3">
-                <strong>Candidatos no registrados</strong>
-                <input type="number" formControlName="cand_no_registrados" class="form-control text-center" id="nr" (keydown)="bloquear($event)" (keypress)="limit($event)" (keyup)="next($event,'nulos')">
-                @if(isValidField('cand_no_registrados')) {
-                  <span class="text-danger">{{getFieldErrors('cand_no_registrados')}}</span>
-                }
-              </div>
-              <div class="col-3">
-                <strong>Votos nulos</strong>
-                <input type="number" formControlName="votos_nulos" class="form-control text-center" id="nulos" (keydown)="bloquear($event)" (keypress)="limit($event)" (keyup)="next($event,'emitida')">
-                @if(isValidField('votos_nulos')) {
-                  <span class="text-danger">{{getFieldErrors('votos_nulos')}}</span>
-                }
-              </div>
-              <div class="col-3">
-                <strong>Total de votos emitidos</strong>
-                <input type="number" formControlName="total_emitida" class="form-control text-center" id="emitida" (keydown)="bloquear($event)" (keypress)="limit($event)" (keyup)="next($event,'M0')">
+            <div class="row p-0 m-0 d-flex justify-content-center">
+              <div class="col-4">
+                <strong>Número total de votos que se encuentran en la bolsa correspondiente</strong>
+                <input type="number" formControlName="total_votos" class="form-control text-center" id="emitida" (keydown)="bloquear($event)" (keypress)="limit($event)" (keyup)="next($event,'M0')">
                 @if(isValidField('total_emitida')) {
                   <span class="text-danger">{{getFieldErrors('total_emitida')}}</span>
                 }
@@ -74,52 +53,28 @@
             <div class="row py-3 m-0">
               <div class="col-12">
                 @if(eleccion !== '') {
-                  <table class="table table-bordered table-striped row-border hover" [formGroup]="candidatos">
+                  <table class="table table-bordered table-striped row-border hover" formArrayName="candidatos">
                     <thead class="head">
                       <tr class="stick">
                         <th>#</th>
-                        <th>Votos</th>
                         <th>Nombre</th>
                         <th>Postula</th>
                         @if(+eleccion !== 3) {
-                          <th>{{+eleccion == 1 ? 'Juzgado' : 'Sala en materia'}}</th>
+                          <th>Materia</th>
                         }
+                        <th>Total de votos</th>
                       </tr>
                     </thead>
-                    <tbody formArrayName="M">
-                      @for(candidato of candidatosM.controls; track i; let i = $index) {
-                        <tr [formGroupName]="i"  class="table-danger">
-                          <td style="width: 75px;">{{i + 1}}</td>
-                          <td style="width: 150px;">
-                            <input type="number" formControlName="votos" [id]="'M' + i" class="form-control text-center" (keydown)="bloquear($event)" (keydown)="enter($event, i < candidatosM.controls.length - 1 ? 'M' + (i + 1) : 'H0')" (keypress)="limit($event)">
-                            @if(hasError('candidatosM', i, 'votos', 'required')) {
-                              <span class="text-danger">Obligatorio</span>
-                            }
-                          </td>
-                          <td>{{candidato.get('nombre')?.value}}</td>
-                          <td>{{candidato.get('postula')?.value}}</td>
-                          @if(+eleccion!== 3) {
-                            <td>{{candidato.get('descripcion')?.value}}</td>
+                    <tbody>
+                      @for(candidato of candidatos.controls; track i; let i = $index) {
+                        <tr formControlName="i">
+                          <td>{{i+1}}</td>
+                          <td>{{i+1}}</td>
+                          <td>{{i+1}}</td>
+                          @if(+eleccion !== 3) {
+                            <td>{{i+1}}</td>
                           }
-                        </tr>
-                      }
-                    </tbody>
-                    <td colspan="5"><hr></td>
-                    <tbody formArrayName="H">
-                      @for(candidato of candidatosH.controls; track i; let i = $index) {
-                        <tr [formGroupName]="i"  class="table-primary">
-                          <td style="width: 75px;">{{i + 1}}</td>
-                          <td style="width: 150px;">
-                            <input type="number" formControlName="votos" [id]="'H' + i" class="form-control text-center" (keydown)="bloquear($event)" (keydown)="enter($event,'H' + (i + 1))" (keypress)="limit($event)">
-                            @if(hasError('candidatosH', i, 'votos', 'required')) {
-                              <span class="text-danger">Obligatorio</span>
-                            }
-                          </td>
-                          <td>{{candidato.get('nombre')?.value}}</td>
-                          <td>{{candidato.get('postula')?.value}}</td>
-                          @if(+eleccion!== 3) {
-                            <td>{{candidato.get('descripcion')?.value}}</td>
-                          }
+                          <td>{{i+1}}</td>
                         </tr>
                       }
                     </tbody>
@@ -128,6 +83,22 @@
                   <div class="alert alert-warning" role="alert">
                     Seleccione un tipo de elección para ver los candidatos.
                   </div>
+                }
+              </div>
+            </div>
+            <div class="row p-0 m-0 d-flex justify-content-center">
+              <div class="col-4">
+                <strong>Votos núlos</strong>
+                <input type="number" formControlName="votos_nulos" class="form-control text-center" id="emitida" (keydown)="bloquear($event)" (keypress)="limit($event)" (keyup)="next($event,'M0')">
+                @if(isValidField('votos_nulos')) {
+                  <span class="text-danger">{{getFieldErrors('votos_nulos')}}</span>
+                }
+              </div>
+              <div class="col-4">
+                <strong>Recuadros no utilizados</strong>
+                <input type="number" formControlName="recuadros_nu" class="form-control text-center" id="emitida" (keydown)="bloquear($event)" (keypress)="limit($event)" (keyup)="next($event,'M0')">
+                @if(isValidField('recuadros_nu')) {
+                  <span class="text-danger">{{getFieldErrors('recuadros_nu')}}</span>
                 }
               </div>
             </div>

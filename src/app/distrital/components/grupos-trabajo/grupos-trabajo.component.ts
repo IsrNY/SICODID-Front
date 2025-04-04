@@ -65,7 +65,7 @@ export class GruposTrabajoComponent implements OnInit {
         id_cargo:[integrante.id_cargo, [Validators.required]],
         id_funcion:[integrante.id_funcion, [Validators.required]],
         gt:[integrante.gt,[Validators.required]],
-        turno:['1'],
+        turno:[integrante.turno,[Validators.required]],
         cargo:[integrante.cargo],
         funcion:[integrante.funcion],
         editing:[false]
@@ -92,10 +92,9 @@ export class GruposTrabajoComponent implements OnInit {
           id_cargo:['', [Validators.required]],
           id_funcion:['', [Validators.required]],
           gt:['',[Validators.required]],
-          // turno:['',[Validators.required]],
-          turno:[''],
+          turno:['',[Validators.required]],
           cargo:[''],
-          funcion:[''],
+          funcion:[null],
           editing:[false]
         }))
         this.isAdded = true;
@@ -114,7 +113,7 @@ export class GruposTrabajoComponent implements OnInit {
     }
   }
 
-  delete(index:number, id_integrante:number) {
+  delete = (index:number, id_integrante:number) => {
     this.integrantesService.deleteIntegrante(id_integrante)
     .subscribe(res => {
       Swal.fire({
@@ -179,7 +178,7 @@ export class GruposTrabajoComponent implements OnInit {
     }
   }
 
-  saveIntegrante(index:number) {
+  saveIntegrante = (index:number) => {
     if(this.myForm.invalid) {
       this.myForm.markAllAsTouched();
       Swal.fire({
@@ -224,7 +223,7 @@ export class GruposTrabajoComponent implements OnInit {
     })
   }
 
-  editIntegrante(index:number):void {
+  editIntegrante = (index:number):void => {
     if(this.myForm.invalid) {
       this.myForm.markAllAsTouched();
       Swal.fire({
@@ -272,7 +271,7 @@ export class GruposTrabajoComponent implements OnInit {
     })
   }
 
-  edit(index:number):void {
+  edit = (index:number):void => {
     if(this.isAdded) {
       Swal.fire({
         icon:'warning',
@@ -318,7 +317,7 @@ export class GruposTrabajoComponent implements OnInit {
      })
   }
 
-  getIntegrantes():void {
+  getIntegrantes = ():void => {
     this.lista_integrantes = [];
     this.integrantesService.getIntegrantes()
     .subscribe(res => {

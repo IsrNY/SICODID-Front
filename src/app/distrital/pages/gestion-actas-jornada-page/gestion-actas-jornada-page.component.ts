@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CatalogosService } from '../../../shared/services/catalogos.service';
+import { Catalogos } from '../../../shared/interfaces/catalogos.interface';
 
 @Component({
   selector: 'distrital-gestion-actas-jornada-page',
@@ -9,8 +10,24 @@ import { CatalogosService } from '../../../shared/services/catalogos.service';
 export class GestionActasJornadaPageComponent implements OnInit {
   private catalogosService = inject(CatalogosService);
 
-  // public
+  public tipo_eleccion:Catalogos[] = [];
+
   ngOnInit(): void {
+    this.getTiposEleccion();
+  }
+
+  getTiposEleccion() {
+    this.catalogosService.getCatalogo('tipo-eleccion')
+    .subscribe(res => {
+      this.tipo_eleccion = res.datos as Catalogos[];
+    })
+  }
+
+  getListaPorCapturar() {
+
+  }
+
+  getLiistaCapturadas() {
     
   }
 }

@@ -5,6 +5,9 @@
       <strong>Tipo de elección</strong>
       <select class="form-select text-center" >
         <option value="">Seleccionar</option>
+        @for(eleccion of tipo_eleccion; track i; let i = $index) {
+          <option [value]="eleccion.id">{{eleccion.descripcion}}</option>
+        }
       </select>
     </div>
   </div>

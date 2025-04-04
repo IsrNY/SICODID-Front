@@ -1,6 +1,6 @@
-<strong>Hojas de Operaciones {{ titulo }}</strong>
+<strong>Hojas de Operaciones</strong>
 @if(datos !== undefined) {
-<table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped row-border hover">
+<table datatable class="table table-bordered table-striped row-border hover">
   <thead class="head">
     <tr class="stick">
       <th>#</th>
@@ -10,11 +10,10 @@
   </thead>
   <tbody>
       @for(dato of datos; track i; let i = $index) {
-        <tr (click)="getRowSelected(i, +dato.id_seccion)" (dblclick)="getData(dato,operacion, tipo_eleccion, dato.status!)" [class]="{'table-warning': dato.status == 1 || dato.escaner == 1,
-          'table-primary' : selected_row == +dato.id_seccion && index == i}">
+        <tr>
           <td>{{i+1}}</td>
-          <td>{{dato.id_seccion}}</td>
-          <td>{{dato.tipo_casilla}}</td>
+          <td>{{dato}}</td>
+          <td>{{dato}}</td>
         </tr>
       }
     </tbody>

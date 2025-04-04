@@ -14,17 +14,11 @@
 //   votos:          string;
 // }
 
-// export interface Actas {
-//   success: boolean;
-//   datos:   Datos;
-// }
-
 export interface Actas {
-  boletas_sobrantes:   string;
-  cand_no_registrados: string;
   votos_nulos:         string;
-  total_emitida:       string;
-  candidatos:          Candidato;
+  total_votos:         string;
+  recuedros_nu?:       string;
+  candidatos:          Datos[];
 }
 
 export interface Candidato {
@@ -38,6 +32,7 @@ export interface Datos {
   postula:      string;
   descripcion:  string;
   votos:        number;
+  genero:       string;
 }
 
 export interface DatosActa {

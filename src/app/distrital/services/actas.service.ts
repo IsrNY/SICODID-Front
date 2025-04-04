@@ -23,8 +23,9 @@ export class ActasService {
       'Authorization' : `Bearer ${this.loadStorage}`
     });
     const body = {...acta,tipo_eleccion}
+    console.log(body)
 
-    return this.http.post<Res>(`${this.baseUrl}/distrital/actainfo`,body,{headers})
+    return this.http.post<Res>(`${this.baseUrl}/distrital/operacionInfo`,body,{headers})
     .pipe(
       catchError(res => of(res.error as Res))
     )

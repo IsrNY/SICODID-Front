@@ -26,14 +26,14 @@ export class ActasComponent implements OnInit, OnChanges{
 
   public myForm = this.fb.group({
     tipo_eleccion:['',[Validators.required]],
-    boletas_sobrantes: ['',[Validators.required]],
-    cand_no_registrados: ['',[Validators.required]],
+    total_votos:['', [Validators.required]],
     votos_nulos: ['',[Validators.required]],
-    total_emitida: ['',[Validators.required]],
-    candidatos: this.fb.group({
-      M: this.fb.array([]),
-      H: this.fb.array([])
-    })
+    recuadros_nu: ['',[Validators.required]],
+    candidatos: this.fb.group([])
+    // candidatos: this.fb.group({
+    //   M: this.fb.array([]),
+    //   H: this.fb.array([])
+    // })
   });
 
   public tipos_eleccion:Catalogos[] = [];
@@ -51,17 +51,10 @@ export class ActasComponent implements OnInit, OnChanges{
     return this.myForm.get('tipo_eleccion')?.value!;
   }
 
-  get candidatos():FormGroup {
-    return this.myForm.get('candidatos') as FormGroup;
+  get candidatos():FormArray {
+    return this.myForm.get('candidatos') as FormArray;
   }
 
-  get candidatosM():FormArray {
-    return this.myForm.get('candidatos.M') as FormArray;
-  }
-
-  get candidatosH():FormArray {
-    return this.myForm.get('candidatos.H') as FormArray;
-  }
 
   ngOnInit(): void {
     // this.getTiposEleccion();
@@ -104,38 +97,29 @@ export class ActasComponent implements OnInit, OnChanges{
 
   getDatosActa() {
     this.acta = undefined;
-    this.candidatosM.clear();
-    this.candidatosH.clear();
     this.myForm.markAsUntouched();
     this.actasService.getActas(this.datos_acta!, +this.eleccion)
     .subscribe(res => {
       this.acta = res.datos as Actas;
-        this.myForm.patchValue({
-        boletas_sobrantes: this.acta?.boletas_sobrantes == null ? '': this.acta!.boletas_sobrantes,
-        cand_no_registrados: this.acta?.cand_no_registrados,
-        votos_nulos: this.acta?.votos_nulos,
-        total_emitida: this.acta?.total_emitida,
-      });
-      this.patchCandidatosM(this.acta?.candidatos!.M as Datos[]);
-      this.patchCandidatosH(this.acta?.candidatos!.H as Datos[]);
+      console.log(res.datos)
     })
   }
 
-  patchCandidatosM = (candidatos:Datos[]) => candidatos.forEach(candidato => this.candidatosM.push(this.fb.group({
-    id_candidato:[candidato.id_candidato],
-    nombre:[candidato.nombre],
-    postula:[candidato.postula],
-    descripcion:[candidato.descripcion],
-    votos:[candidato.votos, [Validators.required]],
-  })))
+  // patchCandidatosM = (candidatos:Datos[]) => candidatos.forEach(candidato => this.candidatosM.push(this.fb.group({
+  //   id_candidato:[candidato.id_candidato],
+  //   nombre:[candidato.nombre],
+  //   postula:[candidato.postula],
+  //   descripcion:[candidato.descripcion],
+  //   votos:[candidato.votos, [Validators.required]],
+  // })))
 
-  patchCandidatosH = (candidatos:Datos[]) => candidatos.forEach(candidato => this.candidatosH.push(this.fb.group({
-    id_candidato:[candidato.id_candidato],
-    nombre:[candidato.nombre],
-    postula:[candidato.postula],
-    descripcion:[candidato.descripcion],
-    votos:[candidato.votos, [Validators.required]],
-  })))
+  // patchCandidatosH = (candidatos:Datos[]) => candidatos.forEach(candidato => this.candidatosH.push(this.fb.group({
+  //   id_candidato:[candidato.id_candidato],
+  //   nombre:[candidato.nombre],
+  //   postula:[candidato.postula],
+  //   descripcion:[candidato.descripcion],
+  //   votos:[candidato.votos, [Validators.required]],
+  // })))
 
   saveActa() {
     if (this.myForm.invalid) {
@@ -222,16 +206,16 @@ export class ActasComponent implements OnInit, OnChanges{
     return this.validatorsService.getFieldErrors(this.myForm,field);
   }
 
-  isValidFieldVotos(array:string , position:string, form_field:string) {
-    return this.validatorsService.isValidVotosField(this.candidatos, array, position,form_field);
-  }
+  // isValidFieldVotos(array:string , position:string, form_field:string) {
+  //   return this.validatorsService.isValidVotosField(this.candidatos, array, position,form_field);
+  // }
 
-  getFieldErrorsVotos(array:string, position:string, form_field:string) {
-    return this.validatorsService.getFieldVotosErrors(this.candidatos, array, position,form_field);
-  }
+  // getFieldErrorsVotos(array:string, position:string, form_field:string) {
+  //   return this.validatorsService.getFieldVotosErrors(this.candidatos, array, position,form_field);
+  // }
 
-  hasError(arrayName: 'candidatosM' | 'candidatosH', index: number, field: string, error: string) {
-    const control = this[arrayName].at(index).get(field);
-    return control?.hasError(error) && control?.touched;
-  }
+  // hasError(arrayName: 'candidatosM' | 'candidatosH', index: number, field: string, error: string) {
+  //   const control = this[arrayName].at(index).get(field);
+  //   return control?.hasError(error) && control?.touched;
+  // }
 }

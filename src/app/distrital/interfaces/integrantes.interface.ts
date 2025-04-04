@@ -8,4 +8,5 @@ export interface Integrantes {
   id_cargo:       string;
   id_funcion:     string;
   gt:             string;
+  turno:          string;
 }

@@ -15,6 +15,11 @@ const routes: Routes = [
     canActivate:[AuthGuard]
   },
   {
+    path:'central',
+    loadChildren: () => import('./central/central.module').then(m => m.CentralModule),
+    canActivate:[AuthGuard]
+  },
+  {
     path:'**',
     redirectTo:'auth'
   }
