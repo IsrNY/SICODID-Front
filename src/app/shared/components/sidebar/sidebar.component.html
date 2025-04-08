@@ -3,35 +3,30 @@
     <h3 class="text-dark text-center py-2 px-0 m-0">SICODID</h3>
     <hr class="text-dark">
     <ul class="list_custom text-center text-dark fw-bold pt-1">
-      <!-- @if(!cierre_computo) { -->
-        <div class="p-1">
-          <li class="nav_link" [routerLink]="['/distrital/computo','inicio_computo']" routerLinkActive="active">Inicio de cómputo</li>
-        </div>
-        <!-- @if(inicio_computo) { -->
-          <div class="p-1">
-            <li class="nav_link" [routerLink]="['/distrital/procesos','registro_incidentes']" routerLinkActive="active">Registro de incidencias</li>
-          </div>
-          <div class="p-1">
-            <li class="nav_link" [routerLink]="['/distrital/procesos','hojas_operaciones']" routerLinkActive="active">Captura de Hojas de Operaciones</li>
-          </div>
-          <div class="p-1">
-            <li class="nav_link" [routerLink]="['/distrital/procesos','actas_jornada']" routerLinkActive="active">Captura de Actas de Jornada</li>
-          </div>
-          <div class="p-1">
-            <li class="nav_link" [routerLink]="['/distrital/procesos','grupos_trabajo']" routerLinkActive="active">Grupos de trabajo</li>
-          </div>
-        <!-- }
-      } -->
-      <div class="p-1">
+      <div class="py-1">
+        <li class="nav_link" [routerLink]="['/distrital/computo','inicio_computo']" routerLinkActive="active">Inicio de cómputo</li>
+      </div>
+      <div class="py-1">
+        <li class="nav_link" [routerLink]="['/distrital/computo','operaciones']" routerLinkActive="active">Inicio/cierre de operaciones</li>
+      </div>
+      <div class="py-1">
+        <li class="nav_link" [routerLink]="['/distrital/procesos','registro_incidentes']" routerLinkActive="active">Incidencias</li>
+      </div>
+      <div class="py-1">
+        <li class="nav_link" [routerLink]="['/distrital/procesos','hojas_operaciones']" routerLinkActive="active">Hojas de Operaciones</li>
+      </div>
+      <div class="py-1">
+        <li class="nav_link" [routerLink]="['/distrital/procesos','actas_jornada']" routerLinkActive="active">Actas de Jornada</li>
+      </div>
+      <div class="py-1">
+        <li class="nav_link" [routerLink]="['/distrital/procesos','grupos_trabajo']" routerLinkActive="active">Grupos de trabajo</li>
+      </div>
+      <div class="py-1">
         <li class="nav_link" [routerLink]="['/distrital/reportes','reportes_generales']" routerLinkActive="active">Reportes</li>
       </div>
-      <!-- @if(!cierre_computo) { -->
-        <!-- @if(inicio_computo) { -->
-          <div class="p-1">
-            <li class="nav_link" [routerLink]="['/distrital/computo','cierre_computo']" routerLinkActive="active">Cierre de cómputo</li>
-          </div>
-        <!-- } -->
-      <!-- } -->
+      <div class="py-1">
+        <li class="nav_link" [routerLink]="['/distrital/computo','cierre_computo']" routerLinkActive="active">Cierre de cómputo</li>
+      </div>
     </ul>
     <div class="container-fluid text-center pt-1">
       <shared-logout-button/>

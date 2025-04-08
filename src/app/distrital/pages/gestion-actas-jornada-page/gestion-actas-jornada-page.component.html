@@ -1,14 +1,42 @@
 <div class="pb-4">
-  <h3>Captura de Actas de Jornada</h3>
+  <h3>Captura de Hojas de Operaciones</h3>
   <div class="row p-0 m-0 d-flex justify-content-center align-items-center">
     <div class="col-8">
-      <strong>Tipo de elección</strong>
-      <select class="form-select text-center" >
-        <option value="">Seleccionar</option>
-        @for(eleccion of tipo_eleccion; track i; let i = $index) {
-          <option [value]="eleccion.id">{{eleccion.descripcion}}</option>
-        }
-      </select>
+      <form [formGroup]="myForm">
+        <strong>Tipo de Elección</strong>
+        <select class="form-select text-center" formControlName="tipo_eleccion">
+          <option value="">Seleccionar tipo de elección</option>
+          @for(tipo of tipo_eleccion; track i ; let i = $index) {
+            <option [value]="tipo.id">{{tipo.descripcion}}</option>
+          }
+        </select>
+      </form>
+    </div>
+    <div class="row py-3 m-0">
+      <div class="col-2 py-1 px-0">
+        <div class="fixed p-2 shadow-lg bg-body-secondary">
+          <div class="pb-1">
+            <strong>Casillas aprobadas</strong>
+            <input type="text" class="form-control text-center" readonly >
+            <strong>Casillas instaladas</strong>
+            <input type="text" class="form-control text-center" readonly >
+            <strong>Capturadas Juzgados</strong>
+            <input type="text" class="form-control text-center" readonly >
+            <strong>Capturadas Salas</strong>
+            <input type="text" class="form-control text-center" readonly >
+            <strong>Capturadas Tribunal Disciplina</strong>
+            <input type="text" class="form-control text-center" readonly >
+          </div>
+        </div>
+      </div>
+      <div class="col-5">
+        <!-- <distrital-tabla-actas [titulo]="'por Capturar'" [datos]="actas_por_capturar" [operacion]="1" [tipo_eleccion]="eleccion" (datos_acta)="getDatosActa($event)"/> -->
+      </div>
+      <div class="col-5">
+        <!-- <distrital-tabla-actas [titulo]="'Capturadas'" [datos]="actas_capturadas" [operacion]="2" [tipo_eleccion]="eleccion" (datos_acta)="getDatosActa($event)"/> -->
+      </div>
     </div>
   </div>
 </div>
+<!-- <distrital-actas [datos_acta]="datos_acta" (reload)="getReload($event)"/> -->
+

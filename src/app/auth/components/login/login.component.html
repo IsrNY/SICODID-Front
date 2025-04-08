@@ -17,7 +17,7 @@
                 <h6 style="font-size: 13px;">Para ingresar al sistema proporcione sus credenciales de acceso</h6>
                 <div class="input-group px-3">
                   <label for="user" class="input-group-text"><i class="bi bi-person-fill p-0 m-0"></i></label>
-                  <input type="text" id="user" class="form-control" placeholder="Usuario" formControlName="usuario" autocomplete="off">
+                  <input type="text" id="user" class="form-control text-center" placeholder="Usuario" formControlName="usuario" autocomplete="off">
                 </div>
                 @if(isValidField('usuario')) {
                   <span class="text-danger">{{getFieldErrors('usuario')}}</span>
@@ -26,7 +26,7 @@
               <div class="col-12 pt-3 mb-3">
                 <div class="input-group px-3">
                   <label for="pass" class="input-group-text"><i class="bi bi-key-fill p-0 m-0"></i></label>
-                  <input type="password" id="pass" class="form-control" placeholder="Contraseña" formControlName="contrasena" autocomplete="off">
+                  <input type="password" id="pass" class="form-control text-center" placeholder="Contraseña" formControlName="contrasena" autocomplete="off">
                 </div>
                 @if(isValidField('contrasena')) {
                   <span class="text-danger">{{getFieldErrors('contrasena')}}</span>

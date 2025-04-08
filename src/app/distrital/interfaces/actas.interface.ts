@@ -30,7 +30,7 @@ export interface Datos {
   id_candidato: number;
   nombre:       string;
   postula:      string;
-  descripcion:  string;
+  tipo_materia:  string;
   votos:        number;
   genero:       string;
 }

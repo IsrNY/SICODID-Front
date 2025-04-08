@@ -2,6 +2,6 @@ export interface Contador {
   casillasI:   number;
   casillasA:   number;
   capturadasJ: number;
-  capturadasS: number;
+  capturadasM: number;
   capturadasT: number;
 }

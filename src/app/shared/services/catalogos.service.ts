@@ -34,12 +34,12 @@ export class CatalogosService {
 
   }
 
-  getContador() {
+  getContador(path:string) {
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${this.loadStorage}`
     });
 
-    return this.http.get<Res>(`${this.baseUrl}/distrital/contadorActas`,{headers})
+    return this.http.get<Res>(`${this.baseUrl}/distrital/${path}`,{headers})
     .pipe(
       catchError(res => of(res.error as Res))
     )

@@ -13,8 +13,8 @@
       </form>
     </div>
     <div class="row py-3 m-0">
-      <div class="col-2 py-1">
-        <div class="fixed">
+      <div class="col-2 py-1 px-0">
+        <div class="fixed p-2 shadow-lg bg-body-secondary">
           <div class="pb-1">
             <strong>Casillas aprobadas</strong>
             <input type="text" class="form-control text-center" readonly [value]="contador?.casillasA">
@@ -23,18 +23,9 @@
             <strong>Capturadas Juzgados</strong>
             <input type="text" class="form-control text-center" readonly [value]="contador?.capturadasJ">
             <strong>Capturadas Salas</strong>
-            <input type="text" class="form-control text-center" readonly [value]="contador?.capturadasS">
+            <input type="text" class="form-control text-center" readonly [value]="contador?.capturadasM">
             <strong>Capturadas Tribunal Disciplina</strong>
             <input type="text" class="form-control text-center" readonly [value]="contador?.capturadasT">
-            <div class="pt-1">
-              <table class="table table-bordered">
-                <tbody>
-                  <tr>
-                    <td class="table-warning">Actas capturadas por escáner</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
           </div>
         </div>
       </div>

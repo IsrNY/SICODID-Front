@@ -19,6 +19,7 @@ import { GestionActasComponent } from './pages/gestion-actas/gestion-actas.compo
 import { TablaActasComponent } from './components/tabla-actas/tabla-actas.component';
 import { GestionActasJornadaPageComponent } from './pages/gestion-actas-jornada-page/gestion-actas-jornada-page.component';
 import { TablaActasJornadaComponent } from './components/tabla-actas-jornada/tabla-actas-jornada.component';
+import { ActasJornadaComponent } from './components/actas-jornada/actas-jornada.component';
 
 
 
@@ -36,6 +37,7 @@ import { TablaActasJornadaComponent } from './components/tabla-actas-jornada/tab
     TablaActasComponent,
     GestionActasJornadaPageComponent,
     TablaActasJornadaComponent,
+    ActasJornadaComponent,
     ],
   imports: [
     CommonModule,

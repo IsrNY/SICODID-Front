@@ -15,7 +15,9 @@ declare var $:any;
   styles: `
     .fixed {
       position: sticky;
-      top:85px;
+      top:88px;
+      // background-color:lightgray;
+      border-radius: 5px;
     }
   `
 })
@@ -54,8 +56,9 @@ export class GestionActasComponent implements OnInit {
   }
 
   getDataContador() {
-    this.catalogosService.getContador()
+    this.catalogosService.getContador('contadorOperaciones')
     .subscribe(res => {
+      console.log(res.datos)
       this.contador = res.datos as Contador;
     });
   }
