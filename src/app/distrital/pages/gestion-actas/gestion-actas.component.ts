@@ -16,12 +16,10 @@ declare var $:any;
     .fixed {
       position: sticky;
       top:88px;
-      // background-color:lightgray;
       border-radius: 5px;
     }
   `
 })
-// export class GestionActasComponent implements OnInit, OnChanges {
 export class GestionActasComponent implements OnInit {
   private fb = inject(FormBuilder);
   private actasService = inject(ActasService);
@@ -58,7 +56,7 @@ export class GestionActasComponent implements OnInit {
   getDataContador() {
     this.catalogosService.getContador('contadorOperaciones')
     .subscribe(res => {
-      console.log(res.datos)
+      console.log(res)
       this.contador = res.datos as Contador;
     });
   }

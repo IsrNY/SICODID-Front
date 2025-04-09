@@ -1,8 +1,8 @@
 <div class="modal fade" id="actas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="actasLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
     <div class="modal-content">
-      <div class="modal-header" [class]="{'bg-1' : +eleccion == 3,'bg-2' : +eleccion == 2,'bg-3' : +eleccion == 1}">
-        <h5 class="modal-title" id="actasLabel">{{datos_acta?.operacion == 1 ? 'Captura' : 'Actualización'}} de actas</h5>
+      <div class="modal-header" [class]="{'bg-1' : +eleccion == 3, 'bg-2' : +eleccion == 2, 'bg-3' : +eleccion == 1, '' : eleccion == ''}">
+        <h5 class="modal-title" id="actasLabel">{{datos_acta?.operacion == 1 ? 'Capturar' : 'Actualizar'}} de Hoja de Operaciones</h5>
       </div>
       <div class="modal-body">
         <div class="container-fluid">
@@ -10,7 +10,7 @@
             <div class="row">
               <div class="col-6">
                 <strong>Tipo de elección</strong>
-                <select class="form-select text-center" formControlName="tipo_operacion" [value]="datos_acta?.tipo_eleccion" (change)="getDatosActa()">
+                <select class="form-select text-center" formControlName="tipo_eleccion" [value]="datos_acta?.tipo_eleccion" (change)="getDatosActa()">
                   <option value="">Seleccionar</option>
                   @for(eleccion of tipos_eleccion; track i; let i = $index) {
                     <option [value]="eleccion.id">{{eleccion.descripcion}}</option>
@@ -39,38 +39,71 @@
                 </table>
               </div>
             </div>
-            <div class="row p-0 m-0 d-flex justify-content-center">
-              <div class="col-6">
-                <strong>Total de votos</strong>
-                <input type="number" class="form-control text-center" formControlName="total_votos">
+            <div class="row py-2 m-0 d-flex justify-content-end">
+              <div class="col-8 d-flex justify-content-end align-items-center">
+                <strong>Número total de votos que se encuentran en la bolsa correspondiente</strong>
+              </div>
+              <div style="width: 150px !important;">
+                <input type="number" class="form-control text-center" formControlName="total_votos" style="border:solid 1px black;">
               </div>
             </div>
-            <div class="row p-0 m-0">
-              <table class="table table-bordered table-striped row-border hover" formArrayName="candidatos">
-                <thead class="head">
-                  <tr class="stick">
-                    <th># Candidato</th>
-                    <th>Nombre</th>
-                    <th>Postula</th>
-                    <th>Materia</th>
-                    <th>Votos</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @for(candidato of candidatos.controls; track i; let i = $index) {
-                    <tr [formGroupName]="i" [class]="{'table-danger': candidato.get('genero')?.value == 'M', 'table-primary': candidato.get('genero')?.value == 'H'}">
-
-                      <td><label>{{candidato.get('id_candidato')?.value}}</label></td>
-                      <td><label>{{candidato.get('nombre')?.value}}</label></td>
-                      <td><label>{{candidato.get('postula')?.value}}</label></td>
-                      <td><label>{{candidato.get('tipo_materia')?.value}}</label></td>
-                      <td style="width:150px !important;">
-                        <input type="number" class="form-control text-center" formControlName="votos">
-                      </td>
+            <div class="row pt-2 m-0">
+              <div class="col-12">
+                <table class="table table-bordered table-striped" formArrayName="candidatos">
+                  <thead class="head">
+                    <tr class="stick">
+                      <th># Candidato</th>
+                      <th>Nombre candidato</th>
+                      <th>Postula</th>
+                      @if(+eleccion !== 1) {
+                        <th [style.width]="['300px']">Materia</th>
+                      }
+                      <th style="width: 150px;">Votos</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  @if(acta !== undefined) {
+                    @for(candidato of candidatos.controls; track i; let i = $index) {
+                      <tr [formGroupName]="i" [class]="{'table-danger' : candidato.get('genero')?.value == 'M', 'table-primary' : candidato.get('genero')?.value == 'H'}">
+                        <td>{{candidato.get('id_candidato')?.value}}</td>
+                        <td>{{candidato.get('nombre')?.value}}</td>
+                        <td>{{candidato.get('postula')?.value}}</td>
+                        @if(+eleccion !== 1) {
+                          <td>{{candidato.get('tipo_materia')?.value}}</td>
+                        }
+                        <td>
+                          <input type="number" class="form-control text-center" formControlName="votos">
+                        </td>
+                      </tr>
+                    }
+                  } @else {
+                    <tr>
+                      @if(+eleccion !== 1) {
+                        <td colspan="5">Sin información para mostrar.</td>
+                      } @else {
+                        <td colspan="4">Sin información para mostrar.</td>
+                      }
                     </tr>
                   }
-                </tbody>
-              </table>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row m-0 d-flex justify-content-end">
+              <div class="col-8 d-flex justify-content-end align-items-center">
+                <strong>Votos nulos</strong>
+              </div>
+              <div style="width: 150px !important;">
+                <input type="number" class="form-control text-center" formControlName="votos_nulos" style="border:solid 1px black;">
+              </div>
+            </div>
+            <div class="row py-1 m-0 d-flex justify-content-end">
+              <div class="col-8 d-flex justify-content-end align-items-center">
+                <strong>Recuadros no utilizados</strong>
+              </div>
+              <div style="width: 150px !important;">
+                <input type="number" class="form-control text-center" formControlName="recuadros_nu" style="border:solid 1px black;">
+              </div>
             </div>
           </form>
         </div>

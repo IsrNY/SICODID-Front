@@ -12191,11 +12191,8 @@ th {
 thead tr:first-child th {
   position: sticky;
   top:80px;
-  /* background-color: #32215C !important; */
-  /* color: white !important; */
   font-weight: bold !important;
   text-align: center !important;
-  /* border: solid 1px #32215c88 !important; */
 }
 
 .btn-cerrar {

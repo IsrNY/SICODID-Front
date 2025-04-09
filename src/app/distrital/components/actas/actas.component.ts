@@ -25,7 +25,7 @@ export class ActasComponent implements OnInit, OnChanges{
   private catalogosService = inject(CatalogosService);
 
   public myForm = this.fb.group({
-    tipo_eleccion:['',[Validators.required]],
+    tipo_eleccion:[''],
     total_votos:['', [Validators.required]],
     votos_nulos: ['',[Validators.required]],
     recuadros_nu: [''],
@@ -43,7 +43,7 @@ export class ActasComponent implements OnInit, OnChanges{
   @Output()
   public reload = new EventEmitter<boolean>();
 
-  get eleccion():string {
+  get eleccion() {
     return this.myForm.get('tipo_eleccion')?.value!;
   }
 
@@ -58,11 +58,13 @@ export class ActasComponent implements OnInit, OnChanges{
 
   ngOnChanges(): void {
     this.opcion = this.datos_acta?.operacion!;
-    switch(+this.eleccion) {
+    switch(this.opcion) {
       default:
         this.myForm.patchValue({tipo_eleccion:this.datos_acta?.tipo_eleccion!.toString()});
-        this.getDatosActa();
-        this.getTiposEleccionSA(this.datos_acta?.id_seccion.toString()!, this.datos_acta?.tipo_casilla!);
+        if(this.eleccion !== '') {
+          this.getDatosActa();
+          this.getTiposEleccionSA(this.datos_acta?.id_seccion.toString()!, this.datos_acta?.tipo_casilla!);
+        }
       break;
     }
   }
@@ -92,16 +94,15 @@ export class ActasComponent implements OnInit, OnChanges{
   }
 
   getDatosActa() {
+    console.log(this.eleccion)
     this.acta = undefined;
     this.candidatos.clear();
     this.myForm.markAsUntouched();
     this.actasService.getActas(this.datos_acta!, +this.eleccion)
     .subscribe(res => {
       this.acta = res.datos as Actas;
-      console.log(this.acta.candidatos)
       this.myForm.patchValue(this.acta);
       this.patchCandidatos(this.acta.candidatos);
-      console.log('valor del form', this.myForm.value);
     })
   }
 
@@ -113,22 +114,6 @@ export class ActasComponent implements OnInit, OnChanges{
     votos:[candidato.votos],
     genero:[candidato.genero]
   })))
-
-  // patchCandidatosM = (candidatos:Datos[]) => candidatos.forEach(candidato => this.candidatosM.push(this.fb.group({
-  //   id_candidato:[candidato.id_candidato],
-  //   nombre:[candidato.nombre],
-  //   postula:[candidato.postula],
-  //   descripcion:[candidato.descripcion],
-  //   votos:[candidato.votos, [Validators.required]],
-  // })))
-
-  // patchCandidatosH = (candidatos:Datos[]) => candidatos.forEach(candidato => this.candidatosH.push(this.fb.group({
-  //   id_candidato:[candidato.id_candidato],
-  //   nombre:[candidato.nombre],
-  //   postula:[candidato.postula],
-  //   descripcion:[candidato.descripcion],
-  //   votos:[candidato.votos, [Validators.required]],
-  // })))
 
   saveActa() {
     if (this.myForm.invalid) {
@@ -158,7 +143,7 @@ export class ActasComponent implements OnInit, OnChanges{
             text: res.msg,
             showConfirmButton: false,
             timer:2350
-          }).then(() => {
+          }).then(() => { 
             if(res.success) {
               this.myForm.markAsUntouched();
             }

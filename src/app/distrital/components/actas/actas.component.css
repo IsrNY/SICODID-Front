@@ -1,11 +1,11 @@
 .head .stick:first-child th {
   position: sticky;
   top:-19px;
-  /* background-color: #32215C !important; */
+  /* background-color: #bba0ff !important; */
   /* color: white !important; */
   font-weight: bold !important;
   text-align: center !important;
-  /* border: solid 1px #32215c88 !important; */
+  /* border: solid 1px #000000 !important; */
 }
 
 .bg-1 {

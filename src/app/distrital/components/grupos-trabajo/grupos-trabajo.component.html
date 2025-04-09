@@ -82,6 +82,9 @@
                   <option value="1">1</option>
                   <option value="2">2</option>
                 </select>
+                @if(isValidField('integrantes',i.toString(),'turno')) {
+                  <span class="text-danger">{{ getFieldErrors('integrantes', i.toString(), 'turno') }}</span>
+                }
               </td>
               <td>
                 @if(integrante.get('id_integrante')?.value !== '') {

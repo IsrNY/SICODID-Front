@@ -35,20 +35,22 @@ export class ActasService {
     const id_seccion = datos_acta.id_seccion;
     const tipo_casilla = datos_acta.tipo_casilla;
     const tipo_operacion = datos_acta.operacion;
-    const status = datos_acta.status;
     const body = {...acta, id_seccion, tipo_casilla, tipo_eleccion};
 
+    console.log(body)
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${this.loadStorage}`
     });
 
-    if(tipo_operacion == 1 && status == 0) {
-      return this.http.post<Res>(`${this.baseUrl}/distrital/acta`,body,{headers})
+    console.log(tipo_operacion)
+
+    if(tipo_operacion == 1) {
+      return this.http.post<Res>(`${this.baseUrl}/distrital/operacion`,body,{headers})
       .pipe(
         catchError(res => of(res.error as Res))
       )
     } else {
-      return this.http.put<Res>(`${this.baseUrl}/distrital/acta`,body,{headers})
+      return this.http.put<Res>(`${this.baseUrl}/distrital/operacion`,body,{headers})
       .pipe(
         catchError(res => of(res.error as Res))
       )

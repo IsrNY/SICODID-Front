@@ -321,6 +321,7 @@ export class GruposTrabajoComponent implements OnInit {
     this.lista_integrantes = [];
     this.integrantesService.getIntegrantes()
     .subscribe(res => {
+      console.log(res)
        this.lista_integrantes = res.datos as Integrantes[];
        this.patchIntegrantes(this.lista_integrantes);
        Object.keys(this.integrantes.controls).forEach(key => {
