@@ -12190,9 +12190,12 @@ th {
 
 thead tr:first-child th {
   position: sticky;
-  top:80px;
-  font-weight: bold !important;
-  text-align: center !important;
+  top: 80px;
+  font-weight: bold;
+  text-align: center;
+  border: 1px solid #ccc;
+  background-color: white; /* Fondo sólido para que el sticky sea visible */
+  z-index: 2; /* Asegura que esté encima del contenido */
 }
 
 .btn-cerrar {

@@ -31,7 +31,7 @@ export class ActasService {
     )
   }
 
-  saveActas(acta:Actas, datos_acta:DatosActa, tipo_eleccion:number) {
+  saveActas(acta:Actas, datos_acta:DatosActa, tipo_eleccion:number, option:number) {
     const id_seccion = datos_acta.id_seccion;
     const tipo_casilla = datos_acta.tipo_casilla;
     const tipo_operacion = datos_acta.operacion;
@@ -44,7 +44,7 @@ export class ActasService {
 
     console.log(tipo_operacion)
 
-    if(tipo_operacion == 1) {
+    if(option == 1) {
       return this.http.post<Res>(`${this.baseUrl}/distrital/operacion`,body,{headers})
       .pipe(
         catchError(res => of(res.error as Res))

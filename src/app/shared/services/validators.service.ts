@@ -21,7 +21,7 @@ export class ValidatorsService {
     for(const key of Object.keys(errors)) {
       switch(key) {
         case 'required':
-          return 'Campo obligatorio';
+          return 'Obligatorio';
         case 'minLength':
           return `El mínimo de carácteres requeridos es de: ${errors['minLength'].requiredLength}`;
         case 'maxLength':
@@ -41,7 +41,7 @@ export class ValidatorsService {
     for(const key of Object.keys(errors)) {
       switch(key) {
         case 'required':
-          return 'Campo obligatorio';
+          return 'Obligatorio';
         case 'maxlength':
           return `Límite de caracteres excedido: ${form.get(field)?.value.toString().length}/${maxlength}`;
         case 'minlength':

@@ -2,7 +2,7 @@
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
     <div class="modal-content">
       <div class="modal-header" [class]="{'bg-1' : +eleccion == 3, 'bg-2' : +eleccion == 2, 'bg-3' : +eleccion == 1, '' : eleccion == ''}">
-        <h5 class="modal-title" id="actasLabel">{{datos_acta?.operacion == 1 ? 'Capturar' : 'Actualizar'}} de Hoja de Operaciones</h5>
+        <h5 class="modal-title" id="actasLabel">{{datos_acta?.operacion == 1 ? 'Captura' : 'Actualización'}} de Hoja de Operaciones</h5>
       </div>
       <div class="modal-body">
         <div class="container-fluid">
@@ -26,7 +26,7 @@
                 <input type="text" class="form-control text-center" [value]="datos_acta?.tipo_casilla" readonly>
               </div>
               <div class="col-2">
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped">
                   <thead>
                     <th colspan="2">Candidatos</th>
                   </thead>
@@ -45,6 +45,9 @@
               </div>
               <div style="width: 150px !important;">
                 <input type="number" class="form-control text-center" formControlName="total_votos" style="border:solid 1px black;">
+                @if(isValidField('total_votos')) {
+                  <span class="text-danger">{{getFieldErrors('total_votos')}}</span>
+                }
               </div>
             </div>
             <div class="row pt-2 m-0">
@@ -56,7 +59,11 @@
                       <th>Nombre candidato</th>
                       <th>Postula</th>
                       @if(+eleccion !== 1) {
-                        <th [style.width]="['300px']">Materia</th>
+                        @if(+eleccion == 2) {
+                          <th style="width: 200px;">Materia</th>
+                        } @else {
+                          <th style="width: 350px;">Materia</th>
+                        }
                       }
                       <th style="width: 150px;">Votos</th>
                     </tr>
@@ -73,6 +80,9 @@
                         }
                         <td>
                           <input type="number" class="form-control text-center" formControlName="votos">
+                          @if(isValidVotosField('candidatos', i.toString(), 'votos')) {
+                            <span class="text-danger">{{ getFieldVotosErrors('candidatos', i.toString(), 'votos') }}</span>
+                          }
                         </td>
                       </tr>
                     }
@@ -95,6 +105,9 @@
               </div>
               <div style="width: 150px !important;">
                 <input type="number" class="form-control text-center" formControlName="votos_nulos" style="border:solid 1px black;">
+                @if(isValidField('votos_nulos')) {
+                  <span class="text-danger">{{getFieldErrors('votos_nulos')}}</span>
+                }
               </div>
             </div>
             <div class="row py-1 m-0 d-flex justify-content-end">
@@ -103,6 +116,9 @@
               </div>
               <div style="width: 150px !important;">
                 <input type="number" class="form-control text-center" formControlName="recuadros_nu" style="border:solid 1px black;">
+                @if(isValidField('recuadros_nu')) {
+                  <span class="text-danger">{{getFieldErrors('recuadros_nu')}}</span>
+                }
               </div>
             </div>
           </form>
@@ -112,9 +128,9 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-12 d-flex justify-content-end align-items-center">
-              <button class="btn btn-danger" (click)="closeModal()"><i class="bi bi-exit"></i>Cerrar</button>
+              <button class="btn btn-danger mx-1" (click)="closeModal()"><i class="bi bi-exit"></i>Cerrar</button>
               @if(eleccion !== '') {
-                <button class="btn btn-main mx-3" (click)="saveActa()">{{datos_acta?.operacion == 1 ? 'Capturar' : 'Actualizar'}} acta</button>
+                <button class="btn btn-main mx-1" (click)="saveActa()">{{option == 1 ? 'Capturar' : 'Actualizar'}}</button>
               }
             </div>
           </div>
@@ -122,3 +138,108 @@
     </div>
   </div>
 </div>
+
+<!-- <div class="modal fade" id="actas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="actasLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <div class="modal-content">
+      <div class="modal-header" [class]="{'bg-1' : +eleccion == 3, 'bg-2' : +eleccion == 2, 'bg-3' : +eleccion == 1, '' : eleccion == ''}">
+        <h5 class="modal-title" id="actasLabel">Captura de Hoja de Operaciones</h5>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <form [formGroup]="myForm">
+            <div class="row p-0 m-0">
+              <div class="col-6">
+                <strong>Tipo de elección</strong>
+                <select class="form-select text-center" formControlName="tipo_eleccion" [value]="datos_acta?.tipo_eleccion" (change)="getDatosActa()">
+                  <option value="">Seleccionar</option>
+                  @for(eleccion of tipos_eleccion; track i; let i = $index) {
+                    <option [value]="eleccion.id">{{eleccion.descripcion}}</option>
+                  }
+                </select>
+              </div>
+              <div class="col-2">
+                <strong>Sección</strong>
+                <input type="text" class="form-control text-center" readonly [value]="datos_acta?.id_seccion">
+              </div>
+              <div class="col-2">
+                <strong>Casilla</strong>
+                <input type="text" class="form-control text-center" readonly [value]="datos_acta?.tipo_casilla">
+              </div>
+              <div class="col-2">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr style="position:inherit;">
+                      <th style="position:static;" colspan="2">Candidatos</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="table-danger">Mujeres</td>
+                      <td class="table-primary">Hombres</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row p-0 m-0 d-flex justify-content-end">
+              <div class="col-8 d-flex justify-content-end align-items-center">
+                <strong>Número total de votos que se encuentran en la bolsa correspondiente</strong>
+              </div>
+              <div style="width: 150px;">
+                <input type="number" formControlName="total_votos" class="form-control text-center" id="total_votos" (keydown)="bloquear($event)" (keypress)="limit($event)" (keyup)="next($event,'M0')">
+                @if(isValidField('total_votos')) {
+                  <span class="text-danger">{{getFieldErrors('total_votos')}}</span>
+                }
+              </div>
+            </div>
+            <div class="row py-1 m-0">
+              <div class="col-12">
+                @if(eleccion !== '') {
+                  <table class="table table-bordered table-striped row-border hover" formArrayName="candidatos">
+                    <thead>
+                      <tr>
+                        <th># Candidato</th>
+                        <th>Nombre</th>
+                        <th>Postula</th>
+                        @if(+eleccion !== 1) {
+                          <th>Materia</th>
+                        }
+                        <th style="width: 150px;">Votos</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for(candidato of candidatos.controls; track i; let i = $index) {
+                        <tr [formGroupName]="i">
+                          <td><label>{{candidato.get('id_candidato')?.value}}</label></td>
+                          <td><label>{{candidato.get('nombre')?.value}}</label></td>
+                          <td><label>{{candidato.get('postula')?.value}}</label></td>
+                          @if(+eleccion !== 1) {
+                            <td><label>{{candidato.get('tipo_matera')?.value}}</label></td>
+                          }
+                          <td>
+                            <input type="number" class="form-control text-center" formControlName="votos">
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                }
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12 d-flex justify-content-end align-items-center">
+              <button class="btn btn-danger mx-1" (click)="closeModal()"><i class="bi bi-exit"></i>Cerrar</button>
+              <button class="btn btn-main mx-1 " (click)="saveActa()">{{datos_acta?.operacion == 1 ? 'Capturar' : 'Actualizar'}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

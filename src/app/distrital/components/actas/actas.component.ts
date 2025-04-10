@@ -28,7 +28,7 @@ export class ActasComponent implements OnInit, OnChanges{
     tipo_eleccion:[''],
     total_votos:['', [Validators.required]],
     votos_nulos: ['',[Validators.required]],
-    recuadros_nu: [''],
+    recuadros_nu: ['', [Validators.required]],
     candidatos: this.fb.array([])
   });
 
@@ -36,6 +36,7 @@ export class ActasComponent implements OnInit, OnChanges{
   public tipo_eleccion:Catalogos[] = [];
   public acta:Actas | undefined;
   public opcion:number = 0;
+  public option:number = 0;
 
   @Input()
   public datos_acta:DatosActa | undefined;
@@ -94,13 +95,13 @@ export class ActasComponent implements OnInit, OnChanges{
   }
 
   getDatosActa() {
-    console.log(this.eleccion)
     this.acta = undefined;
     this.candidatos.clear();
     this.myForm.markAsUntouched();
     this.actasService.getActas(this.datos_acta!, +this.eleccion)
     .subscribe(res => {
       this.acta = res.datos as Actas;
+      this.option = this.acta.total_votos.length == 0 ? 1 : 2;
       this.myForm.patchValue(this.acta);
       this.patchCandidatos(this.acta.candidatos);
     })
@@ -111,7 +112,7 @@ export class ActasComponent implements OnInit, OnChanges{
     nombre:[candidato.nombre],
     postula:[candidato.postula],
     tipo_materia:[candidato.tipo_materia],
-    votos:[candidato.votos],
+    votos:[candidato.votos, [Validators.required]],
     genero:[candidato.genero]
   })))
 
@@ -135,7 +136,7 @@ export class ActasComponent implements OnInit, OnChanges{
       confirmButtonText:'Confirmar'
     }).then((result) => {
       if(result.isConfirmed) {
-        this.actasService.saveActas(this.myForm.value as Actas, this.datos_acta as DatosActa, +this.eleccion)
+        this.actasService.saveActas(this.myForm.value as Actas, this.datos_acta as DatosActa, +this.eleccion, this.option)
         .subscribe(res => {
           Swal.fire({
             icon:res.success ? 'success' : (res.msg == 'Esta acta de este tipo de elección ya fue capturada' ? 'warning' : 'error'),
@@ -143,7 +144,7 @@ export class ActasComponent implements OnInit, OnChanges{
             text: res.msg,
             showConfirmButton: false,
             timer:2350
-          }).then(() => { 
+          }).then(() => {
             if(res.success) {
               this.myForm.markAsUntouched();
             }
@@ -153,10 +154,17 @@ export class ActasComponent implements OnInit, OnChanges{
     })
   }
 
+  resetForm():void {
+    this.myForm.reset();
+    this.candidatos.clear();
+    this.myForm.markAsUntouched();
+  }
+
   closeModal() {
     $('#actas').modal('hide');
     this.reload.emit(true);
     this.myForm.markAsUntouched();
+    this.resetForm();
   }
 
    bloquear(event:KeyboardEvent) {
@@ -192,24 +200,19 @@ export class ActasComponent implements OnInit, OnChanges{
     return;
   }
 
-  // isValidField(field:string) {
-  //   return this.validatorsService.isValidField(this.myForm,field);
-  // }
+  isValidField(field:string) {
+    return this.validatorsService.isValidField(this.myForm,field);
+  }
 
-  // getFieldErrors(field:string) {
-  //   return this.validatorsService.getFieldErrors(this.myForm,field);
-  // }
+  getFieldErrors(field:string) {
+    return this.validatorsService.getFieldErrors(this.myForm,field);
+  }
 
-  // isValidFieldVotos(array:string , position:string, form_field:string) {
-  //   return this.validatorsService.isValidVotosField(this.candidatos, array, position,form_field);
-  // }
+  isValidVotosField(field:string, position:string, form_field:string):boolean {
+    return this.validatorsService.isValidVotosField(this.myForm, field, position, form_field)!;
+  }
 
-  // getFieldErrorsVotos(array:string, position:string, form_field:string) {
-  //   return this.validatorsService.getFieldVotosErrors(this.candidatos, array, position,form_field);
-  // }
-
-  // hasError(arrayName: 'candidatosM' | 'candidatosH', index: number, field: string, error: string) {
-  //   const control = this[arrayName].at(index).get(field);
-  //   return control?.hasError(error) && control?.touched;
-  // }
+  getFieldVotosErrors(field:string, position:string, form_field:string):string {
+    return this.validatorsService.getFieldVotosErrors(this.myForm, field, position, form_field)!;
+  }
 }
