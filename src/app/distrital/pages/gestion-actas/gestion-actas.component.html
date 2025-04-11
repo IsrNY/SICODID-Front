@@ -30,10 +30,10 @@
         </div>
       </div>
       <div class="col-5">
-        <distrital-tabla-actas [titulo]="'por Capturar'" [datos]="actas_por_capturar" [operacion]="1" [tipo_eleccion]="eleccion" (datos_acta)="getDatosActa($event)"/>
+        <distrital-tabla-actas [titulo]="'por Capturar'" [datos]="actas_por_capturar" [operacion]="1" [tipo_eleccion]="eleccion" [tipo_acta]="1" (datos_acta)="getDatosActa($event)"/>
       </div>
       <div class="col-5">
-        <distrital-tabla-actas [titulo]="'Capturadas'" [datos]="actas_capturadas" [operacion]="2" [tipo_eleccion]="eleccion" (datos_acta)="getDatosActa($event)"/>
+        <distrital-tabla-actas [titulo]="'Capturadas'" [datos]="actas_capturadas" [operacion]="2" [tipo_eleccion]="eleccion" [tipo_acta]="1" (datos_acta)="getDatosActa($event)"/>
       </div>
     </div>
   </div>

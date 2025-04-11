@@ -64,7 +64,7 @@ export class ActasComponent implements OnInit, OnChanges{
         this.myForm.patchValue({tipo_eleccion:this.datos_acta?.tipo_eleccion!.toString()});
         if(this.eleccion !== '') {
           this.getDatosActa();
-          this.getTiposEleccionSA(this.datos_acta?.id_seccion.toString()!, this.datos_acta?.tipo_casilla!);
+          // this.getTiposEleccionSA(this.datos_acta?.id_seccion.toString()!, this.datos_acta?.tipo_casilla!);
         }
       break;
     }
@@ -77,23 +77,6 @@ export class ActasComponent implements OnInit, OnChanges{
    });
   }
 
-  getTiposEleccionSA(id_seccion:string, tipo_casilla:string) {
-    this.tipo_eleccion = [];
-    this.catalogosService.getCatalogo('tipo-eleccion', id_seccion, tipo_casilla)
-   .subscribe(res => {
-    this.tipos_eleccion = res.datos as Catalogos[];
-    if(this.datos_acta?.operacion == 2) {
-      this.tipos_eleccion.forEach(t_elec => {
-        if(t_elec.tiene_votos == 1) {
-          this.tipo_eleccion.push(t_elec);
-        }
-      })
-    } else {
-      this.tipo_eleccion = this.tipos_eleccion;
-    }
-   })
-  }
-
   getDatosActa() {
     this.acta = undefined;
     this.candidatos.clear();
@@ -102,6 +85,19 @@ export class ActasComponent implements OnInit, OnChanges{
     .subscribe(res => {
       this.acta = res.datos as Actas;
       this.option = this.acta.total_votos.length == 0 ? 1 : 2;
+      if(this.datos_acta?.operacion == 2 && this.acta.total_votos == '') {
+        Swal.fire({
+          icon:'info',
+          title:'¡Atención!',
+          text:'Esta Hoja de Operaciones aún no ha sido capturada.',
+          showConfirmButton:false,
+          timer:2000
+        })
+        this.acta = undefined;
+        this.myForm.reset();
+        this.myForm.patchValue({tipo_eleccion:''});
+        return;
+      }
       this.myForm.patchValue(this.acta);
       this.patchCandidatos(this.acta.candidatos);
     })
@@ -129,8 +125,8 @@ export class ActasComponent implements OnInit, OnChanges{
     }
     Swal.fire({
       icon:'question',
-      title:`¿Confirmar ${this.datos_acta?.operacion == 1 ? 'captura' : 'actualización'}?`,
-      text:`Está a punto de realizar ${this.datos_acta?.operacion == 1 ? 'la captura' : 'una actualización'} del acta, ¿Desea confirmar?`,
+      title:`¿Confirmar ${this.option == 1 ? 'captura' : 'actualización'}?`,
+      text:`Está a punto de realizar ${this.option == 1 ? 'la captura' : 'una actualización'} del acta, ¿Desea confirmar?`,
       showCancelButton:true,
       cancelButtonText:'Cancelar',
       confirmButtonText:'Confirmar'
@@ -139,13 +135,16 @@ export class ActasComponent implements OnInit, OnChanges{
         this.actasService.saveActas(this.myForm.value as Actas, this.datos_acta as DatosActa, +this.eleccion, this.option)
         .subscribe(res => {
           Swal.fire({
-            icon:res.success ? 'success' : (res.msg == 'Esta acta de este tipo de elección ya fue capturada' ? 'warning' : 'error'),
-            title: res.success ? '¡Correcto!' : (res.msg == 'Esta acta de este tipo de elección ya fue capturada' ? '¡Atención!' : '¡Error!'),
+            icon:res.success ? 'success' : 'error',
+            title: res.success ? '¡Correcto!' : '¡Error!',
             text: res.msg,
             showConfirmButton: false,
             timer:2350
           }).then(() => {
             if(res.success) {
+              if(this.option == 1) {
+                this.option = 2;
+              }
               this.myForm.markAsUntouched();
             }
           })
@@ -155,9 +154,11 @@ export class ActasComponent implements OnInit, OnChanges{
   }
 
   resetForm():void {
+    this.acta = undefined;
     this.myForm.reset();
     this.candidatos.clear();
     this.myForm.markAsUntouched();
+    this.option = 0;
   }
 
   closeModal() {
@@ -177,7 +178,12 @@ export class ActasComponent implements OnInit, OnChanges{
     let keyCode = event.keyCode;
 
     if(keyCode == 13) {
-      $(`#${id}`).select();
+      if(id !== 'submit') {
+        $(`#${id}`).select();
+      } else {
+        $('#save').focus();
+        this.saveActa();
+      }
     }
   }
 
@@ -185,7 +191,12 @@ export class ActasComponent implements OnInit, OnChanges{
     let keyCode = event.keyCode;
 
     if(keyCode == 13) {
+      console.log(id, this.candidatos.length)
+      if(+id < this.candidatos.length) {
         $(`#${id}`).select();
+      } else {
+        $('#nulos').select();
+      }
     }
   }
 
@@ -193,7 +204,7 @@ export class ActasComponent implements OnInit, OnChanges{
     let charCode = event.charCode;
 
     if(charCode !== 8 || charCode !== 9) {
-      let max = 3;
+      let max = 4;
 
       if((charCode < 48 || charCode > 57 || event.target.value.length >= max)) return false;
     }

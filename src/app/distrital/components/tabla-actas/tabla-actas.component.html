@@ -1,4 +1,4 @@
-<strong>Hojas de Operaciones {{ titulo }}</strong>
+<strong>{{ (tipo_acta == 1 ? 'Hojas de Operaciones ' : 'Actas de Jornada ') + titulo }}</strong>
 @if(datos !== undefined) {
 <table datatable [dtOptions]="dtOptions" class="table table-bordered table-striped row-border hover">
   <thead class="head">

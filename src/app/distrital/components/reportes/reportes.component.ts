@@ -12,23 +12,27 @@ export class ReportesComponent {
 
   public reportes = [
     {
-      nombre: 'Reporte de Juzgados',
-      path:'juzgados'
+      nombre:'Reporte de resultados de la elección de Magistraturas del Tribunal de Disciplina Judicial',
+      path:'tribunal'
     },
     {
-      nombre: 'Reporte de Magistraturas',
+      nombre: 'Reporte de resultados de la elección de Magistraturas del Tribunal Superior de Justicia',
       path:'magistraturas'
+    },
+    {
+      nombre: 'Reporte de resultados de la elección de Juzgados',
+      path:'juzgados'
     },
     {
       nombre: 'Reporte de Incidentes',
       path:'incidentes'
     },
     {
-      nombre: 'Reporte de Inicio de Cómputo',
+      nombre: 'Reporte distrital sobre el Inicio de los Cómputos Distritales',
       path:'inicio_computo'
     },
     {
-      nombre: 'Reporte de Cierre de Cómputo',
+      nombre: 'Reporte distrital sobre el Cierre de los Cómputos Distritales',
       path:'cierre_computo'
     },
   ];

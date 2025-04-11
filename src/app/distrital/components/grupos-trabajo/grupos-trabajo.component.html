@@ -40,7 +40,7 @@
                 }
               </td>
               <td>
-                <select class="form-select text-center" formControlName="id_cargo" (change)="getFunciones(i)">
+                <select class="form-select text-center" formControlName="id_cargo">
                   <option value="">Seleccionar</option>
                   @for(cargo of cargos; track i; let i = $index) {
                     <option [value]="cargo.id">{{cargo.descripcion | uppercase}}</option>
@@ -53,12 +53,8 @@
               <td>
                 <select class="form-select text-center" formControlName="id_funcion">
                   <option value="">Seleccionar</option>
-                  @if(!editing_values[i]) {
-                    <option [value]="integrante.get('id_funcion')?.value">{{integrante.get('funcion')?.value | uppercase}}</option>
-                  } @else {
-                    @for(funcion of funciones; track i; let i = $index) {
-                      <option [value]="funcion.id">{{funcion.descripcion | uppercase}}</option>
-                    }
+                  @for(funcion of funciones; track i; let i = $index) {
+                    <option [value]="funcion.id">{{funcion.descripcion | uppercase}}</option>
                   }
                 </select>
                 @if(isValidField('integrantes',i.toString(),'id_funcion')) {
@@ -91,7 +87,7 @@
                   @if(myForm.get('integrantes')?.get(i.toString())?.disabled) {
                   <button class="btn btn-secondary" (click)="edit(i)"><i class="bi bi-pencil-fill"></i></button>
                   } @else {
-                    <button class="btn btn-warning" (click)="editIntegrante(i)"><i class="bi bi-floppy-fill" style="color:#FFFFFF !important;"></i></button>
+                    <button class="btn btn-warning" (click)="editIntegrante(i)"><i class="bi bi-floppy-fill text-white"></i></button>
                   }
                 } @else {
                   <button class="btn btn-primary" (click)="saveIntegrante(i)"><i class="bi bi-floppy-fill"></i></button>

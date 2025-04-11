@@ -49,8 +49,8 @@ export class GruposTrabajoComponent implements OnInit {
       this.gt.push({id: i.toString(), descripcion: i.toString()});
     }
     this.getCargos();
+    this.getFunciones();
     this.getIntegrantes();
-
   }
 
   patchIntegrantes = (integrantes:Integrantes[]) => {
@@ -101,7 +101,7 @@ export class GruposTrabajoComponent implements OnInit {
         this.editing_values.push(true);
 
         let largo = this.integrantes.length;
-        $(`2`).focus()
+        $(`#2`).focus()
       } else {
         Swal.fire({
           icon:'warning',
@@ -113,7 +113,7 @@ export class GruposTrabajoComponent implements OnInit {
     }
   }
 
-  delete = (index:number, id_integrante:number) => {
+  delete = (index:number, id_integrante:number):void => {
     this.integrantesService.deleteIntegrante(id_integrante)
     .subscribe(res => {
       Swal.fire({
@@ -135,7 +135,7 @@ export class GruposTrabajoComponent implements OnInit {
     })
   }
 
-  deleteIntegrante = (index:number, id_integrante:string) => {
+  deleteIntegrante = (index:number, id_integrante:string):void => {
     if(id_integrante !== '') {
       if(this.editing_values[index] == true) {
         Swal.fire({
@@ -178,7 +178,7 @@ export class GruposTrabajoComponent implements OnInit {
     }
   }
 
-  saveIntegrante = (index:number) => {
+  saveIntegrante = (index:number):void => {
     if(this.myForm.invalid) {
       this.myForm.markAllAsTouched();
       Swal.fire({
@@ -214,7 +214,6 @@ export class GruposTrabajoComponent implements OnInit {
               this.getIntegrantes();
               this.editing_values[index] = false;
               this.isAdded = false;
-              this.funciones = [];
               this.myForm.markAsUntouched();
             }
           })
@@ -293,7 +292,6 @@ export class GruposTrabajoComponent implements OnInit {
       this.editing_values[index] = true;
       if(!this.isEditing) {
         this.myForm.get('integrantes')?.get(index.toString())?.enable();
-        this.getFunciones(index, true);
       }
       this.isEditing = true;
     }
@@ -306,12 +304,8 @@ export class GruposTrabajoComponent implements OnInit {
     })
   }
 
-  getFunciones(index:number, reset:boolean | undefined = undefined):void {
-    if(!reset) {
-      this.myForm.get('integrantes')?.get(index.toString())?.patchValue({id_funcion:''});
-    }
-    this.funciones = undefined;
-    this.catalogosService.getCatalogo(`funciones?id_cargo=${this.myForm.get('integrantes')?.get(index.toString())?.get('id_cargo')?.value}`)
+  getFunciones():void {
+    this.catalogosService.getCatalogo(`funciones`)
     .subscribe(res => {
        this.funciones = res.datos as Catalogos[];
      })
@@ -321,7 +315,6 @@ export class GruposTrabajoComponent implements OnInit {
     this.lista_integrantes = [];
     this.integrantesService.getIntegrantes()
     .subscribe(res => {
-      console.log(res)
        this.lista_integrantes = res.datos as Integrantes[];
        this.patchIntegrantes(this.lista_integrantes);
        Object.keys(this.integrantes.controls).forEach(key => {

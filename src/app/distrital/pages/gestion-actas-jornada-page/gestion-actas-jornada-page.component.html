@@ -1,10 +1,10 @@
 <div class="pb-4">
-  <h3>Captura de Hojas de Operaciones</h3>
+  <h3>Captura de Actas de Jornada</h3>
   <div class="row p-0 m-0 d-flex justify-content-center align-items-center">
     <div class="col-8">
       <form [formGroup]="myForm">
         <strong>Tipo de Elección</strong>
-        <select class="form-select text-center" formControlName="tipo_eleccion">
+        <select class="form-select text-center" formControlName="tipo_eleccion" (change)="getListasActas()">
           <option value="">Seleccionar tipo de elección</option>
           @for(tipo of tipo_eleccion; track i ; let i = $index) {
             <option [value]="tipo.id">{{tipo.descripcion}}</option>
@@ -17,23 +17,23 @@
         <div class="fixed p-2 shadow-lg bg-body-secondary">
           <div class="pb-1">
             <strong>Casillas aprobadas</strong>
-            <input type="text" class="form-control text-center" readonly >
+            <input type="text" class="form-control text-center" readonly [value]="contador?.casillasA">
             <strong>Casillas instaladas</strong>
-            <input type="text" class="form-control text-center" readonly >
-            <strong>Capturadas Juzgados</strong>
-            <input type="text" class="form-control text-center" readonly >
-            <strong>Capturadas Salas</strong>
-            <input type="text" class="form-control text-center" readonly >
+            <input type="text" class="form-control text-center" readonly [value]="contador?.casillasI">
             <strong>Capturadas Tribunal Disciplina</strong>
-            <input type="text" class="form-control text-center" readonly >
+            <input type="text" class="form-control text-center" readonly [value]="contador?.capturadasT">
+            <strong>Capturadas Magistraturas</strong>
+            <input type="text" class="form-control text-center" readonly [value]="contador?.capturadasM">
+            <strong>Capturadas Juzgados</strong>
+            <input type="text" class="form-control text-center" readonly [value]="contador?.capturadasJ">
           </div>
         </div>
       </div>
       <div class="col-5">
-        <!-- <distrital-tabla-actas [titulo]="'por Capturar'" [datos]="actas_por_capturar" [operacion]="1" [tipo_eleccion]="eleccion" (datos_acta)="getDatosActa($event)"/> -->
+        <distrital-tabla-actas [titulo]="'por Capturar'" [datos]="actas_por_capturar" [operacion]="1" [tipo_eleccion]="eleccion" [tipo_acta]="2"/>
       </div>
       <div class="col-5">
-        <!-- <distrital-tabla-actas [titulo]="'Capturadas'" [datos]="actas_capturadas" [operacion]="2" [tipo_eleccion]="eleccion" (datos_acta)="getDatosActa($event)"/> -->
+        <distrital-tabla-actas [titulo]="'Capturadas'" [datos]="actas_capturadas" [operacion]="2" [tipo_eleccion]="eleccion" [tipo_acta]="2"/>
       </div>
     </div>
   </div>

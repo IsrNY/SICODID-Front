@@ -12,12 +12,14 @@ import { DatosActa } from '../../interfaces/actas.interface';
   }
   `
 })
-// export class TablaActasComponent implements OnInit, OnChanges {
 export class TablaActasComponent implements OnInit, OnChanges {
   private dtAttrib = inject(DtAttibService);
 
   @Input()
   public titulo:string = '';
+
+  @Input()
+  public tipo_acta:number = 0;
 
   @Input()
   public datos: Casillas[] | undefined;
@@ -54,56 +56,4 @@ export class TablaActasComponent implements OnInit, OnChanges {
     this.selected_row = id;
     this.index = index;
   }
-
-  // private dtAttrib = inject(DtAttibService);
-
-  // @Input()
-  // public titulo:string = '';
-
-  // @Input()
-  // public actas:Casillas[] | undefined;
-
-  // @Input()
-  // public modo_acta:number = 0;
-
-  // @Input()
-  // public operacion:number = 0;
-
-  // @Input()
-  // public tipo_eleccion:number = 0;
-
-  // @Output()
-  // public tipo_operacion = new EventEmitter<number>();
-
-  // @Output()
-  // public acta = new EventEmitter<Casillas>();
-
-  // public selected_row:number = 0;
-  // public id_seccion:number = 0;
-  // public dtOptions:Config = {};
-
-  // ngOnInit(): void {
-  //   this.dtOptions = this.dtAttrib.dtOptions;
-  // }
-
-  // ngOnChanges(): void {
-  //   switch(this.tipo_eleccion) {
-  //     default:
-  //       this.selected_row = 0;
-  //       this.id_seccion = 0;
-  //   }
-  // }
-
-  // getData(acta: Casillas) {
-  //   this.acta.emit(acta);
-  // }
-
-  // getOperacion(tipo_operacion:number) {
-  //   this.tipo_operacion.emit(tipo_operacion)
-  // }
-
-  // getSelect(id_select:number, id_seccion:number) {
-  //   this.selected_row = id_select;
-  //   this.id_seccion = id_seccion;
-  // }
 }

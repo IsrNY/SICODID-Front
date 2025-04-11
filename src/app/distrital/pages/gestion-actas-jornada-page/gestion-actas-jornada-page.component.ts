@@ -1,7 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CatalogosService } from '../../../shared/services/catalogos.service';
-import { Catalogos } from '../../../shared/interfaces/catalogos.interface';
+import { Casillas, Catalogos } from '../../../shared/interfaces/catalogos.interface';
 import { FormBuilder } from '@angular/forms';
+import { Contador } from '../../interfaces/contador.interface';
 
 @Component({
   selector: 'distrital-gestion-actas-jornada-page',
@@ -24,10 +25,19 @@ public myForm = this.fb.group({
 })
 
   public tipo_eleccion:Catalogos[] = [];
+  public contador?:Contador;
+  public actas_por_capturar: Casillas[] | undefined;
+  public actas_capturadas: Casillas[] | undefined;
 
   ngOnInit(): void {
     this.getTiposEleccion();
     this.getContador();
+    this.myForm.patchValue({tipo_eleccion:'1'});
+    this.getListasActas();
+  }
+
+  get eleccion() {
+    return +this.myForm.get('tipo_eleccion')?.value!;
   }
 
   getTiposEleccion() {
@@ -41,14 +51,22 @@ public myForm = this.fb.group({
     this.catalogosService.getContador('contadorActas')
     .subscribe(res => {
       console.log(res.datos);
+      this.contador = res.datos as Contador;
     })
   }
 
-  getListaPorCapturar() {
-
-  }
-
-  getLiistaCapturadas() {
-
+  getListasActas() {
+    this.actas_por_capturar = undefined;
+    this.catalogosService.getCatalogo(`actasJorNORegistradas?id_tipo_eleccion=${this.myForm.get('tipo_eleccion')?.value}`)
+    .subscribe(res => {
+      this.actas_por_capturar = res.datos as Casillas[];
+      console.log(this.actas_por_capturar)
+    })
+    this.actas_capturadas = undefined;
+    this.catalogosService.getCatalogo(`actasJorRegistradas?id_tipo_eleccion=${this.myForm.get('tipo_eleccion')?.value}`)
+    .subscribe(res => {
+      this.actas_capturadas = res.datos as Casillas[];
+      console.log(this.actas_capturadas)
+    })
   }
 }
