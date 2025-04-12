@@ -5631,53 +5631,73 @@ textarea.form-control-lg {
   }
 }
 
-/* @media (min-width: 992px) {
-  .modal-lg,
+@media (min-width: 992px) {
+  .modal-lg {
+    --bs-modal-width: 600px;
+  }
   .modal-xl {
-    --bs-modal-width: 800px;
+    --bs-modal-width: 880px;
   }
 }
 @media (min-width: 1200px) {
+  .modal-lg {
+    --bs-modal-width: 800px;
+  }
   .modal-xl {
     --bs-modal-width: 1140px;
   }
-} */
+}
 
 @media screen and (min-width:200px) and (max-width:449px) {
-  .modal-lg,
+
+  .modal-lg {
+    --bs-modal-width: 250px;
+  }
   .modal-xl {
     --bs-modal-width: 380px
   }
 }
 
 @media screen and (min-width: 450px) and (max-width:720px) {
-  .modal-lg,
+  .modal-lg {
+    --bs-modal-width: 580px;
+  }
   .modal-xl {
     --bs-modal-width: 700px;
   }
 }
 
 @media screen and (min-width:721px) and (max-width:1200px) {
-  .modal-lg,
+  .modal-lg {
+    --bs-modal-width: 880px;
+  }
   .modal-xl {
     --bs-modal-width:1000px;
   }
 }
 
 @media screen and (min-width:1201px) and (max-width:1366px) {
-  .modal-lg,
+  .modal-lg {
+    --bs-modal-width: 1000px;
+  }
   .modal-xl {
     --bs-modal-width:1260px;
   }
 }
 
 @media screen and (min-width:1367px) and (max-width: 1920px) {
+  .modal-lg {
+    --bs-modal-width: 1300px;
+  }
   .modal-xl {
     --bs-modal-width: 1700px;
   }
 }
 
 @media screen and (min-width:1921px) and (max-width:1440px) {
+  .modal-lg {
+    --bs-modal-width: 1200px;
+  }
   .modal-xl {
     --bs-modal-width: 1390px;
   }
@@ -12209,4 +12229,29 @@ thead tr:first-child th {
   width: 25px;
   height: 25px;
   padding: 0;
+}
+
+/* Estilos de fondo de actas */
+.bgh-1 {
+  background-color: #FA9CBA;
+}
+
+.bg-1 {
+  background-color: #F6E2E8;
+}
+
+.bgh-2 {
+  background-color: #89B8ED;
+}
+
+.bg-2 {
+  background-color: #B2DEEB;
+}
+
+.bgh-3 {
+  background-color: #D2E3BF;
+}
+
+.bg-3 {
+  background-color: #E0E4DA;
 }

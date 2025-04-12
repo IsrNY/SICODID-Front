@@ -5,7 +5,7 @@
       <div class="col-12 py-2">
         <h4>Registro de asistencias</h4>
       </div>
-      <div class="col-12">
+      <div class="col-12 py-2">
         <table class="table table-bordered row-border hover">
           <thead>
             <tr>
@@ -71,7 +71,7 @@
           </tbody>
         </table>
       </div>
-      <div class="col-12 py-2">
+      <div class="col-12 py-3">
         <h5>Fecha y hora de {{computo}} del cómputo distrital</h5>
       </div>
       <div class="col-12">
@@ -98,7 +98,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 py-2">
+      <div class="col-12 py-3">
         <strong>Observaciones</strong>
         <textarea class="form-control" cols="auto" rows="3" formControlName="observaciones" [maxlength]="maxlength"></textarea>
         <shared-errors [maxlength]="maxlength" [form]="myForm" [field]="'observaciones'" [touched]="touched('observaciones')"/>

@@ -1,10 +1,10 @@
 <div class="modal fade" id="actas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="actasLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
     <div class="modal-content">
-      <div class="modal-header" [class]="{'bg-1' : +eleccion == 3, 'bg-2' : +eleccion == 2, 'bg-3' : +eleccion == 1, '' : eleccion == ''}">
+      <div class="modal-header" [class]="{'bgh-1' : +eleccion == 1, 'bgh-2' : +eleccion == 2, 'bgh-3' : +eleccion == 3, '' : eleccion == ''}">
         <h5 class="modal-title" id="actasLabel">{{datos_acta?.operacion == 1 ? 'Capturar' : 'Actualizar'}} Hoja de Operaciones</h5>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" [class]="{'bg-1': +eleccion == 1, 'bg-2': +eleccion == 2, 'bg-3': +eleccion == 3, '': eleccion == ''}">
         <div class="container-fluid">
           <form [formGroup]="myForm">
             <div class="row">
@@ -26,9 +26,11 @@
                 <input type="text" class="form-control text-center" [value]="datos_acta?.tipo_casilla" readonly>
               </div>
               <div class="col-2">
-                <table class="table table-bordered table-striped" style="border:solid 1px #ccc">
+                <table class="table table-bordered table-striped">
                   <thead>
-                    <th colspan="2">Candidatos</th>
+                    <tr style="position:inherit;">
+                      <th style="position:static;"  colspan="2">Candidatos</th>
+                    </tr>
                   </thead>
                   <tbody>
                     <tr>
@@ -128,7 +130,7 @@
           </form>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" [class]="{'bg-1': +eleccion == 1, 'bg-2': +eleccion == 2, 'bg-3': +eleccion == 3, '': eleccion == ''}">
         <div class="container-fluid">
           <div class="row">
             <div class="col-12 d-flex justify-content-end align-items-center">

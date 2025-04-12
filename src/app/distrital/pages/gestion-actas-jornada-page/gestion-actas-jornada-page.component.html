@@ -30,13 +30,13 @@
         </div>
       </div>
       <div class="col-5">
-        <distrital-tabla-actas [titulo]="'por Capturar'" [datos]="actas_por_capturar" [operacion]="1" [tipo_eleccion]="eleccion" [tipo_acta]="2"/>
+        <distrital-tabla-actas [titulo]="'por Capturar'" [datos]="actas_por_capturar" [operacion]="1" [tipo_eleccion]="eleccion" [tipo_acta]="2" (datos_acta)="getDatosActas($event)"/>
       </div>
       <div class="col-5">
-        <distrital-tabla-actas [titulo]="'Capturadas'" [datos]="actas_capturadas" [operacion]="2" [tipo_eleccion]="eleccion" [tipo_acta]="2"/>
+        <distrital-tabla-actas [titulo]="'Capturadas'" [datos]="actas_capturadas" [operacion]="2" [tipo_eleccion]="eleccion" [tipo_acta]="2" (datos_acta)="getDatosActas($event)"/>
       </div>
     </div>
   </div>
 </div>
-<!-- <distrital-actas [datos_acta]="datos_acta" (reload)="getReload($event)"/> -->
+<distrital-actas-jornada [datos_acta]="datos_acta"/>
 

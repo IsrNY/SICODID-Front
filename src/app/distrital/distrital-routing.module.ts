@@ -11,6 +11,7 @@ import { IncidentesPageComponent } from './pages/incidentes-page/incidentes-page
 import { GestionActasComponent } from './pages/gestion-actas/gestion-actas.component';
 import { verifyGuard } from '../auth/guards/verify.guard';
 import { GestionActasJornadaPageComponent } from './pages/gestion-actas-jornada-page/gestion-actas-jornada-page.component';
+import { InicioCierreOperacionesPageComponent } from './pages/inicio-cierre-operaciones-page/inicio-cierre-operaciones-page.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,11 @@ const routes: Routes = [
         path:'cierre_computo',
         canActivate:[verifyGuard],
         component:ComputoComponent
+      },
+      {
+        path:'operaciones',
+        canActivate:[verifyGuard],
+        component:InicioCierreOperacionesPageComponent
       }
     ]
   },

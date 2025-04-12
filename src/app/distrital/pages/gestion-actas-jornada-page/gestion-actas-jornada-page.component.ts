@@ -3,6 +3,9 @@ import { CatalogosService } from '../../../shared/services/catalogos.service';
 import { Casillas, Catalogos } from '../../../shared/interfaces/catalogos.interface';
 import { FormBuilder } from '@angular/forms';
 import { Contador } from '../../interfaces/contador.interface';
+import { DatosActa } from '../../interfaces/actas.interface';
+
+declare var $:any;
 
 @Component({
   selector: 'distrital-gestion-actas-jornada-page',
@@ -20,14 +23,15 @@ export class GestionActasJornadaPageComponent implements OnInit {
   private catalogosService = inject(CatalogosService);
   private fb = inject(FormBuilder);
 
-public myForm = this.fb.group({
-  tipo_eleccion:['']
-})
+  public myForm = this.fb.group({
+    tipo_eleccion:['']
+  })
 
   public tipo_eleccion:Catalogos[] = [];
   public contador?:Contador;
   public actas_por_capturar: Casillas[] | undefined;
   public actas_capturadas: Casillas[] | undefined;
+  public datos_acta:DatosActa | undefined
 
   ngOnInit(): void {
     this.getTiposEleccion();
@@ -53,6 +57,11 @@ public myForm = this.fb.group({
       console.log(res.datos);
       this.contador = res.datos as Contador;
     })
+  }
+
+  getDatosActas(datos: DatosActa) {
+    this.datos_acta = datos;
+    $('#actasJornada').modal('show');
   }
 
   getListasActas() {

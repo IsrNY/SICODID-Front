@@ -16,11 +16,11 @@ export class ReportesComponent {
       path:'tribunal'
     },
     {
-      nombre: 'Reporte de resultados de la elección de Magistraturas del Tribunal Superior de Justicia',
+      nombre: 'Reporte de resultados de la elección de Magistraturas del Poder Judicial',
       path:'magistraturas'
     },
     {
-      nombre: 'Reporte de resultados de la elección de Juzgados',
+      nombre: 'Reporte de resultados de la elección de Juzgados del Poder Judicial',
       path:'juzgados'
     },
     {

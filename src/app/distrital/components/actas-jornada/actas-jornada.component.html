@@ -1,7 +1,24 @@
-<div class="modal fade text-center" id="confirmLoginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmLoginLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-     <div class="modal-header">
-      <h4>Captura de acta de jornada</h4>
-     </div>
+<div class="modal fade" id="actasJornada" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="actasJornadaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="actasJornadaLabel">{{datos_acta?.operacion == 1 ? 'Capturar' : 'Actualizar'}} Acta de Jornada</h5>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12 d-flex justify-content-end align-items-center">
+              <button class="btn btn-danger mx-1" (click)="closeModal()">Cerrar</button>
+              <button class="btn btn-main mx-1" id="save">{{datos_acta?.operacion == 1 ? 'Guardar' : 'Actualizar'}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+

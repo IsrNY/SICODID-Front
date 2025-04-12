@@ -38,6 +38,26 @@ export class ActasComponent implements OnInit, OnChanges{
   public opcion:number = 0;
   public option:number = 0;
 
+
+//   colors = {
+//     tribunal: {
+//         color1: '#F6E2E8',
+//         color2: '#FFDEE9',
+//         color3: '#FA9CBA'
+//     },
+//     magistraturas: {
+//         color1: '#D4EADF',
+//         color2: '#B2DEEB',
+//         color3: '#89B8ED'
+//     },
+//     juzgados: {
+//         color1: '#E0E4DA',
+//         color2: '#C7E4C8',
+//         color3: '#D2E3BF'
+//     }
+// }
+
+
   @Input()
   public datos_acta:DatosActa | undefined;
 
@@ -64,7 +84,6 @@ export class ActasComponent implements OnInit, OnChanges{
         this.myForm.patchValue({tipo_eleccion:this.datos_acta?.tipo_eleccion!.toString()});
         if(this.eleccion !== '') {
           this.getDatosActa();
-          // this.getTiposEleccionSA(this.datos_acta?.id_seccion.toString()!, this.datos_acta?.tipo_casilla!);
         }
       break;
     }

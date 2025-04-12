@@ -125,7 +125,6 @@ export class RegistroIncidentesComponent implements OnInit, OnChanges {
       return;
     }
 
-     
     Swal.fire({
       icon:'question',
       title:`¿Confirmar operación?`,
@@ -162,9 +161,11 @@ export class RegistroIncidentesComponent implements OnInit, OnChanges {
               showConfirmButton:false,
               timer:2500
             }).then(() => {
-              $('#incidentes').modal('hide');
-              this.resetValues();
-              this.reset_opcion.emit(2);
+              if(res.success) {
+                $('#incidentes').modal('hide');
+                this.resetValues();
+                this.reset_opcion.emit(2);
+              }
             })
           })
         }
