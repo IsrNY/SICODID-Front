@@ -32,6 +32,7 @@ export class GruposTrabajoComponent implements OnInit {
   public cargos:Catalogos[] = [];
   public funciones?:Catalogos[] | [];
   public gt:Catalogos[] = [];
+  public pt:Catalogos[] = [];
   public isEditing:boolean = false;
   public isAdded:boolean = false;
   public show:boolean = false;
@@ -45,8 +46,12 @@ export class GruposTrabajoComponent implements OnInit {
   }
 
   ngOnInit():void  {
-    for(let i = 1; i < 9; i++) {
+    for(let i = 1; i < 4; i++) {
       this.gt.push({id: i.toString(), descripcion: i.toString()});
+    };
+
+    for(let i = 1; i < 5; i++) {
+      this.pt.push({id:i.toString(), descripcion:i.toString()})
     }
     this.getCargos();
     this.getFunciones();
@@ -65,6 +70,7 @@ export class GruposTrabajoComponent implements OnInit {
         id_cargo:[integrante.id_cargo, [Validators.required]],
         id_funcion:[integrante.id_funcion, [Validators.required]],
         gt:[integrante.gt,[Validators.required]],
+        punto_escrutinio:[''],
         turno:[integrante.turno,[Validators.required]],
         cargo:[integrante.cargo],
         funcion:[integrante.funcion],
@@ -92,6 +98,7 @@ export class GruposTrabajoComponent implements OnInit {
           id_cargo:['', [Validators.required]],
           id_funcion:['', [Validators.required]],
           gt:['',[Validators.required]],
+          punto_escrutinio:[''],
           turno:['',[Validators.required]],
           cargo:[''],
           funcion:[null],
@@ -315,6 +322,7 @@ export class GruposTrabajoComponent implements OnInit {
     this.lista_integrantes = [];
     this.integrantesService.getIntegrantes()
     .subscribe(res => {
+      console.log(res.datos)
        this.lista_integrantes = res.datos as Integrantes[];
        this.patchIntegrantes(this.lista_integrantes);
        Object.keys(this.integrantes.controls).forEach(key => {

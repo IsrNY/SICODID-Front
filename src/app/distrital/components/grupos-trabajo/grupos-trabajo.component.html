@@ -14,6 +14,7 @@
             <th>Cargo</th>
             <th>Función</th>
             <th>Grupo de trabajo</th>
+            <th>Punto  de Escrutinio</th>
             <th>Turno</th>
             <th colspan="2">Acciones</th>
           </tr>
@@ -71,6 +72,14 @@
                 @if(isValidField('integrantes',i.toString(),'gt')) {
                   <span class="text-danger">{{ getFieldErrors('integrantes', i.toString(), 'gt') }}</span>
                 }
+              </td>
+              <td>
+                <select class="form-select text-center" formControlName="punto_escrutinio">
+                  <option value="">Seleccionar</option>
+                  @for(punto_e of pt; track i; let i = $index) {
+                    <option [value]="punto_e.id">{{punto_e.descripcion}}</option>
+                  }
+                </select>
               </td>
               <td>
                 <select class="form-select text-center" formControlName="turno">

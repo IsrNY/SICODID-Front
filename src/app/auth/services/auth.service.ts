@@ -32,6 +32,10 @@ export class AuthService {
     return this.data?.perfil;
   }
 
+  get gt() {
+    return this,this.data?.gt;
+  }
+
   get usuario():string | undefined {
     return this.data?.usuario;
   }

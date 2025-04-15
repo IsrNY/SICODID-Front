@@ -42,7 +42,16 @@
               </div>
             </div>
             <div class="row py-2 m-0 d-flex justify-content-end">
-              <div class="col-8 d-flex justify-content-end align-items-center">
+              <div class="col-2 d-flex justify-content-end align-content-center"><strong>Punto de Escrutinio</strong></div>
+              <div class="col-2">
+                <select class="form-select text-center" formControlName="punto_escrutinio">
+                  <option value="">Seleccionar</option>
+                  @for(punto of pe; track i; let i = $index) {
+                    <option [value]="punto.id">{{punto.descripcion}}</option>
+                  }
+                </select>
+              </div>
+              <div class="col-6 d-flex justify-content-end align-items-center">
                 <strong>Número total de votos que se encuentran en la bolsa correspondiente</strong>
               </div>
               <div style="width: 150px !important;">

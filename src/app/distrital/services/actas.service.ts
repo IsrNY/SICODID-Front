@@ -18,14 +18,14 @@ export class ActasService {
     return localStorage.getItem('token')!;
   };
 
-  getActas(acta:Casillas, tipo_eleccion:number) {
+  getActas(acta:Casillas, tipo_eleccion:number, path:string) {
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${this.loadStorage}`
     });
     const body = {...acta,tipo_eleccion}
     console.log(body)
 
-    return this.http.post<Res>(`${this.baseUrl}/distrital/operacionInfo`,body,{headers})
+    return this.http.post<Res>(`${this.baseUrl}/distrital/${path}`,body,{headers})
     .pipe(
       catchError(res => of(res.error as Res))
     )

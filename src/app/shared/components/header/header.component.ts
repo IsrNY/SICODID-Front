@@ -10,8 +10,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 export class HeaderComponent{
   private authService = inject(AuthService);
 
-  get usuario() {
-    return this.authService.usuario;
+  get gt() {
+    return this.authService.gt;
   }
-
 }

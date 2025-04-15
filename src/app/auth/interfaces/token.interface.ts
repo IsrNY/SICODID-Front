@@ -4,4 +4,5 @@ export interface Token {
   id_distrito:    number;
   usuario:        string;
   perfil:         number;
+  gt:             number;
 }

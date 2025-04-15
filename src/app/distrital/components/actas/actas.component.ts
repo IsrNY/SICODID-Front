@@ -27,6 +27,7 @@ export class ActasComponent implements OnInit, OnChanges{
   public myForm = this.fb.group({
     tipo_eleccion:[''],
     total_votos:['', [Validators.required]],
+    punto_escrutinio:[''],
     votos_nulos: ['',[Validators.required]],
     recuadros_nu: ['', [Validators.required]],
     candidatos: this.fb.array([])
@@ -37,6 +38,7 @@ export class ActasComponent implements OnInit, OnChanges{
   public acta:Actas | undefined;
   public opcion:number = 0;
   public option:number = 0;
+  public pe:Catalogos[] = [];
 
 
 //   colors = {
@@ -74,6 +76,9 @@ export class ActasComponent implements OnInit, OnChanges{
 
 
   ngOnInit(): void {
+    for(let i = 1; i < 5; i++) {
+      this.pe.push({id:i.toString(),descripcion:i.toString()})
+    }
     this.getTiposEleccion();
   }
 
@@ -100,7 +105,7 @@ export class ActasComponent implements OnInit, OnChanges{
     this.acta = undefined;
     this.candidatos.clear();
     this.myForm.markAsUntouched();
-    this.actasService.getActas(this.datos_acta!, +this.eleccion)
+    this.actasService.getActas(this.datos_acta!, +this.eleccion, 'operacionInfo')
     .subscribe(res => {
       this.acta = res.datos as Actas;
       this.option = this.acta.total_votos.length == 0 ? 1 : 2;
@@ -185,6 +190,7 @@ export class ActasComponent implements OnInit, OnChanges{
     this.reload.emit(true);
     this.myForm.markAsUntouched();
     this.resetForm();
+    this.myForm.patchValue({punto_escrutinio:''})
   }
 
    bloquear(event:KeyboardEvent) {

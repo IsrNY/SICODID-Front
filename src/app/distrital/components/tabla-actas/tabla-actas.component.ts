@@ -47,8 +47,8 @@ export class TablaActasComponent implements OnInit, OnChanges {
   ngOnChanges() {
   }
 
-  getData(acta:Casillas, operacion:number, tipo_eleccion:number, status:number):void {
-    this.datos_acta.emit({...acta, operacion,tipo_eleccion, status});
+  getData(acta:Casillas, operacion:number, tipo_eleccion:number):void {
+    this.datos_acta.emit({...acta, operacion,tipo_eleccion});
     this.selected_row = +acta.id_seccion;
   }
 

@@ -6,6 +6,46 @@
       </div>
       <div class="modal-body">
         <div class="container-fluid">
+          <form [formGroup]="myForm">
+            <div class="row d-flex justify-content-center">
+              <div class="col-3">
+                <strong>Sección</strong>
+                <input type="text" class="form-control text-center" formControlName="id_seccion" readonly [value]="datos_acta?.id_seccion">
+              </div>
+              <div class="col-3">
+                <strong>Casilla</strong>
+                <input type="text" class="form-control text-center" formControlName="tipo_casilla" readonly [value]="datos_acta?.tipo_casilla">
+              </div>
+            </div>
+            <div class="row py-3">
+              <div class="col-12 d-flex py-2 justify-content-end align-items-center">
+                <strong class="px-2">Personas que votaron</strong>
+                <input type="number" class="form-control text-center" style="width: 150px;" formControlName="personas_votaron">
+              </div>
+              <div class="col-12 py-1" style="background-color: #FDD9B2;"><strong>Número total de votos sacados de la urna por tipo de elección: </strong></div>
+              <div class="col-12 d-flex py-2 justify-content-end align-items-center">
+                <strong class="px-2">MAGISTRATURAS DEL TRIBUNAL DE DISCIPLINA JUDICIAL DE LA CIUDAD DE MÉXICO</strong>
+                <input type="number" class="form-control text-center" style="width: 150px;" formControlName="votos_sacados_magistraturas_tdj">
+              </div>
+              <div class="col-12 d-flex py-2 justify-content-end align-items-center">
+                <strong class="px-2">MAGISTRATURAS DEL PODER JUDICIAL DE LA CIUDAD DE MÉXICO</strong>
+                <input type="number" class="form-control text-center" style="width: 150px;" formControlName="votos_sacados_magistraturas_pj">
+              </div>
+              <div class="col-12 d-flex py-2 justify-content-end align-items-center">
+                <strong class="px-2">JUZGADOS DEL PODER JUDICIAL DE LA CIUDAD DE MÉXICO</strong>
+                <input type="number" class="form-control text-center" style="width: 150px;" formControlName="votos_sacados_juzgados_pj">
+              </div>
+              <div class="col-12 d-flex py-2 justify-content-end align-items-center">
+                <strong class="px-2">Punto de Escrutinio</strong>
+                <select class="form-select text-center" style="width: 150px;" formControlName="punto_escrutinio">
+                  <option value="">Seleccionar</option>
+                  @for(pe of puntos_escrutinio; track i; let i = $index) {
+                    <option [value]="pe.id">{{pe.descripcion}}</option>
+                  }
+                </select>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
       <div class="modal-footer">
