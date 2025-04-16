@@ -4,7 +4,7 @@ import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http';
 import { Casillas } from '../../shared/interfaces/catalogos.interface';
 import { Res } from '../../auth/interfaces/res.interface';
 import { catchError, of, tap } from 'rxjs';
-import { Actas, DatosActa } from '../interfaces/actas.interface';
+import { ActaJornada, Actas, DatosActa } from '../interfaces/actas.interface';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 @Injectable({
@@ -31,26 +31,25 @@ export class ActasService {
     )
   }
 
-  saveActas(acta:Actas, datos_acta:DatosActa, tipo_eleccion:number, option:number) {
+  saveActas(acta:Actas | ActaJornada, datos_acta:DatosActa, tipo_eleccion:number | undefined = undefined, option:number, path:string) {
     const id_seccion = datos_acta.id_seccion;
     const tipo_casilla = datos_acta.tipo_casilla;
     const tipo_operacion = datos_acta.operacion;
     const body = {...acta, id_seccion, tipo_casilla, tipo_eleccion};
 
-    console.log(body)
+    console.log(body);
+
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${this.loadStorage}`
     });
 
-    console.log(tipo_operacion)
-
     if(option == 1) {
-      return this.http.post<Res>(`${this.baseUrl}/distrital/operacion`,body,{headers})
+      return this.http.post<Res>(`${this.baseUrl}/distrital/${path}`,body,{headers})
       .pipe(
         catchError(res => of(res.error as Res))
       )
     } else {
-      return this.http.put<Res>(`${this.baseUrl}/distrital/operacion`,body,{headers})
+      return this.http.put<Res>(`${this.baseUrl}/distrital/${path}`,body,{headers})
       .pipe(
         catchError(res => of(res.error as Res))
       )

@@ -1,40 +1,37 @@
 <div class="pb-5">
-  <h4>Inicio/Cierre de Operaciones</h4>
-  <div class="container-fluid">
-    <div class="row py-1 m-0 d-flex justify-content-end align-items-center">
-      <div class="col-4">
-        <button class="btn btn-main" (click)="addNewRegistroOperaciones()"><i class="bi bi-plus-lg"></i>Registrar nuevo</button>
-      </div>
+  <h3>Inicio/Cierre de Operaciones</h3>
+  <div class="row py-2 m-0 ">
+    <div class="col-12 d-flex justify-content-end align-items-center">
+      <button class="btn btn-main" (click)="addNewRegistroOperaciones()"><i class="bi bi-plus-lg"></i> Nuevo horario</button>
     </div>
-  </div>
-  <div class="row py-4 m-0 d-flex justify-content-center">
-    <div class="col-8">
+    <div class="col-12 py-3">
       <form [formGroup]="myForm">
         <table class="table table-bordered table-striped" formArrayName="operaciones">
           <thead>
             <tr>
-              <th>Fecha y Hora de Inicio</th>
-              <th>Fecha y Hora de Cierre</th>
+              <th>Fecha y Hora Inicio</th>
+              <th>Fecha y Hora Cierre</th>
               <th colspan="2">Acciones</th>
             </tr>
           </thead>
           <tbody>
             @for(operacion of operaciones.controls; track i; let i = $index) {
-               <tr [formGroupName]="i">
-                <td>
-                  <input type="datetime-local" class="form-control text-center" formControlName="fecha_hora_inicio">
-                </td>
-                <td>
-                  <input type="datetime-local" class="form-control text-center" formControlName="fecha_hora_cierre">
-                </td>
-                <td>
-                  <button class="btn btn-primary"><i class="bi bi-floppy-fill"></i></button>
-                </td>
-                <td>
-                  <button class="btn btn-danger" (click)="removeRegistroOperaciones(i)"><i class="bi bi-trash-fill"></i></button>
-                </td>
-               </tr>
-            }
+              <tr [formGroupName]="i">
+               <td>
+                 <input type="datetime-local" class="form-control text-center" formControlName="fecha_hora_inicio">
+               </td>
+               <td>
+                 <input type="datetime-local" class="form-control text-center" formControlName="fecha_hora_fin">
+               </td>
+               <td>
+                 <button class="btn btn-primary"><i class="bi bi-floppy-fill"></i></button>
+               </td>
+               <td>
+                 <button class="btn btn-danger" (click)="removeRegistroOperaciones(i, +operacion.get('id_actividad')?.value!)"><i class="bi bi-trash-fill"></i></button>
+               </td>
+              </tr>
+           }
+            <tr></tr>
           </tbody>
         </table>
       </form>

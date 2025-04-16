@@ -78,4 +78,10 @@ export class GestionActasJornadaPageComponent implements OnInit {
       console.log(this.actas_capturadas)
     })
   }
+
+  getRecarga(recharge:boolean) {
+    if(recharge) {
+      this.getListasActas();
+    }
+  }
 }

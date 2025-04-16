@@ -2,7 +2,9 @@
 <div class="row pb-5 m-0">
   <form [formGroup]="myForm">
     <div class="col-12 pt-1 pb-2 d-flex justify-content-end">
-      <button type="button" class="btn btn-main" (click)="addIntegrante()"><i class="bi bi-plus-lg"></i>Agregar integrante</button>
+      <abbr title="Agregar nueva fila de integrante">
+        <button type="button" class="btn btn-main" (click)="addIntegrante()"><i class="bi bi-plus-lg"></i>Agregar integrante</button>
+      </abbr>
     </div>
     <div class="col-12">
       <table class="table table-bordered table-striped row-border hover">
@@ -94,15 +96,25 @@
               <td>
                 @if(integrante.get('id_integrante')?.value !== '') {
                   @if(myForm.get('integrantes')?.get(i.toString())?.disabled) {
-                  <button class="btn btn-secondary" (click)="edit(i)"><i class="bi bi-pencil-fill"></i></button>
+                    <abbr title="Habilitar la edición de datos del integrante">
+                      <button class="btn btn-secondary" (click)="edit(i)"><i class="bi bi-pencil-fill"></i></button>
+                    </abbr>
                   } @else {
-                    <button class="btn btn-warning" (click)="editIntegrante(i)"><i class="bi bi-floppy-fill text-white"></i></button>
+                    <abbr title="Guardar cambios en los datos del integrante">
+                      <button class="btn btn-warning" (click)="editIntegrante(i)"><i class="bi bi-floppy-fill text-white"></i></button>
+                    </abbr>
                   }
                 } @else {
-                  <button class="btn btn-primary" (click)="saveIntegrante(i)"><i class="bi bi-floppy-fill"></i></button>
+                  <abbr title="Realizar la captura de los datos del integrante">
+                    <button class="btn btn-primary" (click)="saveIntegrante(i)"><i class="bi bi-floppy-fill"></i></button>
+                  </abbr>
                 }
               </td>
-              <td><button class="btn btn-danger" (click)="deleteIntegrante(i, integrante.get('id_integrante')?.value)"><i class="bi bi-trash3-fill"></i></button></td>
+              <td>
+                <abbr title="Eliminar datos del integrante">
+                  <button class="btn btn-danger" (click)="deleteIntegrante(i, integrante.get('id_integrante')?.value)"><i class="bi bi-trash3-fill"></i></button>
+                </abbr>
+              </td>
             </tr>
           } @empty {
             <tr class="table-danger">

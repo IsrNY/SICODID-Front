@@ -1,11 +1,11 @@
 <div class="modal fade" id="actasJornada" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="actasJornadaLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header" style="background-color: rgb(214, 214, 214);">
         <h5 class="modal-title" id="actasJornadaLabel">{{datos_acta?.operacion == 1 ? 'Capturar' : 'Actualizar'}} Acta de Jornada</h5>
       </div>
       <div class="modal-body">
-        <div class="container-fluid">
+        <div class="container">
           <form [formGroup]="myForm">
             <div class="row d-flex justify-content-center">
               <div class="col-3">
@@ -17,32 +17,71 @@
                 <input type="text" class="form-control text-center" formControlName="tipo_casilla" readonly [value]="datos_acta?.tipo_casilla">
               </div>
             </div>
-            <div class="row py-3">
-              <div class="col-12 d-flex py-2 justify-content-end align-items-center">
-                <strong class="px-2">Personas que votaron</strong>
-                <input type="number" class="form-control text-center" style="width: 150px;" formControlName="personas_votaron">
+            <div class="row py-2">
+              <div class="col-12 d-flex justify-content-end align-items-center pb-2">
+                  <div class="flex-grow-1 d-flex justify-content-end px-2">
+                    <strong>Personas que votaron</strong>
+                  </div>
+                  <div style="width: 150px;">
+                    <input type="number" id="personas" class="form-control text-center" formControlName="personas_votaron"
+                    (keydown)="bloquear($event)" (keyup)="next($event,'tribunal')" (keypress)="limit($event)">
+                    @if(isValidField('personas_votaron')) {
+                      <span class="text-danger">{{getFieldErrors('personas_votaron')}}</span>
+                    }
+                  </div>
               </div>
-              <div class="col-12 py-1" style="background-color: #FDD9B2;"><strong>Número total de votos sacados de la urna por tipo de elección: </strong></div>
-              <div class="col-12 d-flex py-2 justify-content-end align-items-center">
-                <strong class="px-2">MAGISTRATURAS DEL TRIBUNAL DE DISCIPLINA JUDICIAL DE LA CIUDAD DE MÉXICO</strong>
-                <input type="number" class="form-control text-center" style="width: 150px;" formControlName="votos_sacados_magistraturas_tdj">
-              </div>
-              <div class="col-12 d-flex py-2 justify-content-end align-items-center">
-                <strong class="px-2">MAGISTRATURAS DEL PODER JUDICIAL DE LA CIUDAD DE MÉXICO</strong>
-                <input type="number" class="form-control text-center" style="width: 150px;" formControlName="votos_sacados_magistraturas_pj">
-              </div>
-              <div class="col-12 d-flex py-2 justify-content-end align-items-center">
-                <strong class="px-2">JUZGADOS DEL PODER JUDICIAL DE LA CIUDAD DE MÉXICO</strong>
-                <input type="number" class="form-control text-center" style="width: 150px;" formControlName="votos_sacados_juzgados_pj">
-              </div>
-              <div class="col-12 d-flex py-2 justify-content-end align-items-center">
-                <strong class="px-2">Punto de Escrutinio</strong>
-                <select class="form-select text-center" style="width: 150px;" formControlName="punto_escrutinio">
-                  <option value="">Seleccionar</option>
-                  @for(pe of puntos_escrutinio; track i; let i = $index) {
-                    <option [value]="pe.id">{{pe.descripcion}}</option>
+              <div class="col-12 py-2 my-1"><strong>Número total de votos sacados de la urna por tipo de elección: </strong></div>
+              <div class="col-12 d-flex justify-content-end align-items-center py-2 bg-1">
+                <div class="flex-grow-1 d-flex justify-content-end px-2">
+                  <strong>MAGISTRATURAS DEL TRIBUNAL DE DISCIPLINA JUDICIAL DE LA CIUDAD DE MÉXICO</strong>
+                </div>
+                <div style="width: 150px;">
+                  <input type="number" id="tribunal" class="form-control text-center" formControlName="votos_tribunal"
+                  (keydown)="bloquear($event)" (keyup)="next($event,'magistraturas')" (keypress)="limit($event)">
+                  @if(isValidField('votos_tribunal')) {
+                    <span class="text-danger">{{getFieldErrors('votos_tribunal')}}</span>
                   }
-                </select>
+                </div>
+              </div>
+              <div class="col-12 d-flex justify-content-end align-items-center py-2 bg-2">
+                <div class="flex-grow-1 d-flex justify-content-end px-2">
+                  <strong>MAGISTRATURAS DEL PODER JUDICIAL DE LA CIUDAD DE MÉXICO</strong>
+                </div>
+                <div style="width: 150px;">
+                  <input type="number" id="magistraturas" class="form-control text-center" formControlName="votos_magistraturas"
+                  (keydown)="bloquear($event)" (keyup)="next($event,'juzgados')" (keypress)="limit($event)">
+                  @if(isValidField('votos_magistraturas')) {
+                    <span class="text-danger">{{getFieldErrors('votos_magistraturas')}}</span>
+                  }
+                </div>
+              </div>
+              <div class="col-12 d-flex justify-content-end align-items-center py-2 bg-3">
+                <div class="flex-grow-1 d-flex justify-content-end px-2">
+                  <strong>JUZGADOS DEL PODER JUDICIAL DE LA CIUDAD DE MÉXICO</strong>
+                </div>
+                <div style="width: 150px;">
+                  <input type="number" id="juzgados" class="form-control text-center" formControlName="votos_juzgados"
+                  (keydown)="bloquear($event)" (keyup)="next($event,'pe')" (keypress)="limit($event)">
+                  @if(isValidField('votos_juzgados')) {
+                    <span class="text-danger">{{getFieldErrors('votos_juzgados')}}</span>
+                  }
+                </div>
+              </div>
+              <div class="col-12 d-flex justify-content-end align-items-center py-1">
+                <div class="flex-grow-1 d-flex justify-content-end px-2">
+                  <strong>Punto de Escrutinio</strong>
+                </div>
+                <div style="width: 150px;">
+                  <select id="pe" class="form-select text-center" formControlName="punto_escrutinio">
+                    <option value="">Seleccionar</option>
+                    @for(pe of puntos_escrutinio; track i; let i = $index) {
+                      <option [value]="pe.id">{{pe.descripcion}}</option>
+                    }
+                  </select>
+                  @if(isValidField('punto_escrutinio')) {
+                    <span class="text-danger">{{getFieldErrors('punto_escrutinio')}}</span>
+                  }
+                </div>
               </div>
             </div>
           </form>
@@ -53,7 +92,7 @@
           <div class="row">
             <div class="col-12 d-flex justify-content-end align-items-center">
               <button class="btn btn-danger mx-1" (click)="closeModal()">Cerrar</button>
-              <button class="btn btn-main mx-1" id="save">{{datos_acta?.operacion == 1 ? 'Guardar' : 'Actualizar'}}</button>
+              <button class="btn btn-main mx-1" id="save" (click)="saveActaJornada()">{{datos_acta?.operacion == 1 ? 'Guardar' : 'Actualizar'}}</button>
             </div>
           </div>
         </div>

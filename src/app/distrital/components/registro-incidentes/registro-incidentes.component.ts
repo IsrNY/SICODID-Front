@@ -72,6 +72,7 @@ export class RegistroIncidentesComponent implements OnInit, OnChanges {
       this.resetValues();
     } else {
       this.myForm.patchValue(this.incidente as Incidente);
+      console.log(this.myForm.value);
       this.myForm.disable();
     }
   }
@@ -79,9 +80,6 @@ export class RegistroIncidentesComponent implements OnInit, OnChanges {
   closeModal() {
     $('#incidentes').modal('hide');
     this.resetValues();
-  }
-
-  getErrors(field:string) {
   }
 
   changeEdit() {

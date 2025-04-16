@@ -1,19 +1,3 @@
-// export interface Actas {
-//   boletas_sobrantes:   string;
-//   cand_no_registrados: string;
-//   votos_nulos:         string;
-//   total_emitida:       string;
-//   candidatos:          Candidato[];
-// }
-
-// export interface Candidato {
-//   id_candidato:   string;
-//   nombre:         string;
-//   postula:        string;
-//   descripcion?:   string ;
-//   votos:          string;
-// }
-
 export interface Actas {
   votos_nulos:         string;
   total_votos:         string;
@@ -40,6 +24,15 @@ export interface DatosActa {
   tipo_casilla: string;
   operacion: number;
   tipo_eleccion: number;
-  // status: number;
+}
+
+export interface ActaJornada {
+  id_seccion:               string;
+  tipo_casilla:             string;
+  personas_votaron:         string;
+  votos_tribunal:           string;
+  votos_magistraturas:      string;
+  votos_juzgados:           string;
+  punto_escrutinio:         string;
 }
 

@@ -156,7 +156,7 @@ export class ActasComponent implements OnInit, OnChanges{
       confirmButtonText:'Confirmar'
     }).then((result) => {
       if(result.isConfirmed) {
-        this.actasService.saveActas(this.myForm.value as Actas, this.datos_acta as DatosActa, +this.eleccion, this.option)
+        this.actasService.saveActas(this.myForm.value as Actas, this.datos_acta as DatosActa, +this.eleccion, this.option, 'operacion')
         .subscribe(res => {
           Swal.fire({
             icon:res.success ? 'success' : 'error',
@@ -193,7 +193,7 @@ export class ActasComponent implements OnInit, OnChanges{
     this.myForm.patchValue({punto_escrutinio:''})
   }
 
-   bloquear(event:KeyboardEvent) {
+  bloquear(event:KeyboardEvent) {
     if(event.key === 'ArrowUp' || event.key === 'ArrowDown') {
       event.preventDefault()
     }
