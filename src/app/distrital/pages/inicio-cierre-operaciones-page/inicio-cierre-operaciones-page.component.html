@@ -1,34 +1,59 @@
 <div class="pb-5">
-  <h3>Inicio/Cierre de Operaciones</h3>
+  <h3>Inicio/Conclusión de Operaciones</h3>
   <div class="row py-2 m-0 ">
     <div class="col-12 d-flex justify-content-end align-items-center">
-      <button class="btn btn-main" (click)="addNewRegistroOperaciones()"><i class="bi bi-plus-lg"></i> Nuevo horario</button>
+      <button class="btn btn-main" (click)="addNewRegistroOperaciones()"><i class="bi bi-plus-lg"></i> Nuevo registro</button>
     </div>
     <div class="col-12 py-3">
       <form [formGroup]="myForm">
         <table class="table table-bordered table-striped" formArrayName="operaciones">
           <thead>
             <tr>
-              <th>Fecha y Hora Inicio</th>
-              <th>Fecha y Hora Cierre</th>
+              <th>Fecha y Hora de Inicio</th>
+              <th>Fecha y Hora de Conclusión</th>
               <th colspan="2">Acciones</th>
             </tr>
           </thead>
           <tbody>
             @for(operacion of operaciones.controls; track i; let i = $index) {
               <tr [formGroupName]="i">
-               <td>
-                 <input type="datetime-local" class="form-control text-center" formControlName="fecha_hora_inicio">
-               </td>
-               <td>
-                 <input type="datetime-local" class="form-control text-center" formControlName="fecha_hora_fin">
-               </td>
-               <td>
-                 <button class="btn btn-primary"><i class="bi bi-floppy-fill"></i></button>
-               </td>
-               <td>
-                 <button class="btn btn-danger" (click)="removeRegistroOperaciones(i, +operacion.get('id_actividad')?.value!)"><i class="bi bi-trash-fill"></i></button>
-               </td>
+                <!-- @if(this.myForm.get('operaciones')?.get(i.toString())?.get('fecha_hora_inicio')?.value.split(' ')[0] < fecha_actual) {
+                  <td>{{operacion.get('fecha_hora_inicio')?.value}}</td>
+                  <td>{{operacion.get('fecha_hora_fin')?.value}}</td>
+                  <td colspan="2">
+                    <button class="btn btn-danger"><i class="bi bi-trash-fill"></i></button>
+                  </td>
+                } @else { -->
+                  <td>
+                     <input type="datetime-local" class="form-control text-center" formControlName="fecha_hora_inicio">
+                     @if(isValidField('operaciones',i.toString(),'fecha_hora_inicio')) {
+                      <span class="text-danger">{{getFieldErrors('operaciones',i.toString(),'fecha_hora_inicio')}}</span>
+                     }
+                   </td>
+                   <td>
+                     <input type="datetime-local" class="form-control text-center" formControlName="fecha_hora_fin">
+                   </td>
+                   <td>
+                    @if(operacion.get('id_actividad')?.value !== '') {
+                      @if(myForm.get('operaciones')?.get(i.toString())?.disabled) {
+                        <abbr title="Habilitar la edición del registro de operaciones.">
+                          <button class="btn btn-secondary" (click)="edit(i)"><i class="bi bi-pencil-fill"></i></button>
+                        </abbr>
+                      } @else {
+                        <abbr title="Guardar los cambios realizados en el registro de operaciones">
+                          <button class="btn btn-warning" (click)="editRegistroOperaciones(i)"><i class="bi bi-floppy-fill text-white"></i></button>
+                        </abbr>
+                      }
+                    } @else {
+                      <abbr title="Realizar la captura de los datos de la operación">
+                        <button class="btn btn-primary" (click)="saveRegistroOperaciones(i)"><i class="bi bi-floppy-fill"></i></button>
+                      </abbr>
+                    }
+                   </td>
+                   <td>
+                     <button class="btn btn-danger" (click)="removeRegistroOperaciones(i, operacion.get('id_actividad')?.value!)"><i class="bi bi-trash-fill"></i></button>
+                   </td>
+                <!-- } -->
               </tr>
            }
             <tr></tr>

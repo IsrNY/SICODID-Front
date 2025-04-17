@@ -7,9 +7,7 @@ import { DatosActa } from '../../interfaces/actas.interface';
 @Component({
   selector: 'distrital-tabla-actas',
   templateUrl: './tabla-actas.component.html',
-  styles: ` {
-
-  }
+  styles: `
   `
 })
 export class TablaActasComponent implements OnInit, OnChanges {

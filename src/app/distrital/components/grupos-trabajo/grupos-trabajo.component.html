@@ -25,25 +25,25 @@
           @for(integrante of integrantes.controls; track i; let i = $index) {
             <tr [formGroupName]="i">
               <td>
-                <input type="text" class="form-control text-center" formControlName="nombres" [id]="i">
+                <input type="text" class="form-control text-center border border-secondary" formControlName="nombres" [id]="i">
                 @if(isValidField('integrantes',i.toString(),'nombres')) {
                   <span class="text-danger">{{ getFieldErrors('integrantes', i.toString(), 'nombres') }}</span>
                 }
               </td>
               <td>
-                <input type="text" class="form-control text-center" formControlName="apellido1">
+                <input type="text" class="form-control text-center border border-secondary" formControlName="apellido1">
                 @if(isValidField('integrantes',i.toString(),'apellido1')) {
                   <span class="text-danger">{{ getFieldErrors('integrantes', i.toString(), 'apellido1') }}</span>
                 }
               </td>
               <td>
-                <input type="text" class="form-control text-center" formControlName="apellido2">
+                <input type="text" class="form-control text-center border border-secondary" formControlName="apellido2">
                 @if(isValidField('integrantes',i.toString(),'apellido2')) {
                   <span class="text-danger">{{ getFieldErrors('integrantes', i.toString(), 'apellido2') }}</span>
                 }
               </td>
               <td>
-                <select class="form-select text-center" formControlName="id_cargo">
+                <select class="form-select text-center border border-secondary" formControlName="id_cargo">
                   <option value="">Seleccionar</option>
                   @for(cargo of cargos; track i; let i = $index) {
                     <option [value]="cargo.id">{{cargo.descripcion | uppercase}}</option>
@@ -54,7 +54,7 @@
                 }
               </td>
               <td>
-                <select class="form-select text-center" formControlName="id_funcion">
+                <select class="form-select text-center border border-secondary" formControlName="id_funcion">
                   <option value="">Seleccionar</option>
                   @for(funcion of funciones; track i; let i = $index) {
                     <option [value]="funcion.id">{{funcion.descripcion | uppercase}}</option>
@@ -65,7 +65,7 @@
                 }
               </td>
               <td>
-                <select class="form-select text-center" formControlName="gt">
+                <select class="form-select text-center border border-secondary" formControlName="gt">
                   <option value="">Seleccionar</option>
                   @for(grupo of gt; track i; let i = $index) {
                     <option [value]="grupo.id">{{grupo.descripcion}}</option>
@@ -76,7 +76,7 @@
                 }
               </td>
               <td>
-                <select class="form-select text-center" formControlName="punto_escrutinio">
+                <select class="form-select text-centerborder border-secondary" formControlName="punto_escrutinio">
                   <option value="">Seleccionar</option>
                   @for(punto_e of pt; track i; let i = $index) {
                     <option [value]="punto_e.id">{{punto_e.descripcion}}</option>
@@ -84,7 +84,7 @@
                 </select>
               </td>
               <td>
-                <select class="form-select text-center" formControlName="turno">
+                <select class="form-select text-center border border-secondary" formControlName="turno">
                   <option value="">Seleccionar</option>
                   <option value="1">1</option>
                   <option value="2">2</option>

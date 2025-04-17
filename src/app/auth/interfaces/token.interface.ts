@@ -5,4 +5,5 @@ export interface Token {
   usuario:        string;
   perfil:         number;
   gt:             number;
+  turno:          number;
 }

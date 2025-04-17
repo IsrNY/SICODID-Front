@@ -10,7 +10,7 @@
             <div class="row">
               <div class="col-6">
                 <strong>Tipo de elección</strong>
-                <select class="form-select text-center" formControlName="tipo_eleccion" [value]="datos_acta?.tipo_eleccion" (change)="getDatosActa()">
+                <select class="form-select text-center border border-secondary" formControlName="tipo_eleccion" [value]="datos_acta?.tipo_eleccion" (change)="getDatosActa()">
                   <option value="">Seleccionar</option>
                   @for(eleccion of tipos_eleccion; track i; let i = $index) {
                     <option [value]="eleccion.id">{{eleccion.descripcion}}</option>
@@ -19,14 +19,14 @@
               </div>
               <div class="col-2">
                 <strong>Sección</strong>
-                <input type="text" class="form-control text-center" [value]="datos_acta?.id_seccion" readonly>
+                <input type="text" class="form-control text-center border border-secondary" [value]="datos_acta?.id_seccion" readonly>
               </div>
               <div class="col-2">
                 <strong>Casilla</strong>
-                <input type="text" class="form-control text-center" [value]="datos_acta?.tipo_casilla" readonly>
+                <input type="text" class="form-control text-center border border-secondary" [value]="datos_acta?.tipo_casilla" readonly>
               </div>
               <div class="col-2">
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-striped border border-secondary">
                   <thead>
                     <tr style="position:inherit;">
                       <th style="position:static;"  colspan="2">Candidatos</th>
@@ -42,15 +42,15 @@
               </div>
             </div>
             <div class="row py-2 m-0 d-flex justify-content-end">
-              <div class="col-2 d-flex justify-content-end align-content-center"><strong>Punto de Escrutinio</strong></div>
+              <!-- <div class="col-2 d-flex justify-content-end align-content-center"><strong>Punto de Escrutinio</strong></div>
               <div class="col-2">
-                <select class="form-select text-center" formControlName="punto_escrutinio">
+                <select class="form-select text-center border border-secondary" formControlName="punto_escrutinio">
                   <option value="">Seleccionar</option>
                   @for(punto of pe; track i; let i = $index) {
                     <option [value]="punto.id">{{punto.descripcion}}</option>
                   }
                 </select>
-              </div>
+              </div> -->
               <div class="col-6 d-flex justify-content-end align-items-center">
                 <strong>Número total de votos que se encuentran en la bolsa correspondiente</strong>
               </div>

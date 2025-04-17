@@ -4,4 +4,5 @@ export interface Contador {
   capturadasJ: number;
   capturadasM: number;
   capturadasT: number;
+  actasCap?:   number;
 }

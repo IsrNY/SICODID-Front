@@ -1,6 +1,6 @@
 <div class="container-fixed">
   <nav class="nav_custom">
-    <h3 class="text-dark text-center py-2 px-0 m-0">SICODID</h3>
+    <h3 class="text-dark text-center py-2 px-0 m-0" [routerLink]="['distrital/main','index']">SICODID</h3>
     <hr class="text-dark">
     <ul class="list_custom text-center text-dark fw-bold pt-1">
       <div class="py-1">
@@ -10,7 +10,7 @@
         <li class="nav_link" [routerLink]="['/distrital/computo','inicio_computo']" routerLinkActive="active">Inicio de cómputo</li>
       </div>
       <div class="py-1">
-        <li class="nav_link" [routerLink]="['/distrital/computo','operaciones']" routerLinkActive="active">Inicio/cierre de operaciones</li>
+        <li class="nav_link" [routerLink]="['/distrital/computo','operaciones']" routerLinkActive="active">Inicio/conclusión de operaciones</li>
       </div>
       <div class="py-1">
         <li class="nav_link" [routerLink]="['/distrital/procesos','registro_incidentes']" routerLinkActive="active">Incidentes</li>
@@ -25,7 +25,7 @@
         <li class="nav_link" [routerLink]="['/distrital/reportes','reportes_generales']" routerLinkActive="active">Reportes</li>
       </div>
       <div class="py-1">
-        <li class="nav_link" [routerLink]="['/distrital/computo','cierre_computo']" routerLinkActive="active">Cierre de cómputo</li>
+        <li class="nav_link" [routerLink]="['/distrital/computo','cierre_computo']" routerLinkActive="active">Conlusión de cómputo</li>
       </div>
     </ul>
     <div class="container-fluid text-center pt-1">

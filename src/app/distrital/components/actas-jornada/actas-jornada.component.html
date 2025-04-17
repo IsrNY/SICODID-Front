@@ -10,11 +10,11 @@
             <div class="row d-flex justify-content-center">
               <div class="col-3">
                 <strong>Sección</strong>
-                <input type="text" class="form-control text-center" formControlName="id_seccion" readonly [value]="datos_acta?.id_seccion">
+                <input type="text" class="form-control text-center border border-secondary" formControlName="id_seccion" readonly [value]="datos_acta?.id_seccion">
               </div>
               <div class="col-3">
                 <strong>Casilla</strong>
-                <input type="text" class="form-control text-center" formControlName="tipo_casilla" readonly [value]="datos_acta?.tipo_casilla">
+                <input type="text" class="form-control text-center border border-secondary" formControlName="tipo_casilla" readonly [value]="datos_acta?.tipo_casilla">
               </div>
             </div>
             <div class="row py-2">
@@ -23,7 +23,7 @@
                     <strong>Personas que votaron</strong>
                   </div>
                   <div style="width: 150px;">
-                    <input type="number" id="personas" class="form-control text-center" formControlName="personas_votaron"
+                    <input type="number" id="personas" class="form-control text-center border border-secondary" formControlName="personas_votaron"
                     (keydown)="bloquear($event)" (keyup)="next($event,'tribunal')" (keypress)="limit($event)">
                     @if(isValidField('personas_votaron')) {
                       <span class="text-danger">{{getFieldErrors('personas_votaron')}}</span>
@@ -36,7 +36,7 @@
                   <strong>MAGISTRATURAS DEL TRIBUNAL DE DISCIPLINA JUDICIAL DE LA CIUDAD DE MÉXICO</strong>
                 </div>
                 <div style="width: 150px;">
-                  <input type="number" id="tribunal" class="form-control text-center" formControlName="votos_tribunal"
+                  <input type="number" id="tribunal" class="form-control text-center border border-secondary" formControlName="votos_tribunal"
                   (keydown)="bloquear($event)" (keyup)="next($event,'magistraturas')" (keypress)="limit($event)">
                   @if(isValidField('votos_tribunal')) {
                     <span class="text-danger">{{getFieldErrors('votos_tribunal')}}</span>
@@ -48,7 +48,7 @@
                   <strong>MAGISTRATURAS DEL PODER JUDICIAL DE LA CIUDAD DE MÉXICO</strong>
                 </div>
                 <div style="width: 150px;">
-                  <input type="number" id="magistraturas" class="form-control text-center" formControlName="votos_magistraturas"
+                  <input type="number" id="magistraturas" class="form-control text-center border border-secondary" formControlName="votos_magistraturas"
                   (keydown)="bloquear($event)" (keyup)="next($event,'juzgados')" (keypress)="limit($event)">
                   @if(isValidField('votos_magistraturas')) {
                     <span class="text-danger">{{getFieldErrors('votos_magistraturas')}}</span>
@@ -60,7 +60,7 @@
                   <strong>JUZGADOS DEL PODER JUDICIAL DE LA CIUDAD DE MÉXICO</strong>
                 </div>
                 <div style="width: 150px;">
-                  <input type="number" id="juzgados" class="form-control text-center" formControlName="votos_juzgados"
+                  <input type="number" id="juzgados" class="form-control text-center border border-secondary" formControlName="votos_juzgados"
                   (keydown)="bloquear($event)" (keyup)="next($event,'pe')" (keypress)="limit($event)">
                   @if(isValidField('votos_juzgados')) {
                     <span class="text-danger">{{getFieldErrors('votos_juzgados')}}</span>
@@ -72,7 +72,7 @@
                   <strong>Punto de Escrutinio</strong>
                 </div>
                 <div style="width: 150px;">
-                  <select id="pe" class="form-select text-center" formControlName="punto_escrutinio">
+                  <select id="pe" class="form-select text-center border border-secondary" formControlName="punto_escrutinio">
                     <option value="">Seleccionar</option>
                     @for(pe of puntos_escrutinio; track i; let i = $index) {
                       <option [value]="pe.id">{{pe.descripcion}}</option>

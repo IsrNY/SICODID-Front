@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { CatalogosService } from '../../../shared/services/catalogos.service';
 import { IntegrantesService } from '../../services/integrantes.service';
 import { ValidatorsService } from '../../../shared/services/validators.service';
@@ -58,7 +58,19 @@ export class GruposTrabajoComponent implements OnInit {
     this.getIntegrantes();
   }
 
-  patchIntegrantes = (integrantes:Integrantes[]) => {
+  getIntegrantes = ():void => {
+    this.lista_integrantes = [];
+    this.integrantesService.getIntegrantes()
+    .subscribe(res => {
+       this.lista_integrantes = res.datos as Integrantes[];
+       this.patchIntegrantes(this.lista_integrantes);
+       Object.keys(this.integrantes.controls).forEach(key => {
+        this.integrantes.get(key)?.disable();
+      })
+     })
+  }
+
+  patchIntegrantes = (integrantes:Integrantes[]):void => {
     this.editing_values = [];
     integrantes.forEach(integrante => {
       this.editing_values.push(false);
@@ -79,7 +91,7 @@ export class GruposTrabajoComponent implements OnInit {
     });
   }
 
-  addIntegrante = () => {
+  addIntegrante = ():void => {
     if(this.isEditing) {
       Swal.fire({
         icon:'warning',
@@ -104,6 +116,7 @@ export class GruposTrabajoComponent implements OnInit {
           funcion:[null],
           editing:[false]
         }))
+        
         this.isAdded = true;
         this.editing_values.push(true);
 
@@ -196,6 +209,7 @@ export class GruposTrabajoComponent implements OnInit {
       })
       return;
     }
+
     Swal.fire({
       icon:'question',
       title:'¿Confirmar registro?',
@@ -315,19 +329,6 @@ export class GruposTrabajoComponent implements OnInit {
     this.catalogosService.getCatalogo(`funciones`)
     .subscribe(res => {
        this.funciones = res.datos as Catalogos[];
-     })
-  }
-
-  getIntegrantes = ():void => {
-    this.lista_integrantes = [];
-    this.integrantesService.getIntegrantes()
-    .subscribe(res => {
-      console.log(res.datos)
-       this.lista_integrantes = res.datos as Integrantes[];
-       this.patchIntegrantes(this.lista_integrantes);
-       Object.keys(this.integrantes.controls).forEach(key => {
-        this.integrantes.get(key)?.disable();
-      })
      })
   }
 

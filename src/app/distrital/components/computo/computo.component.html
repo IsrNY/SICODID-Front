@@ -7,8 +7,8 @@
       </div>
       <div class="col-12 py-2">
         <table class="table table-bordered row-border hover">
-          <thead>
-            <tr>
+          <thead >
+            <tr >
               <th colspan="5">SPEN</th>
               <th>Asistencia</th>
               <th colspan="3">Medios de comunicación</th>
@@ -47,7 +47,7 @@
                 </div>
               </td>
               <td>
-                <input type="number" class="form-control text-center" [value]="quorum_asistencia" readonly>
+                <input type="number" class="form-control text-center border border-secondary" [value]="quorum_asistencia" readonly>
               </td>
               <td>
                 <div class="form-check form-check-inline py-2">
@@ -78,7 +78,7 @@
         <div class="row">
           <div class="col-5">
             <strong>Fecha de {{computo}}</strong>
-            <input type="date" class="form-control text-center" formControlName="fecha_sesion">
+            <input type="date" class="form-control text-center border border-secondary" formControlName="fecha_sesion">
             @if(isValidField('fecha_sesion')) {
               <span class="text-danger">{{getFieldErrors('fecha_sesion')}}</span>
             }
@@ -88,7 +88,7 @@
           </div>
           <div class="col-5">
             <strong>Hora de {{computo}}</strong>
-            <input type="time" class="form-control text-center" formControlName="hora_sesion">
+            <input type="time" class="form-control text-center border border-secondary" formControlName="hora_sesion">
             @if(isValidField('hora_sesion')) {
               <span class="text-danger">{{getFieldErrors('hora_sesion')}}</span>
             }
@@ -100,21 +100,21 @@
       </div>
       <div class="col-12 py-3">
         <strong>Observaciones</strong>
-        <textarea class="form-control" cols="auto" rows="3" formControlName="observaciones" [maxlength]="maxlength"></textarea>
+        <textarea class="form-control border border-secondary" cols="auto" rows="3" formControlName="observaciones" [maxlength]="maxlength"></textarea>
         <shared-errors [maxlength]="maxlength" [form]="myForm" [field]="'observaciones'" [touched]="touched('observaciones')"/>
       </div>
       <div class="col-12 d-flex justify-content-end align-items-center py-1">
         @if(computo == 'inicio') {
           @if(!inicio_computo) {
-            <button type="submit" class="btn btn-main m-1"><i class="bi bi-floppy-fill"></i> Guardar inicio</button>
+            <button type="submit" class="btn btn-main m-1"><i class="bi bi-floppy-fill"></i> Guardar</button>
           } @else {
-            <button type="button" class="btn btn-warning m-1" (click)="actualizar()"><i class="bi bi-pencil-fill"></i>Actualizar inicio</button>
+            <button type="button" class="btn btn-warning m-1" (click)="actualizar()"><i class="bi bi-pencil-fill"></i>Actualizar</button>
           }
         } @else {
           @if(!cierre_computo) {
-            <button type="submit" class="btn btn-main m-1"><i class="bi bi-floppy-fill"></i> Guardar cierre</button>
+            <button type="submit" class="btn btn-main m-1"><i class="bi bi-floppy-fill"></i> Guardar</button>
           } @else {
-            <button type="button" class="btn btn-warning m-1" (click)="actualizar()"><i class="bi bi-pencil-fill"></i>Actualizar cierre</button>
+            <button type="button" class="btn btn-warning m-1" (click)="actualizar()"><i class="bi bi-pencil-fill"></i>Actualizar</button>
           }
         }
       </div>

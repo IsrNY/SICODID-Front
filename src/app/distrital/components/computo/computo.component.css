@@ -1,0 +1,8 @@
+thead tr:first-child th {
+  background-color: rgb(214, 214, 214) !important;
+  border:solid 1px black;
+}
+
+table {
+  border:solid 1px black;
+}

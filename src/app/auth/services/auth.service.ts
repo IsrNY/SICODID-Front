@@ -36,6 +36,10 @@ export class AuthService {
     return this,this.data?.gt;
   }
 
+  get turno() {
+    return this.data?.turno;
+  }
+
   get usuario():string | undefined {
     return this.data?.usuario;
   }
@@ -63,7 +67,8 @@ export class AuthService {
         if(!res.success) {
           return;
         }
-
+        console.log(res);
+        
         if(clear) {
           localStorage.clear();
         }
@@ -72,6 +77,7 @@ export class AuthService {
         localStorage.setItem('inicio',res.inicioComputo!.toString());
         localStorage.setItem('cierre',res.cierreComputo!.toString());
         this.decodeStorage();
+        localStorage.setItem('turno',this.data?.turno.toString()!);
         localStorage.setItem('id_transaccion',this.id_transaccion?.toString()!);
         this.webSocketService.emit('configurar-usuario',{id_transaccion:this.id_transaccion});
       }),

@@ -77,7 +77,7 @@ export class ComputoComponent implements OnInit {
         })
       }
     } else {
-      this.computo = 'cierre';
+      this.computo = 'conclusión';
       if(this.cierre_computo) {
         this.computoService.getComputo(this.computo)
         .subscribe(res => {

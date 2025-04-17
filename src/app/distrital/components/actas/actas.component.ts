@@ -137,6 +137,7 @@ export class ActasComponent implements OnInit, OnChanges{
   })))
 
   saveActa() {
+    this.myForm.patchValue({punto_escrutinio:'1'});
     if (this.myForm.invalid) {
       this.myForm.markAllAsTouched();
       Swal.fire({

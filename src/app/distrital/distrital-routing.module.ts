@@ -15,19 +15,19 @@ import { InicioCierreOperacionesPageComponent } from './pages/inicio-cierre-oper
 
 const routes: Routes = [
   {
-    path: 'status',
+    path: 'main',
     canActivate:[verifyGuard],
     component:LayoutPageComponent,
     children: [
       {
-        path: 'data_base',
+        path: 'index',
         canActivate:[verifyGuard],
         component:DbStatusComponent,
       },
       {
         path:'**',
         // canActivate:[verifyGuard],
-        redirectTo:'data_base'
+        redirectTo:'index'
       }
     ]
   },
@@ -91,7 +91,7 @@ const routes: Routes = [
   },
   {
     path:'**',
-    redirectTo:'status'
+    redirectTo:'main'
   }
 ];
 

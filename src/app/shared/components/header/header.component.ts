@@ -7,10 +7,20 @@ import { AuthService } from '../../../auth/services/auth.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent{
+export class HeaderComponent implements OnInit{
   private authService = inject(AuthService);
 
   get gt() {
     return this.authService.gt;
+  }
+
+  get turno() {
+    return localStorage.getItem('turno');
+  }
+
+
+  ngOnInit(): void {
+    console.log(this.gt)
+    console.log(this.turno)
   }
 }
