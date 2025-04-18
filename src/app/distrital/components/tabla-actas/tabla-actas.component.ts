@@ -3,6 +3,8 @@ import { Casillas } from '../../../shared/interfaces/catalogos.interface';
 import { DtAttibService } from '../../../shared/services/dt-attib.service';
 import { Config } from 'datatables.net';
 import { DatosActa } from '../../interfaces/actas.interface';
+import { ReportesDistritalesService } from '../../services/reportes-distritales.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'distrital-tabla-actas',
@@ -12,6 +14,7 @@ import { DatosActa } from '../../interfaces/actas.interface';
 })
 export class TablaActasComponent implements OnInit, OnChanges {
   private dtAttrib = inject(DtAttibService);
+  private reportesDistritalesService = inject(ReportesDistritalesService);
 
   @Input()
   public titulo:string = '';
@@ -53,5 +56,41 @@ export class TablaActasComponent implements OnInit, OnChanges {
   getRowSelected(index:number,id:number):void {
     this.selected_row = id;
     this.index = index;
+  }
+
+  getPath() {
+    switch(this.tipo_eleccion) {
+      case 1:
+        return 'actaLevantadaTribunal';
+      case 2:
+        return 'actaLevantadaMagistraturas';
+      case 3:
+        return 'actaLevantadaJuzgados';
+    }
+    return null;
+  }
+
+  downloadActa(acta:Casillas) {
+    this.reportesDistritalesService.download(acta, this.getPath()!,1)
+    .subscribe(res => {
+            if (res.success) {
+              const blob = new Blob([new Uint8Array(res.buffer.data)], { type: res.contentType });
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = res.reporte;
+              document.body.appendChild(a);
+              a.click();
+              window.URL.revokeObjectURL(url);
+              document.body.removeChild(a);
+            } else {
+              Swal.fire({
+                icon:'warning',
+                title:'¡No se realizó la descarga!',
+                text: res.msg,
+                confirmButtonText:'Entendido',
+              })
+            }
+    })
   }
 }

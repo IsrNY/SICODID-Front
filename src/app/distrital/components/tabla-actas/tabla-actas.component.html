@@ -6,6 +6,9 @@
       <th>#</th>
       <th>Sección</th>
       <th>Casilla</th>
+      @if(tipo_acta == 1 && operacion == 2) {
+        <th>Acta</th>
+      }
     </tr>
   </thead>
   <tbody>
@@ -15,6 +18,9 @@
           <td>{{i+1}}</td>
           <td>{{dato.id_seccion}}</td>
           <td>{{dato.tipo_casilla}}</td>
+          @if(tipo_acta == 1 && operacion == 2) {
+            <td><button class="btn btn-main" (click)="downloadActa(dato)"><i class="bi bi-arrow-down"></i></button></td>
+          }
         </tr>
       }
     </tbody>

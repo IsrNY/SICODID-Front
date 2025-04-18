@@ -76,7 +76,6 @@ export class InicioCierreOperacionesPageComponent implements OnInit {
   }
 
   addNewRegistroOperaciones = ():void =>  {
-
     if(this.lista_operaciones!.length > 0) {
       if(this.lista_operaciones![this.lista_operaciones!.length-1].fecha_hora_fin == null) {
         Swal.fire({
@@ -88,7 +87,7 @@ export class InicioCierreOperacionesPageComponent implements OnInit {
         return;
       }
 
-      if(this.lista_operaciones![this.lista_operaciones!.length-1].fecha_hora_fin.split(' ')[0] == this.fecha_actual) {
+      if(this.lista_operaciones![this.lista_operaciones!.length-1].fecha_hora_inicio.split(' ')[0] == this.fecha_actual && this.lista_operaciones![this.lista_operaciones!.length-1].fecha_hora_fin.split(' ')[0] == this.fecha_actual) {
         Swal.fire({
           icon:'error',
           title:'¡Denegado!',
@@ -202,7 +201,7 @@ export class InicioCierreOperacionesPageComponent implements OnInit {
       Swal.fire({
         icon:'info',
         title:'¡Atención!',
-        text:'En este momento solo está permitido el registro de la fecha y hora del inicio de actividades',
+        text:'Al realizar un nuevo registro de inicio de actividades solo se permite guardar la fecha/hora de inicio, para la conclusión es necesario editar el registro ya realizado',
         confirmButtonText:'Entendido'
       })
       return;
