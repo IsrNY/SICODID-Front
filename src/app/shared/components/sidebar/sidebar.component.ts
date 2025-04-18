@@ -15,7 +15,6 @@ export class SidebarComponent implements OnInit {
     return localStorage.getItem('cierre')! == 'true' ? true : false;
   }
 
-
   ngOnInit(): void {
   }
 }

@@ -28,10 +28,12 @@ export class OperacionesService {
   }
 
   saveDatosOperacion(operacion:Operaciones, opcion:number) {
-    const fecha_hora_inicio = operacion.fecha_hora_inicio.replace('T',' ');
-    const fecha_hora_fin = operacion.fecha_hora_fin.replace('T', ' ');
+    const fecha_hora_inicio = operacion.fecha_hora_inicio !== null ? operacion.fecha_hora_inicio.replace('T',' ') : '';
+    const fecha_hora_fin = operacion.fecha_hora_fin !== null ? operacion.fecha_hora_fin.replace('T', ' ') : '';
     operacion.fecha_hora_inicio = fecha_hora_inicio;
     operacion.fecha_hora_fin = fecha_hora_fin;
+
+    console.log(operacion)
     const headers = new HttpHeaders({
       'Authorization' : `Bearer ${this.loadStorage}`
     });
@@ -42,6 +44,7 @@ export class OperacionesService {
         catchError(res => of(res.error as Res))
       );
     } else {
+      console.log('dfsdfsdf')
       return this.http.put<Res>(`${this.baseUrl}/distrital/icOperacion`, operacion,{headers})
       .pipe(
         catchError(res => of(res.error as Res))

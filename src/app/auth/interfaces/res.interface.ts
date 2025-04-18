@@ -7,10 +7,12 @@ import { Operaciones } from "../../distrital/interfaces/operiaciones.interface";
 import { Casillas, Catalogos } from "../../shared/interfaces/catalogos.interface";
 
 export interface Res {
-  success:  boolean;
-  msg?:string;
-  token?: string;
+  success:              boolean;
+  inicioComputo:        boolean;
+  cierreComputo:        boolean;
+  inicioOperacion:      boolean;
+  cierreOperacion:      boolean;
+  msg?:                 string;
+  token?:               string;
   datos?: Computo | Incidente[] | Catalogos[] | Casillas[] | Actas | Contador | Integrantes[] | Integrantes | ActaJornada | Operaciones[];
-  inicioComputo:boolean;
-  cierreComputo:boolean;
 }

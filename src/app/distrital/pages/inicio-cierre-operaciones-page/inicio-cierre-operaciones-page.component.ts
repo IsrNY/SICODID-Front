@@ -32,6 +32,14 @@ export class InicioCierreOperacionesPageComponent implements OnInit {
     return this.myForm.get('operaciones') as FormArray;
   }
 
+  get inicio_operaciones():boolean {
+    return localStorage.getItem('iOp')! == 'true' ? true : false;
+  }
+
+  get conclusion_operaciones():boolean {
+    return localStorage.getItem('cOp')! == 'true' ? true : false;
+  }
+
   ngOnInit(): void {
     let fecha = new Date();
 
@@ -68,6 +76,29 @@ export class InicioCierreOperacionesPageComponent implements OnInit {
   }
 
   addNewRegistroOperaciones = ():void =>  {
+
+    if(this.lista_operaciones!.length > 0) {
+      if(this.lista_operaciones![this.lista_operaciones!.length-1].fecha_hora_fin == null) {
+        Swal.fire({
+          icon:'warning',
+          title:'¡Atención!',
+          text:'Para registrar una nueva fecha de inicio/conclusión de actividades antes de debe concluír la última fecha registrada anteriormente',
+          confirmButtonText:'Entendido'
+        })
+        return;
+      }
+
+      if(this.lista_operaciones![this.lista_operaciones!.length-1].fecha_hora_fin.split(' ')[0] == this.fecha_actual) {
+        Swal.fire({
+          icon:'error',
+          title:'¡Denegado!',
+          text:'No se permite realizar más de un registro de actividades por día',
+          confirmButtonText:'Entendido'
+        })
+        return;
+      }
+    }
+
     if(this.isEditing) {
       Swal.fire({
         icon:'warning',
@@ -76,24 +107,23 @@ export class InicioCierreOperacionesPageComponent implements OnInit {
         confirmButtonText:'Entendido'
       })
       return;
-    } else {
-      if(!this.isAdded) {
-        this.operaciones.push(this.fb.group({
-          id_actividad:[''],
-          fecha_hora_inicio:['', [Validators.required]],
-          fecha_hora_fin:['']
-        }))
+    }
 
-        this.isAdded = true;
-        this.editing_values.push(true);
-      } else {
-        Swal.fire({
-          icon:'warning',
-          title:'¡Atención!',
-          text:'Solo se permite agregar un registro de operaciones a la vez.',
-          confirmButtonText:'Entendido'
-        })
-      }
+    if(!this.isAdded) {
+      this.operaciones.push(this.fb.group({
+        id_actividad:[''],
+        fecha_hora_inicio:['', [Validators.required]],
+        fecha_hora_fin:['']
+      }))
+      this.isAdded = true;
+      this.editing_values.push(true);
+    } else {
+      Swal.fire({
+        icon:'warning',
+        title:'¡Atención!',
+        text:'Solo se permite agregar un registro de operaciones a la vez.',
+        confirmButtonText:'Entendido'
+      })
     }
   }
 
@@ -132,6 +162,8 @@ export class InicioCierreOperacionesPageComponent implements OnInit {
         return;
       }
 
+      if(this.myForm.get('operaciones')?.get(index.toString()))
+
       Swal.fire({
         icon:'question',
         title:'¿Confirmar eliminación?',
@@ -152,7 +184,8 @@ export class InicioCierreOperacionesPageComponent implements OnInit {
   }
 
   saveRegistroOperaciones = (index:number):void =>  {
-    console.log(this.myForm.get('operaciones')?.get(index.toString())?.get('fecha_hora_inicio')?.value.split(' ')[0])
+    console.log(this.myForm.get('operaciones')?.get(index.toString())?.get('fecha_hora_fin')?.value);
+    console.log(this.myForm.get('operaciones')?.get(index.toString())?.get('fecha_hora_inicio')?.value.split(' ')[0]);
     console.log(this.myForm.get('operaciones')?.get(index.toString())?.value);
     if(this.myForm.invalid) {
       this.myForm.markAllAsTouched();
@@ -160,6 +193,16 @@ export class InicioCierreOperacionesPageComponent implements OnInit {
         icon:'warning',
         title:'¡Atención!',
         text:'Todos los campos marcados como obligatorios deben estar completos para realizar esta acción.',
+        confirmButtonText:'Entendido'
+      })
+      return;
+    }
+
+    if(this.myForm.get('operaciones')?.get(index.toString())?.get('fecha_hora_fin')?.value !== "") {
+      Swal.fire({
+        icon:'info',
+        title:'¡Atención!',
+        text:'En este momento solo está permitido el registro de la fecha y hora del inicio de actividades',
         confirmButtonText:'Entendido'
       })
       return;
@@ -199,6 +242,7 @@ export class InicioCierreOperacionesPageComponent implements OnInit {
   }
 
   editRegistroOperaciones = (index:number):void => {
+    console.log(this.myForm.get('operaciones')?.get(index.toString())?.value)
     if(this.myForm.invalid) {
       this.myForm.markAllAsTouched();
       Swal.fire({
@@ -213,7 +257,7 @@ export class InicioCierreOperacionesPageComponent implements OnInit {
     Swal.fire({
       icon:'question',
       title:'¿Confirmar edición?',
-      text:'Está a punto de realizar la edición del integrante, ¿Desea confirmar?',
+      text:'Está a punto de realizar la edición de este registro de operaciones, ¿Desea confirmar?',
       showCancelButton:true,
       cancelButtonText:'Cancelar',
       confirmButtonText:'Confirmar'
@@ -262,7 +306,7 @@ export class InicioCierreOperacionesPageComponent implements OnInit {
       Swal.fire({
         icon:'warning',
         title:'¡Atención!',
-        text:'Solo se permite editar los datos de una sola operación a la vez, favor de finalizar los cambios e iniciar la edición de uno distinto.',
+        text:'Solo se permite editar los datos de una sola operación a la vez, se requiere que la edición del registro de la operación actual esté terminada.',
         confirmButtonText:'Entendido'
       })
       return;
